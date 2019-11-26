@@ -1,0 +1,7 @@
+/nbproject/private/
+/node_modules/
+/public/xml/
+/vendor/
+composer.lock
+.env
+/public/uploads/
