@@ -58,7 +58,7 @@
 </script>
 <div class="box">
     <div class="box-header with-border" style="padding: 13px;">
-        <h3 class="box-title">QR Code Lists</h3>
+        <h3 class="box-title">Gate Pass Lists</h3>
 <!--        <div class="box-tools pull-right">
             <button class="btn btn-success" id="create-billing-btn"><i class="fa fa-plus"></i>&nbsp; Create Billing</button>
             <button class="btn btn-info" id="inquiry-btn"><i class="fa fa-info"></i>&nbsp; Inquiry</button>
@@ -70,7 +70,7 @@
             ->enableFilterToolbar()
             ->setGridOption('mtype', 'POST')
             ->setGridOption('url', URL::to('/barcode/grid-data?_token='.csrf_token()))
-            ->setFileProperty('title', 'QR Code Auto Gate') //Laravel Excel File Property
+            ->setFileProperty('title', 'Gate Pass Auto Gate') //Laravel Excel File Property
             ->setFileProperty('creator', 'Reza') //Laravel Excel File Property
             ->setSheetProperty('fitToPage', true) //Laravel Excel Sheet Property
             ->setSheetProperty('fitToHeight', true)
@@ -88,7 +88,7 @@
             ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'id','hidden'=>true))
             ->addColumn(array('label'=>'Ref ID','index'=>'ref_id','hidden'=>true))
-            ->addColumn(array('label'=>'QR Code','index'=>'barcode','width'=>200,'align'=>'center'))
+            ->addColumn(array('label'=>'Gate Pass','index'=>'barcode','width'=>200,'align'=>'center'))
             ->addColumn(array('label'=>'Ref Number','index'=>'ref_number','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Ref Type','index'=>'ref_type','width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Action','index'=>'ref_action','width'=>100,'align'=>'center'))

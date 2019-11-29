@@ -20,9 +20,9 @@ class SoapController extends DefaultController {
     public function __construct() {
         
         $this->wsdl = 'https://tpsonline.beacukai.go.id/tps/service.asmx?WSDL';
-        $this->user = 'PRJP';
-        $this->password = 'PRIMANATA';
-        $this->kode = 'PRJP';
+        $this->user = 'WIRA';
+        $this->password = 'WIRA';
+        $this->kode = 'WIRA';
         
 //        ini_set('soap.wsdl_cache_enabled',0);
 //        ini_set('soap.wsdl_cache_ttl',0);

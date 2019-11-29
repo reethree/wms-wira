@@ -9,7 +9,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
         
         <!-- JQuery-UI & JQgrid -->
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("/plugins/jQuery-ui/jquery-ui.min.css") }}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("/plugins/jQuery-ui/themes/base/jquery-ui.min.css") }}" />
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("/plugins/jQgrid/css/ui.jqgrid.css") }}" />
         <!-- Bootstrap 3.3.2 -->
         <link href="{{ asset("/bower_components/AdminLTE/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css" />
@@ -26,7 +26,7 @@
               page. However, you can choose any other skin. Make sure you
               apply the skin class to the body tag so the changes take effect.
         -->
-        <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/skin-black-light.min.css")}}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
 
         <!-- jQuery 2.2.3 -->
         <script src="{{ asset ("/bower_components/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js") }}"></script>
@@ -63,7 +63,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body class="skin-black-light layout-top-nav">
+    <body class="skin-blue layout-top-nav">
         
         @include('partials.header')
         

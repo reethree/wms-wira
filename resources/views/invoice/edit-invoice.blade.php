@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-xs-12">
         <h2 class="page-header">
-          PT. PRIMANATA JASA PERSADA
+          PT. WIRA MITRA PRIMA
           <small class="pull-right">Date: {{ date('d F, Y') }}</small>
         </h2>
       </div>
@@ -70,7 +70,7 @@
                   <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->NOCONTAINER }} / {{ $manifest->SIZE }}</td>
               </tr>
               <tr>
-                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;Gudang PRIMANATA</td>
+                  <td>:&nbsp;&nbsp;&nbsp;&nbsp;Gudang WIRA</td>
               </tr>
           </table>
       </div>

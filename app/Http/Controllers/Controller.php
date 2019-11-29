@@ -112,7 +112,7 @@ class Controller extends BaseController
             $reff_id = 0;
         }
         
-        $new_ref = 'PRJP'.date('ymd').str_pad(intval($reff_id+1), 4, '0', STR_PAD_LEFT);
+        $new_ref = 'WIRA'.date('ymd').str_pad(intval($reff_id+1), 4, '0', STR_PAD_LEFT);
         
         $insert = \DB::table('tpsurutxml')->insert(
             ['REF_NUMBER' => $new_ref, 'TGL_ENTRY' => date('Y-m-d'), 'UID' => (empty($uid) ? \Auth::getUser()->name : $uid), 'TAHUN' => date('Y')]

@@ -47,7 +47,7 @@
 
     });
     
-    Route::group(['middleware' => ['auth']/*, 'prefix' => 'wms', 'domain' => 'wms.prjp.co.id'*/], function(){
+    Route::group(['middleware' => ['auth']/*, 'prefix' => 'wms', 'domain' => 'wms.wira.co.id'*/], function(){
         
         // Dashboard Routes
         Route::get('/', [

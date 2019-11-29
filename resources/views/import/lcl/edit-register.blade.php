@@ -381,7 +381,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Prihal</label>
                                 <div class="col-sm-8">
-                                    <textarea name="prihal_surat" class="form-control" >Permohonan PLP-LCL Ke Gudang Primanata Jaya Persada</textarea>
+                                    <textarea name="prihal_surat" class="form-control" >Permohonan PLP-LCL Ke Gudang Wira Mitra Prima</textarea>
                                 </div>
                             </div>
                             <div class="form-group">

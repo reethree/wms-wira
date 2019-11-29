@@ -67,7 +67,7 @@ class EasygoController extends Controller
             'Car_plate' => $dispatche->ESEALCODE,
             'Tgl_DO' => date('Y-m-d H:i:s', strtotime($dispatche->TGL_PLP)), // Tgl.PLP
             'Kode_asal' => $dispatche->KD_TPS_ASAL, 
-            'Kode_tujuan' => 'PRJP',
+            'Kode_tujuan' => 'WIRA',
             'No_do' => $dispatche->NO_PLP, // No.PLP
 //            'No_sj' => '', // No.Surat Jalan
             'No_Container' => $dispatche->NOCONTAINER,

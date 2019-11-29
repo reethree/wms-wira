@@ -20,7 +20,7 @@
         </div>
         <div class="col-sm-12 invoice-col">
             Dengan hormat, <br/>
-            <p>Sehubungan dengan kedatangan barang import mitra kami, maka kami memohon agar kiranya dapat melaksanakan Over Brengen (OB) ke Gudang PRIMANATA JASA PERSADA</p>
+            <p>Sehubungan dengan kedatangan barang import mitra kami, maka kami memohon agar kiranya dapat melaksanakan Over Brengen (OB) ke Gudang WIRA MITRA PRIMA</p>
             <p>Adapun data-datanya adalah sebagai berikut:</p>
         </div>
     </div>
@@ -86,7 +86,7 @@
         </div>
         <div class="col-sm-12 invoice-col" style="margin-bottom: 50px;">
             Hormat Kami,<br />
-            PT. Primanata Jasa Persada
+            PT. Wira Mitra Prima
         </div>
         <div class="col-sm-12 invoice-col">
             {{ $info['penandatangan'] }}<br />

@@ -19,7 +19,7 @@
               page. However, you can choose any other skin. Make sure you
               apply the skin class to the body tag so the changes take effect.
         -->
-        <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/skin-black-light.min.css")}}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,10 +28,10 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
     </head>
-<body class="hold-transition login-page skin-black-light">
+<body class="hold-transition login-page skin-blue">
 <div class="login-box">
   <div class="login-logo">
-      <a href="#">WMS Login</a>
+      <a href="#"><b>WIRA</b>WMS</a>
       <!--<img src="{{url('assets/images/logo/logo.jpeg')}}" style="width:100%;" />-->
   </div>
   <!-- /.login-logo -->
@@ -61,7 +61,7 @@
 
   </div>
   <!-- /.login-box-body -->
-  <p style="text-align: center;padding-top: 10px;">{{date('Y')}} &copy;</p>
+  <p style="text-align: center;padding-top: 10px;">{{date('Y')}} &copy; PT. Wira Mitra Prima</p>
 </div>
 <!-- /.login-box -->
 

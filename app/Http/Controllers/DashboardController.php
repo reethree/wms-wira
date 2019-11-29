@@ -20,7 +20,7 @@ class DashboardController extends Controller
     public function index()
     {        
         $data['page_title'] = "Welcome to Dashboard";
-        $data['page_description'] = "WMS PRIMANATA JASA PERSADA";
+        $data['page_description'] = "WMS WIRA MITRA PRIMA";
         
         $month = date('m');
         $year = date('Y');

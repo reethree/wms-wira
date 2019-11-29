@@ -252,7 +252,7 @@ class FclController extends Controller
 //        $spk_last_id = $this->getSpkNumber();
         $regID = str_pad(intval((isset($spk_last_id->id) ? $spk_last_id->id : 0)+1), 4, '0', STR_PAD_LEFT);
         
-        $data['spk_number'] = 'PRJPG'.$regID.'/'.date('y');
+        $data['spk_number'] = 'WIRAL'.$regID.'/'.date('y');
         $data['consolidators'] = DBConsolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
         $data['countries'] = DBNegara::select('TNEGARA_PK as id','NAMANEGARA as name')->get();
         $data['perusahaans'] = DBPerusahaan::select('TPERUSAHAAN_PK as id','NAMAPERUSAHAAN as name')->get();
@@ -875,7 +875,7 @@ class FclController extends Controller
 	$insert->TGL_PLP = $data['TGL_PLP'];
 	$insert->NO_PLP = $data['NO_PLP'];
         $insert->KD_TPS_ASAL = $data['KD_TPS_ASAL'];
-        $insert->KD_TPS_TUJUAN = 'PRJP';
+        $insert->KD_TPS_TUJUAN = 'WIRA';
         $insert->NOCONTAINER = $data['NO_CONT'];
         $insert->SIZE = $data['UK_CONT'];
         $insert->TYPE = $data['TYPE'];
@@ -1119,8 +1119,8 @@ class FclController extends Controller
             
             if($dataGateOut->save()){
                 $send_email = \Mail::send('emails.report-gateout-fcl', array('containers' => $containers, 'data' => $dataGateOut), function($message) use($subject, $dataGateOut) {
-                    $message->from('info@prjp.co.id', 'Primanata Jasa Persada');
-                    $message->sender('info@prjp.co.id');
+                    $message->from('info@wira.co.id', 'Wira Mitra Prima');
+                    $message->sender('info@wira.co.id');
                     $message->subject($subject);
                     $message->to($dataGateOut->email, $dataGateOut->shippingline);
                     $message->cc('busdev@jict.co.id');
@@ -1152,10 +1152,10 @@ class FclController extends Controller
         $data = array('tgl_laporan' => $tgl_laporan, 'amount' => $amount);
         
         $send_email = \Mail::send('emails.report-billing-fcl', array('containers' => $containers, 'data' => $data), function($message) use($subject) {
-            $message->from('info@prjp.co.id', 'Primanata Jasa Persada');
-            $message->sender('info@prjp.co.id');
+            $message->from('info@wira.co.id', 'Wira Mitra Prima');
+            $message->sender('info@wira.co.id');
             $message->subject($subject);
-            $message->to('andikabayuprjp@gmail.com');
+            $message->to('andikabayuwira@gmail.com');
         });
 
         if($send_email){
@@ -1222,12 +1222,12 @@ class FclController extends Controller
                 $coaricontdetail->TPSCOARICONTXML_FK = $coaricont->TPSCOARICONTXML_PK;
                 $coaricontdetail->REF_NUMBER = $reff_number;
                 $coaricontdetail->KD_DOK = 5;
-                $coaricontdetail->KD_TPS = 'PRJP';
+                $coaricontdetail->KD_TPS = 'WIRA';
                 $coaricontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                 $coaricontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
                 $coaricontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);
                 $coaricontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
-                $coaricontdetail->KD_GUDANG = 'PRJP';
+                $coaricontdetail->KD_GUDANG = 'WIRA';
                 $coaricontdetail->NO_CONT = $container->NOCONTAINER;
                 $coaricontdetail->UK_CONT = $container->SIZE;
                 $coaricontdetail->NO_SEGEL = $container->NO_SEAL;
@@ -1256,7 +1256,7 @@ class FclController extends Controller
                 $coaricontdetail->PEL_MUAT = $container->PEL_MUAT;
                 $coaricontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
                 $coaricontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
-                $coaricontdetail->GUDANG_TUJUAN = 'PRJP';
+                $coaricontdetail->GUDANG_TUJUAN = 'WIRA';
                 $coaricontdetail->UID = \Auth::getUser()->name;
                 $coaricontdetail->NOURUT = 1;
                 $coaricontdetail->RESPONSE = '';
@@ -1329,12 +1329,12 @@ class FclController extends Controller
                 $codecocontdetail->REF_NUMBER = $reff_number;
                 $codecocontdetail->NOJOBORDER = $container->NoJob;
                 $codecocontdetail->KD_DOK = 6;
-                $codecocontdetail->KD_TPS = 'PRJP';
+                $codecocontdetail->KD_TPS = 'WIRA';
                 $codecocontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                 $codecocontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
                 $codecocontdetail->CALL_SIGN = (!empty($container->CALLSIGN) ? $container->CALLSIGN : 0);
                 $codecocontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
-                $codecocontdetail->KD_GUDANG = 'PRJP';
+                $codecocontdetail->KD_GUDANG = 'WIRA';
                 $codecocontdetail->NO_CONT = $container->NOCONTAINER;
                 $codecocontdetail->UK_CONT = $container->SIZE;
                 $codecocontdetail->NO_SEGEL = $container->NOSEGEL;
@@ -1363,7 +1363,7 @@ class FclController extends Controller
                 $codecocontdetail->PEL_MUAT = $container->PEL_MUAT;
                 $codecocontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
                 $codecocontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
-                $codecocontdetail->GUDANG_TUJUAN = 'PRJP';
+                $codecocontdetail->GUDANG_TUJUAN = 'WIRA';
                 $codecocontdetail->UID = \Auth::getUser()->name;
                 $codecocontdetail->NOURUT = 1;
                 $codecocontdetail->RESPONSE = '';

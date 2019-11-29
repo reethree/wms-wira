@@ -14,7 +14,7 @@
     <nav class="navbar navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="{{ route('index') }}" class="navbar-brand"><b>WMS</b>PRJP</a>
+          <a href="{{ route('index') }}" class="navbar-brand"><b>WMS</b>WIRA</a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>
@@ -359,14 +359,14 @@
                             <li class="dropdown-submenu">
                             <a class="submenu" href="#">Import <span class="caret"></span></a>
                                   <ul class="dropdown-menu">
-                                      <li class="dropdown-submenu">
+<!--                                      <li class="dropdown-submenu">
                                           <a class="submenu" href="#">Table <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="{{ route('gudang-index') }}">Gudang</a></li>
                                                 <li><a href="{{ route('pelabuhandn-index') }}">Pelabuhan DN</a></li>
                                                 <li><a href="{{ route('pelabuhanln-index') }}">Pelabuhan LN</a></li>
                                             </ul>
-                                      </li>
+                                      </li>-->
                                       <li class="dropdown-submenu">
                                           <a class="submenu" href="#">Penerimaan Data <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
@@ -413,7 +413,7 @@
                         </ul>
                       </li>
 
-                      <li class="dropdown">
+<!--                      <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Invoice <span class="caret"></span></a>
                           <ul class="dropdown-menu" role="manu">
                               <li class="dropdown-submenu">
@@ -433,16 +433,16 @@
                                     </ul>
                               </li>
                           </ul>
-                      </li>
+                      </li>-->
 
-                      <li class="dropdown">
+<!--                      <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Payment <span class="caret"></span></a>
                           <ul class="dropdown-menu" role="manu">
                               <li><a href="{{route('payment-bni-index')}}">BNI E-Collection</a></li>
                           </ul>
-                      </li>
+                      </li>-->
                       <li class="dropdown">
-                          <a href="{{route('barcode-index')}}">Autogate</a>
+                          <a href="{{route('barcode-index')}}">Gate Pass</a>
                       </li>
                       <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></a>
@@ -452,9 +452,9 @@
                               <li><a href="{{route('permission-index')}}">Permissions</a></li>
                           </ul>
                       </li>
-                      <li class="dropdown">
+<!--                      <li class="dropdown">
                           <a href="#">Settings</a>
-                      </li>
+                      </li>-->
                     </ul>
                   </div>
             @endrole

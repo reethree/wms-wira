@@ -22,9 +22,9 @@ class PengirimanController extends Controller
         parent::__construct();
         
         $this->wsdl = 'https://tpsonline.beacukai.go.id/tps/service.asmx?WSDL';
-        $this->user = 'PRJP';
-        $this->password = 'PRIMANATA';
-        $this->kode = 'PRJP';
+        $this->user = 'WIRA';
+        $this->password = 'WIRA';
+        $this->kode = 'WIRA';
     }
     /**
      * Display a listing of the resource.
@@ -190,8 +190,8 @@ class PengirimanController extends Controller
         $reff_number = $this->getReffNumber();
         
         $lapYor->REF_NUMBER = $reff_number;
-        $lapYor->KD_TPS = 'PRJP';
-        $lapYor->KD_GUDANG = 'PRJP';
+        $lapYor->KD_TPS = 'WIRA';
+        $lapYor->KD_GUDANG = 'WIRA';
         $lapYor->TGL_LAPORAN = date('Ymd', strtotime($request->TGL_LAPORAN));
         $lapYor->RESPONSE = 'Belum Upload';
         $lapYor->uid = \Auth::getUser()->name;

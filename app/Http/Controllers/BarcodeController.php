@@ -19,12 +19,12 @@ class BarcodeController extends Controller
     
     public function index()
     {
-        $data['page_title'] = "QR Code (Auto Gate)";
+        $data['page_title'] = "Gate Pass (Auto Gate)";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'QR Code (Auto Gate)'
+                'title' => 'Gate Pass (Auto Gate)'
             ]
         ];        
         
@@ -38,7 +38,7 @@ class BarcodeController extends Controller
         $data['breadcrumbs'] = [
             [
                 'action' => route('barcode-index'),
-                'title' => 'QR Code (Auto Gate)'
+                'title' => 'Gate Pass (Auto Gate)'
             ],
             [
                 'action' => '',
@@ -85,7 +85,7 @@ class BarcodeController extends Controller
     public function delete($id)
     {
         \App\Models\Barcode::where('id', $id)->delete();
-        return back()->with('success', 'QR Code has been deleted.'); 
+        return back()->with('success', 'Gate Pass has been deleted.'); 
     }
     
     public function printBarcodePreview($id, $type, $action, $car = null)
@@ -410,12 +410,12 @@ class BarcodeController extends Controller
                     $coaricontdetail->TPSCOARICONTXML_FK = $coaricont->TPSCOARICONTXML_PK;
                     $coaricontdetail->REF_NUMBER = $reff_number;
                     $coaricontdetail->KD_DOK = 5;
-                    $coaricontdetail->KD_TPS = 'PRJP';
+                    $coaricontdetail->KD_TPS = 'WIRA';
                     $coaricontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                     $coaricontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
                     $coaricontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);
                     $coaricontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
-                    $coaricontdetail->KD_GUDANG = 'PRJP';
+                    $coaricontdetail->KD_GUDANG = 'WIRA';
                     $coaricontdetail->NO_CONT = $container->NOCONTAINER;
                     $coaricontdetail->UK_CONT = $container->SIZE;
                     $coaricontdetail->NO_SEGEL = $container->NO_SEAL;
@@ -442,7 +442,7 @@ class BarcodeController extends Controller
                     $coaricontdetail->PEL_MUAT = $container->PEL_MUAT;
                     $coaricontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
                     $coaricontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
-                    $coaricontdetail->GUDANG_TUJUAN = 'PRJP';
+                    $coaricontdetail->GUDANG_TUJUAN = 'WIRA';
                     $coaricontdetail->UID = 'Autogate';
                     $coaricontdetail->NOURUT = 1;
                     $coaricontdetail->RESPONSE = '';
@@ -498,12 +498,12 @@ class BarcodeController extends Controller
                     $coaricontdetail->TPSCOARICONTXML_FK = $coaricont->TPSCOARICONTXML_PK;
                     $coaricontdetail->REF_NUMBER = $reff_number;
                     $coaricontdetail->KD_DOK = 5;
-                    $coaricontdetail->KD_TPS = 'PRJP';
+                    $coaricontdetail->KD_TPS = 'WIRA';
                     $coaricontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                     $coaricontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
                     $coaricontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);
                     $coaricontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
-                    $coaricontdetail->KD_GUDANG = 'PRJP';
+                    $coaricontdetail->KD_GUDANG = 'WIRA';
                     $coaricontdetail->NO_CONT = $container->NOCONTAINER;
                     $coaricontdetail->UK_CONT = $container->SIZE;
                     $coaricontdetail->NO_SEGEL = $container->NO_SEAL;
@@ -530,7 +530,7 @@ class BarcodeController extends Controller
                     $coaricontdetail->PEL_MUAT = $container->PEL_MUAT;
                     $coaricontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
                     $coaricontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
-                    $coaricontdetail->GUDANG_TUJUAN = 'PRJP';
+                    $coaricontdetail->GUDANG_TUJUAN = 'WIRA';
                     $coaricontdetail->UID = 'Autogate';
                     $coaricontdetail->NOURUT = 1;
                     $coaricontdetail->RESPONSE = '';
@@ -605,12 +605,12 @@ class BarcodeController extends Controller
                     $codecocontdetail->REF_NUMBER = $reff_number;
                     $codecocontdetail->NOJOBORDER = $container->NoJob;
                     $codecocontdetail->KD_DOK = 6;
-                    $codecocontdetail->KD_TPS = 'PRJP';
+                    $codecocontdetail->KD_TPS = 'WIRA';
                     $codecocontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                     $codecocontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
                     $codecocontdetail->CALL_SIGN = (!empty($container->CALLSIGN) ? $container->CALLSIGN : 0);
                     $codecocontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
-                    $codecocontdetail->KD_GUDANG = 'PRJP';
+                    $codecocontdetail->KD_GUDANG = 'WIRA';
                     $codecocontdetail->NO_CONT = $container->NOCONTAINER;
                     $codecocontdetail->UK_CONT = $container->SIZE;
                     $codecocontdetail->NO_SEGEL = $container->NOSEGEL;
@@ -637,7 +637,7 @@ class BarcodeController extends Controller
                     $codecocontdetail->PEL_MUAT = $container->PEL_MUAT;
                     $codecocontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
                     $codecocontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
-                    $codecocontdetail->GUDANG_TUJUAN = 'PRJP';
+                    $codecocontdetail->GUDANG_TUJUAN = 'WIRA';
                     $codecocontdetail->UID = 'Autogate';
                     $codecocontdetail->NOURUT = 1;
                     $codecocontdetail->RESPONSE = '';
@@ -695,12 +695,12 @@ class BarcodeController extends Controller
                     $codecocontdetail->REF_NUMBER = $reff_number;
                     $codecocontdetail->NOJOBORDER = $container->NoJob;
                     $codecocontdetail->KD_DOK = 6;
-                    $codecocontdetail->KD_TPS = 'PRJP';
+                    $codecocontdetail->KD_TPS = 'WIRA';
                     $codecocontdetail->NM_ANGKUT = (!empty($container->VESSEL) ? $container->VESSEL : 0);
                     $codecocontdetail->NO_VOY_FLIGHT = (!empty($container->VOY) ? $container->VOY : 0);
                     $codecocontdetail->CALL_SIGN = (!empty($container->CALL_SIGN) ? $container->CALL_SIGN : 0);
                     $codecocontdetail->TGL_TIBA = (!empty($container->ETA) ? date('Ymd', strtotime($container->ETA)) : '');
-                    $codecocontdetail->KD_GUDANG = 'PRJP';
+                    $codecocontdetail->KD_GUDANG = 'WIRA';
                     $codecocontdetail->NO_CONT = $container->NOCONTAINER;
                     $codecocontdetail->UK_CONT = $container->SIZE;
                     $codecocontdetail->NO_SEGEL = $container->NO_SEAL;
@@ -727,7 +727,7 @@ class BarcodeController extends Controller
                     $codecocontdetail->PEL_MUAT = $container->PEL_MUAT;
                     $codecocontdetail->PEL_TRANSIT = $container->PEL_TRANSIT;
                     $codecocontdetail->PEL_BONGKAR = $container->PEL_BONGKAR;
-                    $codecocontdetail->GUDANG_TUJUAN = 'PRJP';
+                    $codecocontdetail->GUDANG_TUJUAN = 'WIRA';
                     $codecocontdetail->UID = 'Autogate';
                     $codecocontdetail->NOURUT = 1;
                     $codecocontdetail->RESPONSE = '';

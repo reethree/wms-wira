@@ -699,7 +699,7 @@ class PenerimaanController extends Controller
                     $spk_last_id = \App\Models\Jobordercy::select('TJOBORDER_PK as id')->orderBy('TJOBORDER_PK', 'DESC')->first(); 
                     $regID = str_pad(intval((isset($spk_last_id->id) ? $spk_last_id->id : 0)+1), 4, '0', STR_PAD_LEFT);
 
-                    $data['NOJOBORDER'] = 'PRJPG'.$regID.'/'.date('y');
+                    $data['NOJOBORDER'] = 'WIRAL'.$regID.'/'.date('y');
                     $data['NO_BC11'] = $plp->NO_BC11;
                     $data['NO_POS_BC11'] = $nopos;
                     $data['TNO_PLP'] = $plp->NO_PLP;
@@ -820,7 +820,7 @@ class PenerimaanController extends Controller
                     
                     $data['NOMBL'] = $request->NOMBL;
                     $data['TGL_MASTER_BL'] = (!empty($request->TGL_MASTER_BL) ? date('Y-m-d', strtotime($request->TGL_MASTER_BL)) : null);
-                    $data['NOJOBORDER'] = 'PRJPL'.$regID.'/'.date('y');
+                    $data['NOJOBORDER'] = 'WIRAG'.$regID.'/'.date('y');
                     $data['TNO_BC11'] = $plp->NO_BC11;
                     $data['TTGL_BC11'] = (!empty($plp->TGL_BC11)) ? date('Y-m-d', strtotime($plp->TGL_BC11)) : null;
 //                    $data['NO_POS_BC11'] = $nopos;

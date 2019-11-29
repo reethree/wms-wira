@@ -34,14 +34,14 @@
         <table style="font-size:14px;" width="100%" cellpadding="0" cellspacing="0">
             <tr>
                 <td width="20%">
-                    <img src="{{ url('assets/images/logo/logo.png') }}" alt="PT. Primanata Jasa Persada" width="100px" />
+                    <img src="{{ url('assets/images/logo/logo.png') }}" alt="PT. Wira Mitra Prima" width="100px" />
                 </td>
                 <td width="80%" valign="top">
-                    <h1>PT. PRIMANATA JASA PERSADA</h1>
+                    <h1>PT. WIRA MITRA PRIMA</h1>
                     <p>
                         Jl. Enggano No. 40E Jakarta 14310 – Indonesia<br />
                         Telp.: (021) 43909872, 43932077. Fax.: (021) 43932087<br />
-                        Email: primanatajp@yahoo.co.id<br />
+                        Email: info@wira.co.id<br />
                     </p>
                 </td>
             </tr>
@@ -228,7 +228,7 @@
                     CATATAN :
                     <ul>
                         <li>DILARANG MEMBERIKAN/MENERIMA UANG TIP.</li>
-                        <li>PETUGAS LAPANGAN PRIMANATA HARUS MENGECEK FISIK CONTAINER YANG AKAN MUAT SESUAI DENGAN DOKUMEN WORKING ORDER.</li>
+                        <li>PETUGAS LAPANGAN WIRA HARUS MENGECEK FISIK CONTAINER YANG AKAN MUAT SESUAI DENGAN DOKUMEN WORKING ORDER.</li>
                         <li>PEMILIK BARANG HARUS MENGECEK FISIK CONTAINER YANG AKAN MUAT SESUAI DENGAN DOKUMEN WORKING ORDER.</li>
                     </ul>
                 </td>

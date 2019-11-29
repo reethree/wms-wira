@@ -378,7 +378,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Lokasi</label>
                         <div class="col-sm-8">
-                            <input type="text" id="LOKASI_MTY" name="LOKASI_MTY" class="form-control" required value="PRIMANATA">
+                            <input type="text" id="LOKASI_MTY" name="LOKASI_MTY" class="form-control" required value="WIRA">
                         </div>
                     </div>
                     <div class="form-group">

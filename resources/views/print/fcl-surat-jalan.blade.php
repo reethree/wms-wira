@@ -40,7 +40,7 @@
                             <td style="color: transparent;">Kepada Yth.</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
                             <!--<td>{{ $container->NAMACONSOLIDATOR }}</td>-->
-                            <td><b>PT. PRIMANATA JASA PERSADA</b></td>
+                            <td><b>PT. WIRA MITRA PRIMA</b></td>
                         </tr>
                         <tr>
                             <td style="color: transparent;">Ex. Kapal/Voy</td>

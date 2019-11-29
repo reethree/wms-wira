@@ -48,7 +48,7 @@
             <td style="text-align: center;">REKAPITULASI PENGIRIMAN NOTA TAGIHAN</td>
         </tr>
         <tr>
-            <td style="text-align: center;">Biaya Penumpukan Barang LCL ({{ $invoices['0']->INVOICE }}) Gudang Primanata</td>
+            <td style="text-align: center;">Biaya Penumpukan Barang LCL ({{ $invoices['0']->INVOICE }}) Gudang Wira</td>
         </tr>
         <tr>
             <td style="text-align: center;">Tanggal : {{ date('d F Y', strtotime($invoices['0']->tglrelease)) }}</td>
@@ -116,16 +116,16 @@
                 @if(in_array($consolidator->TCONSOLIDATOR_PK,array(10,12)))
                 <p>
                     Pembayaran dapat dilakukan melalui :<br />
-                    Rekening : REZA DARMAWAN<br />
+                    Rekening : ..........<br />
                     Bank BRI Syariah Cabang Enggano<br />
-                    a/c no : 100.2575.888
+                    a/c no : ...........
                 </p>
                 @else
                 <p>
                     Pembayaran dapat dilakukan melalui :<br />
-                    Rekening : PT. PRIMANATA JASA PERSADA<br />
+                    Rekening : PT. WIRA MITRA PRIMA<br />
                     Bank Mandiri Cabang Enggano<br />
-                    a/c no : 120.000.6122639
+                    a/c no : ...............
                 </p>
                 @endif
             </td>

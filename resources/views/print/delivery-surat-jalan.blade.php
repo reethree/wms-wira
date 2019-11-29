@@ -34,7 +34,7 @@
                             <td style="color: transparent;">Kepada Yth.</td>
                             <td class="padding-10 text-center" style="color: transparent;">:</td>
                             <!--<td>{{ $manifest->NAMACONSOLIDATOR }}</td>-->
-                            <td>PT. PRIMANATA JASA PERSADA</td>
+                            <td>PT. WIRA MITRA PRIMA</td>
                         </tr>
                         <tr>
                             <td style="color: transparent;">Ex. Kapal/Voy</td>

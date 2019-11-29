@@ -186,7 +186,7 @@
             <tr>
                 <td width='33%' style="text-align: center;vertical-align: bottom;">Penerima<br />Nama Terang</td>
                 <td width='33%' style="text-align: center;vertical-align: bottom;"">Sopir Truck<br />Nama Terang</td>
-                <td width='33%' style="text-align: center;">Tanjung Priok, {{date('d F Y')}}<br />PT. Primanata Jasa Persada<br />Petugas</td>
+                <td width='33%' style="text-align: center;">Tanjung Priok, {{date('d F Y')}}<br />PT. Wira Mitra Prima<br />Petugas</td>
             </tr>
             <tr>
                 <td>&nbsp;</td>

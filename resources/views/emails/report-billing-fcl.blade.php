@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Email Report Billing FCL - Primanata Jasa Persada</title>
+        <title>Email Report Billing FCL - Wira Mitra Prima</title>
         <style>
             body{
                 background:#f2f2f2;
@@ -27,11 +27,11 @@
             
             <div class="content">
  
-                <p>Kepada Yth.<br />Bpk. Reza Darmawan</p>
+                <p>Kepada Yth.<br />Bpk. ............</p>
 
                 <p>Bersama Email ini kami lampirkan data Billing FCL Tanggal {{date('d F Y', strtotime($data['tgl_laporan']))}}.</p><br />
                 
-                <p><strong>Nama Depo : Primanata Jasa Persada</strong></p>
+                <p><strong>Nama Depo : Wira Mitra Prima</strong></p>
                 <table border="1" cellpadding="10" cellspacing="0" width="100%" id="emailBody">
                     <tr>
                         <th>No. Container</th>
@@ -66,9 +66,9 @@
                 <h2>Total Amount : IDR {{number_format($data['amount'])}}</h2>
                 <br /><br />
                 <p>Salam hormat,</p>
-                <img src="{{ asset('assets/images/primanata-logo.png') }}" alt="" style="width: 200px;" />
+                <img src="{{ asset('assets/images/wira-logo.png') }}" alt="" style="width: 200px;" />
                 <p>
-                    <h3 style="margin: 0;">Team Primanata Jasa Persada</h3><br />
+                    <h3 style="margin: 0;">Team Wira Mitra Prima</h3><br />
                     Jl. Enggano No. 40 E<br />
                     Tanjung Priok, Jakarta Utara<br />
                     Tlp : 021-43909873<br />
