@@ -9,7 +9,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
         
         <!-- JQuery-UI & JQgrid -->
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("/plugins/jQuery-ui/themes/base/jquery-ui.min.css") }}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("/plugins/jquery-ui/themes/base/jquery-ui.min.css") }}" />
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset("/plugins/jQgrid/css/ui.jqgrid.css") }}" />
         <!-- Bootstrap 3.3.2 -->
         <link href="{{ asset("/bower_components/AdminLTE/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css" />
