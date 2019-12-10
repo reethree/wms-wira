@@ -31,7 +31,7 @@
 <body class="hold-transition login-page skin-blue">
 <div class="login-box">
   <div class="login-logo">
-      <a href="#"><b>WIRA</b>WMS</a>
+      <a href="#"><b>WMS</b>WIRA</a>
       <!--<img src="{{url('assets/images/logo/logo.jpeg')}}" style="width:100%;" />-->
   </div>
   <!-- /.login-logo -->
