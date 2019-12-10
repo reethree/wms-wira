@@ -356,7 +356,7 @@
                         ->addColumn(array('label'=>'No. Seal','index'=>'NOSEGEL', 'width'=>120,'editable' => true, 'align'=>'right'))
                         ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('' => true)))
                         ->addColumn(array('label'=>'Measurment','index'=>'MEAS', 'width'=>120,'editable' => true, 'align'=>'right','editrules' => array('' => true)))
-                        ->addColumn(array('label'=>'Layout','index'=>'layout', 'width'=>80,'editable' => true,'align'=>'center','editoptions'=>array('defaultValue'=>"C-1")))
+                        ->addColumn(array('label'=>'Layout','index'=>'layout', 'width'=>80,'hidden' => true,'editable' => true,'align'=>'center','editoptions'=>array('defaultValue'=>"C-1")))
                         ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                         ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150, 'search'=>false))
                         ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
