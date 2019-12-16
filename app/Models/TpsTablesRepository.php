@@ -59,7 +59,8 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
 //                        ->leftjoin('easygo_inputdo','tpsobxml.TPSOBXML_PK','=','easygo_inputdo.OB_ID')
                         where($request['by'], '>=', $start_date)
                         ->where($request['by'], '<=', $end_date)
-                        ->where('tpsobxml.', $request['jenis'])
+//                        ->where('tpsobxml.', $request['jenis'])
+                        ->whereIn('tpsobxml.JNS_CONT', array($request['jenis'], ''))
 //                        ->groupBy('NO_CONT')
                         ;
                 }else{
@@ -68,7 +69,9 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
 //                        ->leftjoin('easygo_inputdo','tpsobxml.TPSOBXML_PK','=','easygo_inputdo.OB_ID')
                         where($request['by'], '>=', $start_date)
                         ->where($request['by'], '<=', $end_date)
-                        ->where('tpsobxml.JNS_CONT', $request['jenis']);
+//                        ->where('tpsobxml.JNS_CONT', $request['jenis'])
+                        ->whereIn('tpsobxml.JNS_CONT', array($request['jenis'], ''))
+                        ;
                 }
 
             }else{
@@ -76,14 +79,16 @@ class TpsTablesRepository extends EloquentRepositoryAbstract {
                     $Model = TpsOb::
 //                        select('tpsobxml.*', 'easygo_inputdo.TGL_DISPATCHE', 'easygo_inputdo.JAM_DISPATCHE')                        
 //                        ->leftjoin('easygo_inputdo','tpsobxml.TPSOBXML_PK','=','easygo_inputdo.OB_ID')
-                        where('tpsobxml.JNS_CONT', $request['jenis'])
+//                        where('tpsobxml.JNS_CONT', $request['jenis'])
+                        whereIn('tpsobxml.JNS_CONT', array($request['jenis'], ''))    
 //                        ->groupBy('NO_CONT')
                         ;
                 }else{
                     $Model = TpsOb::
 //                        select('tpsobxml.*', 'easygo_inputdo.TGL_DISPATCHE', 'easygo_inputdo.JAM_DISPATCHE') 
 //                        ->leftjoin('easygo_inputdo','tpsobxml.TPSOBXML_PK','=','easygo_inputdo.OB_ID')
-                        where('tpsobxml.JNS_CONT', $request['jenis'])
+//                        where('tpsobxml.JNS_CONT', $request['jenis'])
+                        whereIn('tpsobxml.JNS_CONT', array($request['jenis'], ''))
                             ;
                 }
  
