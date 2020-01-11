@@ -10,10 +10,10 @@
         <div>
             <div>
                 <h2 class="name">PT. WIRA MITRA PRIMA</h2>
-                <div>Jl. Enggano No. 40 E Jakarta 14310 - Indonesia</div>
-                <div>Tel. (021) 43932076-77, (021) 43909872-73 &nbsp;Fax. (021) 43932087</div>
+                <div>Jl. Yos Sudarso No. 17 - 18 Jakarta Utara 14230 - Indonesia</div>
+                <div>Tel. (021) 43932815 &nbsp;Fax. (021) 43932806</div>
                 <div>Email : <a href="mailto:info@wira.co.id">info@wira.co.id</a></div>
-                <hr />
+                <hr style="border-style: dashed;" />
             </div>
         </div>
         <div class="clearfix"></div>
