@@ -8,7 +8,7 @@
         
 <style>
     table, table tr, table tr td{
-        font-size: 10px;
+        font-size: 11px;
     }
     table {
         margin-bottom: 10px;
@@ -68,25 +68,30 @@
                 </td>
                 <td>
                     <table border="0" cellspacing="0" cellpadding="0" style="font-size: 12px;">
-                        <tr>
+<!--                        <tr>
                             <td>No. Order</td>
                             <td class="padding-10 text-center">:</td>
                             <td></td>
+                        </tr>-->
+                        <tr>
+                            <td>Gudang</td>
+                            <td class="padding-10 text-center">:</td>
+                            <td>PT. WIRA MITRA PRIMA</td>
                         </tr>
                         <tr>
                             <td>Tangal</td>
                             <td class="padding-10 text-center">:</td>
-                            <td></td>
+                            <td>{{ date('d-m-Y', strtotime($container->STARTSTRIPPING)) }}</td>
                         </tr>
                         <tr>
                             <td>Mulai Stripping</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ date('d/m/Y H:i', strtotime($container->STARTSTRIPPING)) }}</td>
+                            <td>{{ date('H:i', strtotime($container->STARTSTRIPPING)) }}</td>
                         </tr>
                         <tr>
                             <td>Selesai Stripping</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ date('d/m/Y H:i', strtotime($container->ENDSTRIPPING)) }}</td>
+                            <td>{{ date('H:i', strtotime($container->ENDSTRIPPING)) }}</td>
                         </tr>
                     </table>
                 </td>
@@ -98,12 +103,10 @@
         <thead>
             <tr>
                 <th>NO</th>
-                <th>BL</th>
                 <th>CONSIGNEE</th>
-                <th>QTY</th>
-                <th>KODE<br/>KEMAS</th>
-                <th>TALLY<br />COUNTING</th>
-                <!--<th>QTY<br />TALLY</th>-->    
+                <th>MERK</th>
+                <th>TALLY</th>
+                <th>QTY</th>   
                 <th>REMARKS</th>
             </tr>
         </thead>
@@ -112,12 +115,10 @@
             @foreach($manifests as $manifest)
             <tr>
                 <td style="width: 20px;height: 70px;" class="text-center">{{ $i }}</td>
-                <td style="width: 80px;">{{ $manifest->NOHBL }}</td>
                 <td style="width: 80px;">{{ $manifest->CONSIGNEE }}</td>
-                <td style="width: 60px;" class="text-center">{{ $manifest->QUANTITY }}<br />{{ $manifest->WEIGHT }}<br />{{ $manifest->MEAS }}</td>
-                <td style="width: 60px;"class="text-center">{{ $manifest->packing }}<br />Kgs<br />Cbm</td>
+                <td style="width: 150px;">{{ str_limit($manifest->MARKING, 100) }}</td>
                 <td style="width: 100px;"></td>
-                <!--<td style="width: 80px;" class="text-center">{{ $manifest->final_qty }} {{ $manifest->packing_tally }}</td>-->
+                <td style="width: 50px;" class="text-center">{{ $manifest->QUANTITY }} {{ $manifest->packing }}</td>
                 <td></td>
             </tr>
             <?php $i++;?>
@@ -127,9 +128,20 @@
     <table border="0" cellspacing="0" cellpadding="0">
         <tbody>
             <tr>
-                <td class="text-center" style="padding-top: 80px;"><b>(..................................)<br />Tallyman / PIC</b></td>
-                <td class="text-center" style="padding-top: 80px;"><b>(..................................)<br />Leader LCL</b></td>
-                <td class="text-center" style="padding-top: 80px;"><b>(..................................)<br />Supervisor</b></td>
+                <td colspan="3" style="text-align: right;">Jakarta, {{ date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <td class="text-center" style="padding-top: 80px;"><b>Mengetahui</b></td>
+                <td class="text-center" style="padding-top: 80px;"><b>Surveyor</b></td>
+                <td class="text-center" style="padding-top: 80px;"><b>Petugas Tally</b></td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td class="text-center" style="padding-top: 80px;"><b>(..................................)</b></td>
+                <td class="text-center" style="padding-top: 80px;"><b>(..................................)</b></td>
+                <td class="text-center" style="padding-top: 80px;"><b>(..................................)</b></td>
             </tr>
         </tbody>
     </table>

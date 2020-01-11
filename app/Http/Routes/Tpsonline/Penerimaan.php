@@ -29,9 +29,13 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
         'as' => 'tps-responPlp-create-joborder',
         'uses' => 'PenerimaanController@responPlpCreateJoborder'
     ]);
-        Route::post('/respon-plp/create-joborder-lcl/{id}', [
+    Route::post('/respon-plp/create-joborder-lcl/{id}', [
         'as' => 'tps-responPlp-create-joborder-lcl',
         'uses' => 'PenerimaanController@responPlpCreateJoborderLcl'
+    ]);
+    Route::get('/respon-plp/cetak-permohonan/{id}', [
+        'as' => 'tps-responPlp-cetak-permohonan',
+        'uses' => 'PenerimaanController@responPlpCetakPermohonan'
     ]);
     Route::post('/respon-plp/grid-data', function()
     {
