@@ -8,6 +8,9 @@
     </head>
     <body>
         <div>
+            <div style="float: left;padding: 8px;">
+                <img src="{{asset('assets/images/logo/logo_wira.png')}}" style="height: 50px;" />
+            </div>
             <div style="font-size: 12px;">
                 <h2 class="name">PT. WIRA MITRA PRIMA</h2>
                 <div>Jl. Yos Sudarso No. 17 - 18 Jakarta Utara 14230 - Indonesia</div>
