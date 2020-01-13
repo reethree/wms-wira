@@ -61,9 +61,9 @@
                             <td>{{ $consignee->NAMAPERUSAHAAN }}</td>
                         </tr>
                         <tr>
-                            <td>No. Surat Jalan</td>
+                            <td>No. BL</td>
                             <td class="text-center">:</td>
-                            <td></td>
+                            <td>{{ $manifest->NOHBL }}</td>
                         </tr>
                         <tr>
                             <td>Ex. Kapal</td>
@@ -76,14 +76,14 @@
                             <td>{{ $manifest->VOY }}</td>
                         </tr>
                         <tr>
-                            <td>No. D.O</td>
-                            <td class="text-center">:</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Truck No.</td>
+                            <td>No. Truck</td>
                             <td class="text-center">:</td>
                             <td>{{ $manifest->NOPOL_RELEASE }}</td>
+                        </tr>
+                        <tr>
+                            <td>Tujuan</td>
+                            <td class="text-center">:</td>
+                            <td></td>
                         </tr>
                     </table>
                 </td>
