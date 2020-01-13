@@ -108,11 +108,11 @@
                 <th>Keterangan</th>
             </tr>
             <tr>
-                <td style="height: 30px;">{{ $manifest->MARKING }}</td>
-                <td class="text-center" >{{ $manifest->QUANTITY }}</td>
-                <td class="text-center" >{{ $manifest->NAMAPACKING }}</td>
-                <td class="text-center" >{{ $manifest->WEIGHT }}</td>
-                <td class="text-center" >{{ $manifest->MEAS }}</td>
+                <td style="height: 40px;vertical-align: middle;">{{ str_limit($manifest->DESCOFGOODS,30) }}</td>
+                <td class="text-center" style="vertical-align: middle;" >{{ $manifest->QUANTITY }}</td>
+                <td class="text-center" style="vertical-align: middle;" >{{ $manifest->KODE_KEMAS }} <br /> {{$manifest->NAMAPACKING }}</td>
+                <td class="text-center" style="vertical-align: middle;" >{{ $manifest->WEIGHT }}</td>
+                <td class="text-center" style="vertical-align: middle;" >{{ $manifest->MEAS }}</td>
                 <td></td>
             </tr>
         </table>
