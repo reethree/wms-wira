@@ -13,7 +13,7 @@
             </div>
             <div style="font-size: 12px;font-weight: bolder;">
                 <h2 class="name"><b>PT. WIRA MITRA PRIMA</b></h2>
-                <div>Jl. Yos Sudarso No. 17 - 18 Jakarta Utara 14230 - Indonesia</div>
+                <div>Jl. DIGUL - KOJA Jakarta Utara 14230 - Indonesia</div>
                 <div>Tel. (021) 43932815 &nbsp;Fax. (021) 43932806</div>
                 <div>Email : <a href="mailto:info@wira.co.id">info@wira.co.id</a></div>
                 <hr style="border-style: dashed;" />
