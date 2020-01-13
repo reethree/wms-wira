@@ -10,12 +10,20 @@
         vertical-align: top;
     }
     table, table tr, table tr td{
-        font-size: 10px;
+        font-size: 12px;
     }
     @media print {
-        body {
-            background: #FFF;
-        }
+            html, body {
+                display: block; 
+                font-family: "Calibri";
+                margin: 0;
+                background: #FFF;
+                font-weight: bold;
+            }
+            table, table tr, table tr td{
+                font-size: 12px;
+                font-weight: bold;
+            }
         @page {
             size: auto;   /* auto is the initial value */
 /*            margin-top: 114px;
@@ -82,29 +90,22 @@
                 </td>
             </tr>
         </table>
-        <table border="1" cellspacing="0" cellpadding="0" style="margin-bottom: 10px;">
+        <table border="2" cellspacing="0" cellpadding="0" style="margin-bottom: 10px;">
             <tr>
-                <td width='50%'>
-                    <h4>DESCRIPTION : </h4>
-                    <p>{{ str_limit($manifest->DESCOFGOODS, 150) }}</p>
-                    <br />
-                </td>
-                <td width='50%'>
-                    <h4>MARKS : </h4>
-                    <p>{{ $manifest->MARKING }}</p>
-                    <br />
-                </td>
+                <th>Nama Barang</th>
+                <th>Banyaknya</th>
+                <th>Satuan</th>
+                <th>KGS</th>
+                <th>CBM</th>
+                <th>Keterangan</th>
             </tr>
             <tr>
-                <td width='50%'>
-                    <h4>NOTES : </h4>
-                    <br />
-                </td>
-                <td width='50%'>
-                    <h4>RACK / LOCATION :</h4>
-                    <p>{{ $manifest->location_name }}</p>
-                    <br />
-                </td>
+                <td style="height: 30px;">{{ $manifest->MARKING }}</td>
+                <td class="text-center" >{{ $manifest->QUANTITY }}</td>
+                <td class="text-center" >{{ $manifest->NAMAPACKING }}</td>
+                <td class="text-center" >{{ $manifest->WEIGHT }}</td>
+                <td class="text-center" >{{ $manifest->MEAS }}</td>
+                <td></td>
             </tr>
         </table>
         <table border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 10px;">
