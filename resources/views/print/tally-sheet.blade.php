@@ -81,17 +81,17 @@
                         <tr>
                             <td>Tangal</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ date('d-m-Y', strtotime($container->STARTSTRIPPING)) }}</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>Mulai Stripping</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ date('H:i', strtotime($container->STARTSTRIPPING)) }}</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>Selesai Stripping</td>
                             <td class="padding-10 text-center">:</td>
-                            <td>{{ date('H:i', strtotime($container->ENDSTRIPPING)) }}</td>
+                            <td></td>
                         </tr>
                     </table>
                 </td>
