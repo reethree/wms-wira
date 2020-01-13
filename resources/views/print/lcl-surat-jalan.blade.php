@@ -11,6 +11,7 @@
     }
     table, table tr, table tr td{
         font-size: 12px;
+        font-weight: bold;
     }
     html, body {
         display: block; 
