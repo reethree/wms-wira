@@ -12,10 +12,17 @@
     table, table tr, table tr td{
         font-size: 12px;
     }
+    html, body {
+        display: block; 
+        font-family: Verdana, Geneva, sans-serif;
+        margin: 0;
+        background: #FFF;
+        font-weight: bold;
+    }
     @media print {
             html, body {
                 display: block; 
-                font-family: "Calibri";
+                font-family: Verdana, Geneva, sans-serif;
                 margin: 0;
                 background: #FFF;
                 font-weight: bold;
