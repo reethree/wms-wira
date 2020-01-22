@@ -103,10 +103,11 @@
         <thead>
             <tr>
                 <th>NO</th>
+                <th>HBL</th>
                 <th>CONSIGNEE</th>
                 <th>MERK</th>
                 <th>TALLY</th>
-                <th>QTY</th>   
+                <th>QTY / Packing<br />KGS<br />M3</th>   
                 <th>REMARKS</th>
             </tr>
         </thead>
@@ -114,11 +115,12 @@
             <?php $i = 1;?>
             @foreach($manifests as $manifest)
             <tr>
-                <td style="width: 20px;height: 70px;" class="text-center">{{ $i }}</td>
+                <td style="width: 10px;height: 70px;" class="text-center">{{ $i }}</td>
+                <td style="width: 50px;">{{ $manifest->NOHBL }}</td>
                 <td style="width: 80px;">{{ $manifest->CONSIGNEE }}</td>
-                <td style="width: 150px;">{{ str_limit($manifest->MARKING, 100) }}</td>
+                <td style="width: 100px;">{{ str_limit($manifest->MARKING, 100) }}</td>
                 <td style="width: 100px;"></td>
-                <td style="width: 50px;" class="text-center">{{ $manifest->QUANTITY }} {{ $manifest->packing }}</td>
+                <td style="width: 50px;" class="text-center">{{ $manifest->QUANTITY }} {{ $manifest->packing }}<br />{{ $manifest->WEIGHT }} KGS<br />{{ $manifest->MEAS }} M3</td>
                 <td></td>
             </tr>
             <?php $i++;?>
