@@ -198,6 +198,24 @@ class BarcodeController extends Controller
 //        return $pdf->stream('Delivery-Release-Barcode-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
     }
     
+    public function autogateCheck(Request $request)
+    {
+        $barcode = $request->barcode;
+        $data = \App\Models\Barcode::where('barcode', $barcode)->orderBy()->first();
+        
+        if($data){
+//            Expired
+            $exp_date = $data->expired;
+            if(date('Y-m-d') > $exp_date){
+                return 'e';
+            }
+            
+            return substr($data->status, 0, 1);
+        }else{
+            return 'f';
+        }
+    }
+    
     public function autogateNotification(Request $request)
     {
         $barcode = $request->barcode;

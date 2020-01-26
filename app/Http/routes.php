@@ -108,6 +108,10 @@ Route::get('/flat', [
 ]);
 
 // Auto Gate
+Route::get('/autogate/check', [
+    'uses' => 'BarcodeController@autogateCheck',
+    'as' => 'autogate-check'
+]);
 Route::post('/autogate/notification', [
     'uses' => 'BarcodeController@autogateNotification',
     'as' => 'autogate-notification'
