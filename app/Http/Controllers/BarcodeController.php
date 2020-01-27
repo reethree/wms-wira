@@ -208,15 +208,15 @@ class BarcodeController extends Controller
     //            Expired
                 $exp_date = $data->expired;
                 if(date('Y-m-d') > $exp_date){
-                    return 'e';
+                    return json_encode(array('status' => 'expired', 'code' => 'e'));
                 }
 
-                return substr($data->status, 0, 1);
+                return json_encode(array('status' => $data->status, 'code' => substr($data->status, 0, 1)));
             }else{
-                return 'f';
+                return json_encode(array('status' => 'not found', 'code' => 'f'));
             }
         else :
-            return 'Wrong Parameters.';
+            return json_encode(array('msg' => 'wrong parameters'));
         endif;
     }
     
