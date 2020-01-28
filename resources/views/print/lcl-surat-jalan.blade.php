@@ -15,7 +15,7 @@
     }
     html, body {
         display: block; 
-        font-family: Verdana, Geneva, sans-serif;
+        /*font-family: Verdana, Geneva, sans-serif;*/
         margin: 0;
         background: #FFF;
         font-weight: bold;
@@ -23,7 +23,7 @@
     @media print {
             html, body {
                 display: block; 
-                font-family: Verdana, Geneva, sans-serif;
+                /*font-family: Verdana, Geneva, sans-serif;*/
                 margin: 0;
                 background: #FFF;
                 font-weight: bold;
