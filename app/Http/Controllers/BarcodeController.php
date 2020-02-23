@@ -225,6 +225,9 @@ class BarcodeController extends Controller
         $barcode = $request->barcode;
         $tipe = $request->tipe;
         
+        // update barcode
+        \App\Models\Barcode::where('barcode', $barcode)->insert(['time_in' => $request->time_in, 'time_out' => $request->time_out]);
+        
         $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
         
         $filename = '';
@@ -341,7 +344,7 @@ class BarcodeController extends Controller
                                 return 'Something wrong!!! Cannot store to database';
                             }
                         }else{
-                            if($data_barcode->time_out){
+                            if($request->time_out){
                                 $model->TGLRELEASE = date('Y-m-d', strtotime($request->time_out));
                                 $model->JAMRELEASE = date('H:i:s', strtotime($request->time_out));
                                 $model->UIDKELUAR = 'Autogate';
