@@ -224,42 +224,44 @@ class BarcodeController extends Controller
     {
         $barcode = $request->barcode;
         $tipe = $request->tipe;
+        $time = $request->time;
         
         // update barcode
-        \App\Models\Barcode::where('barcode', $barcode)->insert(['time_in' => $request->time_in, 'time_out' => $request->time_out]);
+        if($tipe == 'in'){
+            \App\Models\Barcode::where('barcode', $barcode)->update(['time_in' => $time]);
+        }elseif($tipe == 'out'){
+            \App\Models\Barcode::where('barcode', $barcode)->update(['time_out' => $time]);
+        }
         
         $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
         
-        $filename = '';
+        $picture = array();
         if ($request->hasFile('fileKamera')) {
             
-            $file = $request->file('fileKamera');
+            $files = $request->file('fileKamera');
             
 //            return $file->getClientOriginalName();
             
             $destinationPath = base_path() . '/public/uploads/photos/autogate';
-//            $i = 1;
-//            foreach($files as $file){
+            $i = 1;
+            foreach($files as $file){
                 $filename = ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'_'.$file->getClientOriginalName();
 //                $extension = $file->getClientOriginalExtension();
                 
 //                $filename = date('dmyHis').'_'.$barcode.'_'.ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'.'.$extension;
-//                $picture[] = $filename;
-                $store = $file->move($destinationPath, $filename);
-//                $i++;
-//            }
-                
-            if($store){
-                if($tipe == 'in'){
-                    $data_barcode->photo_in = $filename;
-                }else{
-                    $data_barcode->photo_out = $filename;
-                }
-
-                $data_barcode->save();
-            }else{
-
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
             }
+            
+            if($tipe == 'in'){
+                $data_barcode->photo_in = @serialize($picture);
+            }else{
+                $data_barcode->photo_out = @serialize($picture);
+            }
+
+            $data_barcode->save();
+            
         }
         
         if($data_barcode){
@@ -283,12 +285,12 @@ class BarcodeController extends Controller
                 if($data_barcode->ref_action == 'get'){
 //                    if($data_barcode->time_in != NULL){
                         // GATEIN
-                        $model->TGLMASUK = date('Y-m-d', strtotime($request->time_in));
-                        $model->JAMMASUK = date('H:i:s', strtotime($request->time_in));
+                        $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
+                        $model->JAMMASUK = date('H:i:s', strtotime($data_barcode->time_in));
                         if($tipe == 'in'){
-                            $model->photo_get_in = $filename;
+                            $model->photo_get_in = @serialize($picture);
                         }else{
-                            $model->photo_get_out = $filename;
+                            $model->photo_get_out = @serialize($picture);
                         }
                         $model->UIDMASUK = 'Autogate';
 
@@ -322,20 +324,20 @@ class BarcodeController extends Controller
                     
                         if($data_barcode->ref_type == 'Manifest'){
                             if($request->time_out){
-                                $model->tglrelease = date('Y-m-d', strtotime($request->time_out));
-                                $model->jamrelease = date('H:i:s', strtotime($request->time_out));
+                                $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
                                 $model->UIDRELEASE = 'Autogate';
-                                $model->TGLSURATJALAN = date('Y-m-d', strtotime($request->time_out));
-                                $model->JAMSURATJALAN = date('H:i:s', strtotime($request->time_out));
-                                $model->tglfiat = date('Y-m-d', strtotime($request->time_out));
-                                $model->jamfiat = date('H:i:s', strtotime($request->time_out));
+                                $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
+                                $model->tglfiat = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->jamfiat = date('H:i:s', strtotime($data_barcode->time_out));
                                 $model->NAMAEMKL = 'Autogate';
                                 $model->UIDSURATJALAN = 'Autogate';
                             }
                             if($tipe == 'in'){
-                                $model->photo_release_in = $filename;
+                                $model->photo_release_in = @serialize($picture);
                             }else{
-                                $model->photo_release_out = $filename;
+                                $model->photo_release_out = @serialize($picture);
                             }
 
                             if($model->save()){
@@ -345,18 +347,18 @@ class BarcodeController extends Controller
                             }
                         }else{
                             if($request->time_out){
-                                $model->TGLRELEASE = date('Y-m-d', strtotime($request->time_out));
-                                $model->JAMRELEASE = date('H:i:s', strtotime($request->time_out));
+                                $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->JAMRELEASE = date('H:i:s', strtotime($data_barcode->time_out));
                                 $model->UIDKELUAR = 'Autogate';
-                                $model->TGLFIAT = date('Y-m-d', strtotime($request->time_out));
-                                $model->JAMFIAT = date('H:i:s', strtotime($request->time_out));
-                                $model->TGLSURATJALAN = date('Y-m-d', strtotime($request->time_out));
-                                $model->JAMSURATJALAN = date('H:i:s', strtotime($request->time_out));
+                                $model->TGLFIAT = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->JAMFIAT = date('H:i:s', strtotime($data_barcode->time_out));
+                                $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
+                                $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
                             }
                             if($tipe == 'in'){
-                                $model->photo_release_in = $filename;
+                                $model->photo_release_in = @serialize($picture);
                             }else{
-                                $model->photo_release_out = $filename;
+                                $model->photo_release_out = @serialize($picture);
                             }
                             if($model->save()){
                                 // Check Coari Exist
@@ -377,14 +379,14 @@ class BarcodeController extends Controller
                 }elseif($data_barcode->ref_action == 'empty'){
 //                    if($data_barcode->time_out != NULL){
                         if($data_barcode->time_out){
-                            $model->TGLBUANGMTY = date('Y-m-d', strtotime($request->time_out));
-                            $model->JAMBUANGMTY = date('H:i:s', strtotime($request->time_out));
+                            $model->TGLBUANGMTY = date('Y-m-d', strtotime($data_barcode->time_out));
+                            $model->JAMBUANGMTY = date('H:i:s', strtotime($data_barcode->time_out));
                             $model->UIDMTY = 'Autogate';
                         }
                         if($tipe == 'in'){
-                            $model->photo_empty_in = $filename;
+                            $model->photo_empty_in = @serialize($picture);
                         }else{
-                            $model->photo_empty_out = $filename;
+                            $model->photo_empty_out = @serialize($picture);
                         }
                         if($model->save()){
                             // Check Coari Exist
