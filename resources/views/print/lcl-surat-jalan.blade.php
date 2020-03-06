@@ -112,7 +112,7 @@
             </tr>
             <tr>
                 <td style="height: 40px;vertical-align: middle;">{{ str_limit($manifest->DESCOFGOODS,30) }}</td>
-                <td class="text-center" style="vertical-align: middle;" >{{ $manifest->QUANTITY }}</td>
+                <td class="text-center" style="vertical-align: middle;font-size: 14px" >{{ $manifest->QUANTITY }}</td>
                 <td class="text-center" style="vertical-align: middle;" >{{ $manifest->KODE_KEMAS }} <br /> {{$manifest->NAMAPACKING }}</td>
                 <td class="text-center" style="vertical-align: middle;" >{{ $manifest->WEIGHT }}</td>
                 <td class="text-center" style="vertical-align: middle;" >{{ $manifest->MEAS }}</td>
