@@ -27,10 +27,12 @@
                 margin: 0;
                 background: #FFF;
                 font-weight: bold;
+                color: #000;
             }
             table, table tr, table tr td{
                 font-size: 12px;
                 font-weight: bold;
+                color: #000;
             }
         @page {
             size: auto;   /* auto is the initial value */
@@ -39,6 +41,7 @@
             margin-left: 38px;
             margin-right: 75px;*/
             font-weight: bold;
+            color: #000;
         }
         .print-btn {
             display: none;
