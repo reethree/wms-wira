@@ -132,5 +132,16 @@ Route::group(['prefix' => 'fcl', 'namespace' => 'Import'], function(){
         'as' => 'fcl-bc-report-inventory',
         'uses' => 'FclController@reportInventoryIndex'
     ]);
+    
+    // Menu Photo
+    Route::get('/photo/container', [
+        'as' => 'fcl-photo-container-index',
+        'uses' => 'PhotoController@FclPhotoContainerIndex'
+    ]);
+    // UPLOAD PHOTO
+    Route::post('/photo/container/upload', [
+        'as' => 'fcl-container-upload-photo',
+        'uses' => 'PhotoController@containerUploadPhoto'
+    ]);
 });
 

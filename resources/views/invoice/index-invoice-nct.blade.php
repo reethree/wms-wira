@@ -96,6 +96,7 @@
             ->setGridOption('rowNum', 20)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','updated_at')
+            ->setGridOption('sortorder','DESC')
             ->setGridOption('rownumbers', true)
             ->setGridOption('height', '295')
             ->setGridOption('rowList',array(20,50,100))

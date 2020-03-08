@@ -36,6 +36,13 @@
                                 <li><a tabindex="-1" href="{{ route('lcl-manifest-index') }}">Manifest</a></li>
                                 <li><a tabindex="-1" href="{{ route('lcl-dispatche-index') }}">Dispatche E-Seal</a></li>
                                 <li class="dropdown-submenu">
+                                    <a class="submenu" href="#">Photo <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ route('lcl-photo-container-index') }}">Container</a></li>
+                                        <li><a href="{{ route('lcl-photo-cargo-index') }}">Cargo</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
                                     <a class="submenu" href="#">Realisasi <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="{{ route('lcl-realisasi-gatein-index') }}">Masuk / Gate In</a></li>
@@ -56,7 +63,13 @@
                                 <a class="submenu" tabindex="-1" href="#">FCL <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a tabindex="-1" href="{{ route('fcl-register-index') }}">Register</a></li>
-                                    <li><a tabindex="-1" href="{{ route('fcl-dispatche-index') }}">Dispatche E-Seal</a></li>
+                                    <li><a tabindex="-1" href="{{ route('fcl-dispatche-index') }}">Dispatche E-Seal</a></li>    
+                                    <li class="dropdown-submenu">
+                                        <a class="submenu" href="#">Photo <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ route('fcl-photo-container-index') }}">Container</a></li>
+                                        </ul>
+                                    </li>
                                     <li class="dropdown-submenu">
                                         <a class="submenu" href="#">Realisasi <span class="caret"></span></a>
                                         <ul class="dropdown-menu">
@@ -250,6 +263,13 @@
                                 <li><a tabindex="-1" href="{{ route('lcl-register-index') }}">Register</a></li>
                                 <li><a tabindex="-1" href="{{ route('lcl-manifest-index') }}">Manifest</a></li>
                                 <li><a tabindex="-1" href="{{ route('lcl-dispatche-index') }}">Dispatche E-Seal</a></li>
+                                <li class="dropdown-submenu">
+                                    <a class="submenu" href="#">Photo <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ route('lcl-photo-container-index') }}">Container</a></li>
+                                        <li><a href="{{ route('lcl-photo-cargo-index') }}">Cargo</a></li>
+                                    </ul>
+                                </li>
                                 <!--<li><a tabindex="-1" href="{{ route('lcl-behandle-index') }}">Status Behandle</a></li>-->
                                 <li class="dropdown-submenu">
                                   <a class="submenu" href="#">Realisasi <span class="caret"></span></a>
@@ -304,6 +324,12 @@
                               <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="{{ route('fcl-register-index') }}">Register</a></li>
                                 <li><a tabindex="-1" href="{{ route('fcl-dispatche-index') }}">Dispatche E-Seal</a></li>
+                                <li class="dropdown-submenu">
+                                    <a class="submenu" href="#">Photo <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ route('fcl-photo-container-index') }}">Container</a></li>
+                                    </ul>
+                                </li>
                                 <!--<li><a tabindex="-1" href="#">Manifest</a></li>-->
                                 <li class="dropdown-submenu">
                                   <a class="submenu" href="#">Realisasi <span class="caret"></span></a>

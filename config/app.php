@@ -165,7 +165,8 @@ return [
         Orchestra\Parser\XmlServiceProvider::class,
         Artisaninweb\SoapWrapper\ServiceProvider::class,
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
-        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
 
     ],
 
@@ -216,13 +217,14 @@ return [
         'GridEncoder' => Mgallegos\LaravelJqgrid\Facades\GridEncoder::class,
         'Shinobi' => Caffeinated\Shinobi\Facades\Shinobi::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'XmlParser' => Orchestra\Parser\Xml\Facade::class,
         'SoapWrapper' => Artisaninweb\SoapWrapper\Facades\SoapWrapper::class,
         'SEOMeta'   => Artesaos\SEOTools\Facades\SEOMeta::class,
         'OpenGraph' => Artesaos\SEOTools\Facades\OpenGraph::class,
         'Twitter'   => Artesaos\SEOTools\Facades\TwitterCard::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];

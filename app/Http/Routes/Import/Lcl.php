@@ -155,4 +155,23 @@ Route::group(['prefix' => 'lcl', 'namespace' => 'Import'], function(){
         'as' => 'lcl-bc-report-inventory',
         'uses' => 'LclController@reportInventoryIndex'
     ]);
+    
+    // Menu Photo
+    Route::get('/photo/container', [
+        'as' => 'lcl-photo-container-index',
+        'uses' => 'PhotoController@lclPhotoContainerIndex'
+    ]);
+    Route::get('/photo/cargo', [
+        'as' => 'lcl-photo-cargo-index',
+        'uses' => 'PhotoController@lclPhotoCargoIndex'
+    ]);
+    // UPLOAD PHOTO
+    Route::post('/photo/container/upload', [
+        'as' => 'lcl-container-upload-photo',
+        'uses' => 'PhotoController@containerUploadPhoto'
+    ]);
+    Route::post('/photo/cargo/upload', [
+        'as' => 'lcl-cargo-upload-photo',
+        'uses' => 'PhotoController@cargoUploadPhoto'
+    ]);
 });
