@@ -226,9 +226,9 @@ class BarcodeController extends Controller
         $tipe = $request->tipe;
         $time = $request->time;
         
-        $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
-        
-        if($data_barcode) {
+        if(!isset($barcode) || !isset($tipe) || !isset($time)){
+            return 'Something wrong!!! Some parameters not detected.';
+        }
         
         // update barcode
         if($tipe == 'in'){
@@ -237,6 +237,10 @@ class BarcodeController extends Controller
             \App\Models\Barcode::where('barcode', $barcode)->update(['time_out' => $time]);
         }
 
+        $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
+        
+        if($data_barcode) {
+        
         $picture = array();
         if ($request->hasFile('fileKamera')) {
             
