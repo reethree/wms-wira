@@ -227,12 +227,8 @@ class BarcodeController extends Controller
         $time = $request->time;
         
         // update barcode
-        if($tipe == 'in'){
-            \App\Models\Barcode::where('barcode', $barcode)->update(['time_in' => $time]);
-        }elseif($tipe == 'out'){
-            \App\Models\Barcode::where('barcode', $barcode)->update(['time_out' => $time]);
-        }
-        
+        \App\Models\Barcode::where('barcode', $barcode)->update(['time_'.$tipe => $time]);
+
         $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
         
         $picture = array();
@@ -245,13 +241,15 @@ class BarcodeController extends Controller
             $destinationPath = base_path() . '/public/uploads/photos/autogate';
             $i = 1;
             foreach($files as $file){
-                $filename = ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'_'.$file->getClientOriginalName();
-//                $extension = $file->getClientOriginalExtension();
-                
-//                $filename = date('dmyHis').'_'.$barcode.'_'.ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'.'.$extension;
-                $picture[] = $filename;
-                $file->move($destinationPath, $filename);
-                $i++;
+                if($file){
+                    $filename = ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'_'.$file->getClientOriginalName();
+    //                $extension = $file->getClientOriginalExtension();
+
+    //                $filename = date('dmyHis').'_'.$barcode.'_'.ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'.'.$extension;
+                    $picture[] = $filename;
+                    $file->move($destinationPath, $filename);
+                    $i++;
+                }
             }
             
             if($tipe == 'in'){
@@ -303,7 +301,22 @@ class BarcodeController extends Controller
                             // Upload Coari Container TPS Online
                             // Check Coari Exist
 //                            if($ref_number){
-                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+//                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                                $callback = array(
+                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
+                                    'd' => array(
+                                        'nocont' => $model->NOCONTAINER,
+                                        'nopol' => $model->NOPOL,
+                                        'noplp' => $model->NO_PLP,
+                                        'tglplp' => $model->TGL_PLP,
+                                        'nobc11' => $model->NO_BC11,
+                                        'tglbc11' => $model->TGL_BC11,
+                                        'kegiatan' => 'masuk',
+                                        'tipe' => $data_barcode->ref_type
+                                    )
+                                );
+                                
+                                return json_encode($callback);
 //                            }else{
 //                                    $coari_id = $this->uploadTpsOnlineCoariCont($data_barcode->ref_type,$data_barcode->ref_id);
 //                                    return redirect()->route('tps-coariCont-upload', $coari_id);
@@ -341,7 +354,22 @@ class BarcodeController extends Controller
                             }
 
                             if($model->save()){
-                                return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+//                                return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                                $callback = array(
+                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
+                                    'd' => array(
+                                        'nohbl' => $model->NOHBL,
+                                        'nopol' => $model->NOPOL_RELEASE,
+                                        'noplp' => $model->NO_PLP,
+                                        'tglplp' => $model->TGL_PLP,
+                                        'nobc11' => $model->NO_BC11,
+                                        'tglbc11' => $model->TGL_BC11,
+                                        'kegiatan' => 'keluar',
+                                        'tipe' => $data_barcode->ref_type
+                                    )
+                                );
+                                
+                                return json_encode($callback);
                             }else{
                                 return 'Something wrong!!! Cannot store to database';
                             }
@@ -363,11 +391,26 @@ class BarcodeController extends Controller
                             if($model->save()){
                                 // Check Coari Exist
 //                                if($ref_number){
-                                    return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+//                                    return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
 //                                }else{
 //                                    $codeco_id = $this->uploadTpsOnlineCodecoCont($data_barcode->ref_type,$data_barcode->ref_id);
 //                                    return redirect()->route('tps-codecoCont-upload', $codeco_id);
 //                                }
+                            $callback = array(
+                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
+                                    'd' => array(
+                                        'nocont' => $model->NOCONTAINER,
+                                        'nopol' => $model->NOPOL_OUT,
+                                        'noplp' => $model->NO_PLP,
+                                        'tglplp' => $model->TGL_PLP,
+                                        'nobc11' => $model->NO_BC11,
+                                        'tglbc11' => $model->TGL_BC11,
+                                        'kegiatan' => 'keluar',
+                                        'tipe' => $data_barcode->ref_type
+                                    )
+                                );
+                                
+                                return json_encode($callback);
                             }else{
                                 return 'Something wrong!!! Cannot store to database';
                             }
@@ -391,7 +434,22 @@ class BarcodeController extends Controller
                         if($model->save()){
                             // Check Coari Exist
 //                            if($ref_number){
-                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+//                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+                                $callback = array(
+                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
+                                    'd' => array(
+                                        'nocont' => $model->NOCONTAINER,
+                                        'nopol' => $model->NOPOL_MTY,
+                                        'noplp' => $model->NO_PLP,
+                                        'tglplp' => $model->TGL_PLP,
+                                        'nobc11' => $model->NO_BC11,
+                                        'tglbc11' => $model->TGL_BC11,
+                                        'kegiatan' => 'empty',
+                                        'tipe' => $data_barcode->ref_type
+                                    )
+                                );
+                                
+                                return json_encode($callback);
 //                            }else{
 //                                $codeco_id = $this->uploadTpsOnlineCodecoCont($data_barcode->ref_type,$data_barcode->ref_id);
 //                                return redirect()->route('tps-codecoCont-upload', $codeco_id);
