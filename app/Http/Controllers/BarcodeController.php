@@ -226,11 +226,17 @@ class BarcodeController extends Controller
         $tipe = $request->tipe;
         $time = $request->time;
         
-        // update barcode
-        \App\Models\Barcode::where('barcode', $barcode)->update(['time_'.$tipe => $time]);
-
         $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
         
+        if($data_barcode) {
+        
+        // update barcode
+        if($tipe == 'in'){
+            \App\Models\Barcode::where('barcode', $barcode)->update(['time_in' => $time]);
+        }else{
+            \App\Models\Barcode::where('barcode', $barcode)->update(['time_out' => $time]);
+        }
+
         $picture = array();
         if ($request->hasFile('fileKamera')) {
             
@@ -262,7 +268,7 @@ class BarcodeController extends Controller
             
         }
         
-        if($data_barcode){
+//        if($data_barcode){
 //            return $data_barcode;
             switch ($data_barcode->ref_type) {
                 case 'Fcl':
