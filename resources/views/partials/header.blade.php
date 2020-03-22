@@ -441,7 +441,7 @@
                         </ul>
                       </li>
 
-<!--                      <li class="dropdown">
+                      <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Invoice <span class="caret"></span></a>
                           <ul class="dropdown-menu" role="manu">
                               <li class="dropdown-submenu">
@@ -452,16 +452,16 @@
                                           <li><a href="{{route('invoice-index')}}">Data Invoice</a></li>
                                     </ul>
                               </li>
-                              <li class="dropdown-submenu">
+<!--                              <li class="dropdown-submenu">
                                   <a class="submenu" href="#">FCL <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="{{route('invoice-tarif-nct-index')}}">Data Tarif NCT1</a></li>
                                         <li><a href="{{route('invoice-release-nct-index')}}">Data Release/Gate Out</a></li>
                                         <li><a href="{{route('invoice-nct-index')}}">Data Invoice</a></li>
                                     </ul>
-                              </li>
+                              </li>-->
                           </ul>
-                      </li>-->
+                      </li>
 
 <!--                      <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Payment <span class="caret"></span></a>

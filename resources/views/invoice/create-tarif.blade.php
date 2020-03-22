@@ -37,15 +37,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="rdm" class="col-sm-3 control-label">RDM</label>
+                      <label for="werahouse_charge" class="col-sm-3 control-label">Warehouse Charge</label>
                       <div class="col-sm-8">
-                          <input type="number" name="rdm" class="form-control" id="rdm" required>
+                          <input type="number" name="warehouse_charge" class="form-control" id="werahouse_charge" required>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="storage" class="col-sm-3 control-label">Storage</label>
+                      <label for="surveyor" class="col-sm-3 control-label">Surveyor</label>
                       <div class="col-sm-8">
-                          <input type="number" name="storage" class="form-control" id="storage" required>
+                          <input type="number" name="surveyor" class="form-control" id="surveyor" required>
                       </div>
                     </div>
                     <div class="form-group">
@@ -81,7 +81,13 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="surcharge_price" class="col-sm-3 control-label">Surcharge</label>
+                      <label for="dg_surcharge" class="col-sm-3 control-label">DG Surcharge</label>
+                      <div class="col-sm-8">
+                          <input type="number" name="dg_surcharge" class="form-control" id="dg_surcharge" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="surcharge_price" class="col-sm-3 control-label">OW Surcharge</label>
                       <div class="col-sm-8">
                           <input type="number" name="surcharge_price" class="form-control" id="surcharge_price" required>
                       </div>
@@ -99,7 +105,7 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="pembulatan" class="col-sm-3 control-label">Pembulatan 0.5</label>
+                      <label for="pembulatan" class="col-sm-3 control-label">Pembulatan</label>
                       <div class="col-sm-8">
                           <input type="checkbox" name="pembulatan" id="pembulatan" value="1" />
                       </div>

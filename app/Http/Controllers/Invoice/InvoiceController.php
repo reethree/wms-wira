@@ -75,9 +75,10 @@ class InvoiceController extends Controller
         
         $data['invoice'] = \DB::table('invoice_import')->find($id);
         $data['manifest'] = \App\Models\Manifest::find($data['invoice']->manifest_id);
+        $data['consignee'] = \App\Models\Perusahaan::find($data['manifest']->TCONSIGNEE_FK);
         $data['tarif'] = \App\Models\InvoiceTarif::where(array('consolidator_id' => $data['manifest']->TCONSOLIDATOR_FK, 'type' => $data['manifest']->INVOICE))->first();
 //        $data['tarif'] = \App\Models\ConsolidatorTarif::where('TCONSOLIDATOR_FK', $data['manifest']->TCONSOLIDATOR_FK)->first();
-        $total = $data['invoice']->sub_total + $data['invoice']->ppn;
+        $total = $data['invoice']->sub_total + $data['invoice']->ppn + $data['invoice']->materai;
         $data['terbilang'] = ucwords($this->terbilang($total))." Rupiah";
         
         return view('invoice.edit-invoice')->with($data);
@@ -93,9 +94,10 @@ class InvoiceController extends Controller
     {
         $data['invoice'] = \DB::table('invoice_import')->find($id);
         $data['manifest'] = \App\Models\Manifest::find($data['invoice']->manifest_id);
+        $data['consignee'] = \App\Models\Perusahaan::find($data['manifest']->TCONSIGNEE_FK);
         $data['tarif'] = \App\Models\InvoiceTarif::where(array('consolidator_id' => $data['manifest']->TCONSOLIDATOR_FK, 'type' => $data['manifest']->INVOICE))->first();
 //        $data['tarif'] = \App\Models\ConsolidatorTarif::where('TCONSOLIDATOR_FK', $data['manifest']->TCONSOLIDATOR_FK)->first();
-        $total = $data['invoice']->sub_total + $data['invoice']->ppn;
+        $total = $data['invoice']->sub_total + $data['invoice']->ppn + $data['invoice']->materai;
         $data['terbilang'] = ucwords($this->terbilang($total))." Rupiah";
 //        return view('print.bon-muat', $container);
         
@@ -107,7 +109,7 @@ class InvoiceController extends Controller
 //                $pdf = \PDF::loadView('print.surat-jalan', $data);
 //                break;
 //        }
-        return view('print.invoice')->with($data);
+        return view('print.invoice-lcl')->with($data);
         $pdf = \PDF::loadView('print.invoice', $data)->setPaper('a4');
         
         return $pdf->stream($data['invoice']->no_invoice.'-'.date('dmy').'.pdf');
