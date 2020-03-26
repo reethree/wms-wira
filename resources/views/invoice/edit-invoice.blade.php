@@ -158,7 +158,7 @@
           </tr>
           <tr>
               <td>&nbsp;</td>
-              <td>Masa II (4-5 Hari)</td>
+              <td>Masa II (4-6 Hari)</td>
               <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm x {{ $invoice->hari_masa2 }} hari</td>
               <td align="right">Rp.</td>
               <td align="right">{{ number_format($tarif->storage_masa2) }}</td>

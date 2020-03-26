@@ -1554,8 +1554,8 @@ class LclController extends Controller
             
             // Perhitungan Hari
             // Tgl masuk container
-//            $date1 = date_create($manifest->tglstripping);
-            $date1 = date_create($manifest->tglmasuk);
+            $date1 = date_create($manifest->tglstripping);
+//            $date1 = date_create($manifest->tglmasuk);
             $date2 = date_create(date('Y-m-d',strtotime($manifest->tglrelease. '+1 days')));
             $diff = date_diff($date1, $date2);
             $hari = $diff->format("%a");
@@ -1563,7 +1563,8 @@ class LclController extends Controller
             // Perhitungan CBM
             $weight = $manifest->WEIGHT / 1000;
             $meas = $manifest->MEAS;
-            $cbm = array($weight, $meas);
+            $cbm = array($meas);
+//            $cbm = array($weight, $meas);
             
             if($tarif->pembulatan){            
 //                $maxcbm = ceil(max($cbm) * 2) / 2;
@@ -1592,7 +1593,7 @@ class LclController extends Controller
                 if($hari > 3 ) {
                     $hari_masa2 = $hari - 3;
                     if($tarif->storage_masa3 > 0){                        
-                        if($hari_masa2 > 2) { $hari_masa2 = 2; } 
+                        if($hari_masa2 > 3) { $hari_masa2 = 3; } 
                     }
                     $sub_masa2 = $maxcbm * $tarif->storage_masa2;
                     $tot_masa2 = $hari_masa2 * $sub_masa2;
@@ -1620,7 +1621,15 @@ class LclController extends Controller
             $invoice_import->hari_masa1 = (isset($hari_masa1)) ? $hari_masa1 : 0 ;
             $invoice_import->hari_masa2 = (isset($hari_masa2)) ? $hari_masa2 : 0 ;
             $invoice_import->hari_masa3 = (isset($hari_masa3)) ? $hari_masa3 : 0 ;
-            $invoice_import->dg_surcharge = ($tarif->type == 'BB') ? $tarif->dg_surcharge * $maxcbm : 0 ;
+            
+            if(isset($request->dg_surcharge)){
+//                $invoice_import->dg_surcharge = ($tarif->type == 'BB') ? $tarif->dg_surcharge * $maxcbm : 0 ;
+                $invoice_import->dg_surcharge = $tarif->dg_surcharge * $maxcbm;
+            }
+            
+            if(isset($request->ow_surcharge)){
+                $invoice_import->weight_surcharge = $tarif->surcharge_price;
+            }
             
             if(isset($request->behandle)){
                 if($tarif->cbm){
@@ -1648,37 +1657,38 @@ class LclController extends Controller
                 $invoice_import->adm,
                 $invoice_import->dg_surcharge,
                 $invoice_import->warehouse_charge,
-                $invoice_import->surveyor
-//                $invoice_import->weight_surcharge
+                $invoice_import->surveyor,
+                $invoice_import->weight_surcharge
             );
+            
             $sub_total = array_sum($array_total);
             
 //            if(in_array($tarif->consolidator_id, array(24,29)) && $manifest->INVOICE == 'BB'):
 //                $sub_total = $sub_total+300000;
 //            endif;
             
-            if(isset($request->free_surcharge)):
-                $invoice_import->weight_surcharge = 0;
-            else:           
-                if($tarif->surcharge){
-                    if($maxcbm*1000 >= 2500){
-                        if($tarif->surcharge_price > 100){
-                            $invoice_import->weight_surcharge = $tarif->surcharge_price;
-                        }else{
-                            $invoice_import->weight_surcharge = ceil(($tarif->surcharge_price * $sub_total) / 100);
-                        }                     
-                    }
-                }else{
-                    if($tarif->surcharge_price > 100){
-                        $invoice_import->weight_surcharge = $tarif->surcharge_price;
-                    }else{
-                        $invoice_import->weight_surcharge = ceil(($tarif->surcharge_price * $sub_total) / 100);
-                    }  
-                }
-            endif;
+//            if(isset($request->free_surcharge)):
+//                $invoice_import->weight_surcharge = 0;
+//            else:           
+//                if($tarif->surcharge){
+//                    if($maxcbm*1000 >= 2500){
+//                        if($tarif->surcharge_price > 100){
+//                            $invoice_import->weight_surcharge = $tarif->surcharge_price;
+//                        }else{
+//                            $invoice_import->weight_surcharge = ceil(($tarif->surcharge_price * $sub_total) / 100);
+//                        }                     
+//                    }
+//                }else{
+//                    if($tarif->surcharge_price > 100){
+//                        $invoice_import->weight_surcharge = $tarif->surcharge_price;
+//                    }else{
+//                        $invoice_import->weight_surcharge = ceil(($tarif->surcharge_price * $sub_total) / 100);
+//                    }  
+//                }
+//            endif;
             
 //            $invoice_import->dg_surcharge = ceil(($tarif->dg_surcharge * $sub_total) / 100);
-            $invoice_import->sub_total = $sub_total+$invoice_import->weight_surcharge;
+            $invoice_import->sub_total = $sub_total;
             $invoice_import->ppn = ceil((10 * $sub_total) / 100);
             $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;

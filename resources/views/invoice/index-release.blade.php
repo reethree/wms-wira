@@ -233,9 +233,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Free Surcharge</label>
+                                <label class="col-sm-3 control-label">DG Surcharge</label>
                                 <div class="col-sm-5">
-                                    <input type="checkbox" name="free_surcharge" value="1" />
+                                    <input type="checkbox" name="dg_surcharge" value="1" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">OW Surcharge</label>
+                                <div class="col-sm-5">
+                                    <input type="checkbox" name="ow_surcharge" value="1" />
                                 </div>
                             </div>
                             <div class="form-group">
