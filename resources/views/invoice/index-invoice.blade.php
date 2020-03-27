@@ -53,7 +53,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">LCL Invoices Lists</h3>
         <div class="box-tools">
-            <button class="btn btn-danger btn-sm" id="update-rdm"><i class="fa fa-refresh"></i> UPDATE RDM</button>&nbsp;&nbsp;&nbsp;|||&nbsp;&nbsp;&nbsp;
+            <!--<button class="btn btn-danger btn-sm" id="update-rdm"><i class="fa fa-refresh"></i> UPDATE RDM</button>&nbsp;&nbsp;&nbsp;|||&nbsp;&nbsp;&nbsp;-->
             <button class="btn btn-info btn-sm" id="cetak-rekap"><i class="fa fa-print"></i> REKAP HARIAN</button>
             <button class="btn btn-warning btn-sm" id="cetak-rekap-akumulasi"><i class="fa fa-print"></i> REKAP AKUMULASI</button>
         </div>
