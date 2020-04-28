@@ -1695,6 +1695,7 @@ class LclController extends Controller
             $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;
             $invoice_import->tgl_cetak = $request->tgl_cetak;
+            $invoice_import->tgl_keluar = $tglrelease;
             $invoice_import->no_invoice = $request->no_invoice.'/LCL/'.date('Y');
 //            return $invoice_import;
             

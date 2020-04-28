@@ -228,7 +228,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Tgl. Keluar</label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
@@ -244,7 +244,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="tgl_cetak" class="form-control pull-right datepicker" required>
+                                        <input type="text" name="tgl_cetak" class="form-control pull-right datepicker" required value="{{date('Y-m-d')}}">
                                     </div>
                                 </div>
                             </div>

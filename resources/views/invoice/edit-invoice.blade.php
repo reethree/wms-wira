@@ -80,7 +80,8 @@
               <tr>
                   <td><b>Date Out</b></td>
                   <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
-                  <td>{{ date('d F Y', strtotime($manifest->tglrelease)) }}</td>
+                  <!--<td>{{ date('d F Y', strtotime($manifest->tglrelease)) }}</td>-->
+                  <td>{{ date('d F Y', strtotime($invoice->tgl_keluar)) }}</td>
               </tr>
                 <tr>
                   <td><b>Date In</b></td>

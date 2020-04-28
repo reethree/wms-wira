@@ -65,7 +65,8 @@
                   <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $manifest->MEAS }} CBM</td>
                   <td><b>Tgl. Keluar</b></td>
                   <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
-                  <td>{{ date('d-M-y', strtotime($manifest->tglrelease)) }}</td>
+                  <!--<td>{{ date('d-M-y', strtotime($manifest->tglrelease)) }}</td>-->
+                  <td>{{ date('d-M-y', strtotime($invoice->tgl_keluar)) }}</td>
               </tr>
               <tr>
                   <td><b>Ex. Cont</b></td>
