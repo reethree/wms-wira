@@ -20,12 +20,17 @@
     
     $(document).ready(function()
     {
-        $('#release-form').disabledFormGroup();
-        $('#btn-toolbar').disabledButtonGroup();
+//        $('#release-form').disabledFormGroup();
+//        $('#btn-toolbar').disabledButtonGroup();
         
         
         $('#btn-invoice').on("click", function(){
+            rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
+            if(rowid){
             $('#create-invoice-modal').modal('show');
+            }else{
+                alert('Please select data first.');
+            }
         });
         
         $('#create-invoice-form').on("submit", function(){
@@ -122,7 +127,7 @@
                     ->setGridOption('rowList',array(20,50,100))
                     ->setGridOption('useColSpanStyle', true)
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view','edittext'=>'edit'))
-                    ->setNavigatorOptions('navigator', array('add' => false, 'edit' => true, 'del' => false, 'view' => true, 'refresh' => true))
+                    ->setNavigatorOptions('navigator', array('add' => false, 'edit' => false, 'del' => false, 'view' => true, 'refresh' => true))
                     ->setNavigatorOptions('edit', array('closeAfterEdit' => true))
                     ->setNavigatorEvent('edit', 'afterSubmit', 'afterSubmitEvent')
                     ->setNavigatorOptions('view',array('closeOnEscape'=>false))
@@ -202,7 +207,7 @@
     </div>
 </div>
 
-<div id="create-invoice-modal" class="modal fade" tabindex="-1" role="dialog">
+<div id="create-invoice-modal" class="modal fade" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -219,6 +224,17 @@
                                 <label class="col-sm-3 control-label">No. Invoice</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" name="no_invoice" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. Keluar</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tgl_keluar" class="form-control pull-right datepicker" required value="{{date('Y-m-d')}}">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
