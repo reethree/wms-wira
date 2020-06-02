@@ -1696,7 +1696,17 @@ class LclController extends Controller
             $invoice_import->uid = \Auth::getUser()->name;
             $invoice_import->tgl_cetak = $request->tgl_cetak;
             $invoice_import->tgl_keluar = $tglrelease;
-            $invoice_import->no_invoice = $request->no_invoice.'/LCL/'.date('Y');
+            
+            $num = 0;
+            $lastno = \App\Models\Invoice::select('no_invoice')->whereYear('tgl_keluar','=',date('Y'))->orderBy('no_invoice', 'DESC')->first();
+            
+            if($lastno){
+                $tally = explode('/', $lastno->no_invoice);
+                $num = intval($tally[0]);    
+            }
+            $no_invoice = str_pad(intval(($num > 0 ? $num : 0)+1), 4, '0', STR_PAD_LEFT);
+            
+            $invoice_import->no_invoice = $no_invoice.'/LCL/'.date('Y');
 //            return $invoice_import;
             
             if($invoice_import->save()){
