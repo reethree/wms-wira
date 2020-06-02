@@ -127,7 +127,7 @@
                     ->setGridOption('rowList',array(20,50,100))
                     ->setGridOption('useColSpanStyle', true)
                     ->setNavigatorOptions('navigator', array('viewtext'=>'view','edittext'=>'edit'))
-                    ->setNavigatorOptions('navigator', array('add' => false, 'edit' => false, 'del' => false, 'view' => true, 'refresh' => true))
+                    ->setNavigatorOptions('navigator', array('add' => false, 'edit' => true, 'del' => false, 'view' => true, 'refresh' => true))
                     ->setNavigatorOptions('edit', array('closeAfterEdit' => true))
                     ->setNavigatorEvent('edit', 'afterSubmit', 'afterSubmitEvent')
                     ->setNavigatorOptions('view',array('closeOnEscape'=>false))
