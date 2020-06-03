@@ -42,7 +42,11 @@
                     KEPADA<br />
                     <b>{{$consignee->NAMAPERUSAHAAN}}</b><br />
                     {{$consignee->ALAMAT}}<br />
-                    {{$consignee->NPWP}}
+                    @if(!empty($manifest->ID_CONSIGNEE))
+                        {{$manifest->ID_CONSIGNEE}}
+                    @else
+                        {{$consignee->NPWP}}
+                    @endif                  
                   </td>
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>

@@ -23,7 +23,11 @@
                 <p>
                     <b>{{$consignee->NAMAPERUSAHAAN}}</b><br />
                     {{$consignee->ALAMAT}}<br />
-                    {{$consignee->NPWP}}
+                    @if(!empty($manifest->ID_CONSIGNEE))
+                        {{$manifest->ID_CONSIGNEE}}
+                    @else
+                        {{$consignee->NPWP}}
+                    @endif
                 </p>
             </div>
             <div class="col-sm-7">

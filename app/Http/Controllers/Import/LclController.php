@@ -1692,10 +1692,18 @@ class LclController extends Controller
 //            $invoice_import->dg_surcharge = ceil(($tarif->dg_surcharge * $sub_total) / 100);
             $invoice_import->sub_total = $sub_total;
             $invoice_import->ppn = ceil((10 * $sub_total) / 100);
-            $invoice_import->materai = ($sub_total >= 1000000) ? 6000 : 3000;
             $invoice_import->uid = \Auth::getUser()->name;
             $invoice_import->tgl_cetak = $request->tgl_cetak;
             $invoice_import->tgl_keluar = $tglrelease;
+            
+            if($sub_total >= 250000 && $sub_total < 1000000){
+                $materai = 3000;
+            }elseif($sub_total >= 1000000){
+                $materai = 6000;
+            }else{
+                $materai = 0;
+            }
+            $invoice_import->materai = $materai;
             
             $num = 0;
             $lastno = \App\Models\Invoice::select('no_invoice')->whereYear('tgl_keluar','=',date('Y'))->orderBy('no_invoice', 'DESC')->first();
