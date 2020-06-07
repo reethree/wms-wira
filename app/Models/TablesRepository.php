@@ -393,8 +393,11 @@ class TablesRepository extends EloquentRepositoryAbstract {
 //                            ->select('tmanifest.*','tperusahaan.NPWP as NPWP_CONSIGNEE')
 //                            ->join('tperusahaan', 'tperusahaan.TPERUSAHAAN_PK', '=', 'tmanifest.TCONSIGNEE_FK');
 //                        $Model = \DB::table('tmanifest')
-                            ->whereNotNull('tglrelease')
-                            ->whereNotNull('jamrelease');
+                            ->whereNotNull('tglmasuk')
+                            ->whereNotNull('tglstripping')
+//                            ->whereNotNull('tglrelease')
+//                            ->whereNotNull('jamrelease')
+                            ;
                     break;
                 }
                 
