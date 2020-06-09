@@ -56,6 +56,10 @@ Route::group(['prefix' => 'tpsonline/penerimaan', 'namespace' => 'Tps'], functio
             break;
         }
     });
+    Route::post('/respon-plp/get-count-plp', [
+        'as' => 'tps-responPlp-getCountPlp',
+        'uses' => 'PenerimaanController@getCountPlp'
+    ]);
     
     // Respon Batal PLP
     Route::get('/respon-batal-plp', [

@@ -973,4 +973,64 @@ class PenerimaanController extends Controller
         
         return view('print.respon-plp-permohonan', $data);
     }
+    
+    public function getCountPlp(Request $request)
+    {
+        if(isset($request->startdate) && isset($request->enddate)){
+        
+            if($request->by == 'TGL_UPLOAD') {
+                $start_date = date('Y-m-d 00:00:00',strtotime($request->startdate));
+                $end_date = date('Y-m-d 23:59:59',strtotime($request->enddate));
+            }else{
+                $start_date = date('Ymd',strtotime($request->startdate));
+                $end_date = date('Ymd',strtotime($request->enddate));      
+            }
+            
+            $headers = \DB::table('tps_responplptujuanxml')
+                    ->select('tps_responplptujuanxml_pk')
+                    ->where($request->by, '>=', $start_date)
+                    ->where($request->by, '<=', $end_date)
+                    ->get();
+            
+            $l = 0;$f = 0;$u = 0;
+            
+            foreach ($headers as $header):
+                $details = \DB::table('tps_responplptujuandetailxml')
+                    ->select('JNS_CONT')
+                    ->where('tps_responplptujuanxml_fk', $header->tps_responplptujuanxml_pk)
+                    ->where('JNS_CONT','!=','')
+                    ->get();
+                
+                if(count($details) > 0){
+//                    $details = \DB::table('tps_responplptujuandetailxml')
+//                    ->where('tps_responplptujuanxml_fk', $header->tps_responplptujuanxml_pk)
+//                    ->get();
+                    foreach ($details as $detail):
+                        if($detail->JNS_CONT == 'L'){
+                            $l ++;
+                            break;
+                        }elseif($detail->JNS_CONT == 'F'){
+                            $f ++;
+                            break;
+                        }
+                    endforeach;
+                }else{
+                    $u ++;
+                }
+            endforeach;
+            
+            return json_encode(array(
+                's' => true,
+                'f' => $f,
+                'l' => $l,
+                'u' => $u
+            ));
+            
+        }
+        
+        return json_encode(array(
+            'm' => 'Something wrong, please try again.',
+            's' => false
+        ));
+    }
 }

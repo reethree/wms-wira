@@ -45,10 +45,10 @@
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="col-xs-12">Search By Date</div>
                 <div class="col-xs-12">&nbsp;</div>
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <select class="form-control select2" id="by" name="by" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option value="TGL_UPLOAD">Tgl. Upload</option>
                         <option value="TGL_PLP">Tgl. PLP</option>
@@ -57,7 +57,7 @@
                         <option value="TGL_TIBA">Tgl. Tiba</option>                       
                     </select>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <div class="input-group date">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
@@ -65,10 +65,10 @@
                         <input type="text" id="startdate" class="form-control pull-right datepicker">
                     </div>
                 </div>
-                <div class="col-xs-1">
-                    s/d
+                <div class="col-xs-1" style="text-align: center;">
+                    <span>s/d</span>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <div class="input-group date">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
@@ -78,6 +78,9 @@
                 </div>
                 <div class="col-xs-2">
                     <button id="searchByDateBtn" class="btn btn-default">Search</button>
+                </div>
+                <div class="col-xs-3" style="text-align: center;">
+                    <span id="count-plp" style="color: #FF0000;"></span>
                 </div>
             </div>
         </div>
@@ -215,6 +218,37 @@
         var enddate = $("#enddate").val();
         console.log(by);
         jQuery("#tpsResponPlpGrid").jqGrid('setGridParam',{url:"{{URL::to('/tpsonline/penerimaan/respon-plp/grid-data')}}?startdate="+startdate+"&enddate="+enddate+"&by="+by}).trigger("reloadGrid");
+        
+        //Get Count
+        $.ajax({
+            type: 'POST',
+            dataType : 'json',
+            data: {
+                '_token' : '{{csrf_token()}}',
+                'by' : by,
+                'startdate' : startdate,
+                'enddate' : enddate
+            },
+            url: '{{route("tps-responPlp-getCountPlp")}}',
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {
+                $('#count-plp').html('');
+            },
+            success:function(json)
+            {
+                var html_count = '';
+                console.log(json);
+                if(json.s){
+                    html_count = 'FCL = '+json.f+' | LCL = '+json.l+' | Unknown = '+json.u;
+                    $('#count-plp').html(html_count);
+                }
+            }
+        });
+        
         return false;
     });
     
