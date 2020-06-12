@@ -810,6 +810,9 @@ class LclController extends Controller
         $data = $request->json()->all(); 
         unset($data['TCONTAINER_PK'], $data['_token']);
         
+        $depomty = DBDepomty::find($data['TUJUAN_MTY']);
+        $data['NAMA_TUJUAN_MTY'] = $depomty->NAMADEPOMTY;
+        
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
@@ -1077,7 +1080,8 @@ class LclController extends Controller
                 $pdf = \PDF::loadView('print.bon-muat', $data);        
                 break;
             case 'surat-jalan':
-                $pdf = \PDF::loadView('print.surat-jalan', $data);
+                return view('print.surat-jalan', $data); 
+//                $pdf = \PDF::loadView('print.surat-jalan', $data);
                 break;
         }
         
