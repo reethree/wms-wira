@@ -62,31 +62,31 @@
                             <td style="width: 100px;"></td>
                             <td><b style="font-size:18px;">{{$container->NOCONTAINER}}</b>&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td><b style="font-size:18px;">{{$container->SIZE}}</b>&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>{{$container->VESSEL.' V.'.$container->VOY}}&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>TPS WIRA&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td><b style="font-size:15px;">{{$container->CONSIGNEE}}</b>&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>{{$container->NOPOL_OUT}}&nbsp;</td>
                         </tr>
@@ -94,27 +94,27 @@
                 </td>
                 <td style="width: 37%;vertical-align: top;">
                     <table>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td style="width: 50px;"></td>
                             <td>{{$container->jenis_container}}</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>{{date('d-M-y', strtotime($container->ETA))}}&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>{{$container->NO_SPPB}}/{{date('d-m-y', strtotime($container->TGL_SPPB))}}&nbsp;</td>
                         </tr>
-                        <tr style="height: 30px;vertical-align: top;">
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <!--<td>{{date('d-M-y', strtotime($pay_date))}}&nbsp;</td>-->
                             <!--<td>{{date('d-M-y', strtotime($container->TGLRELEASE))}}&nbsp;</td>-->
