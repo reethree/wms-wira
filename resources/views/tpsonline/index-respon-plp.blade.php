@@ -243,7 +243,7 @@
                 var html_count = '';
                 console.log(json);
                 if(json.s){
-                    html_count = 'FCL = '+json.f+' | LCL = '+json.l+' | Unknown = '+json.u;
+                    html_count = 'TOTAL CONTAINER<br />FCL = '+json.f+' | LCL = '+json.l+' | UNKNOWN = '+json.u;
                     $('#count-plp').html(html_count);
                 }
             }

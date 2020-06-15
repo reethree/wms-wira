@@ -299,48 +299,48 @@
             var id = $('#fclReleaseGrid').jqGrid('getGridParam', 'selrow');
             var rowdata = $('#fclReleaseGrid').getRowData(id);
             
-            if(rowdata.status_bc == 'INSPECT'){
-                alert("Dokumen masih dalam pemeriksaan.");
-                return false;
-            }
+//            if(rowdata.status_bc == 'INSPECT'){
+//                alert("Dokumen masih dalam pemeriksaan.");
+//                return false;
+//            }
+//            
+//            // Verify
+//            $.ajax({
+//                type: 'GET',
+//                dataType : 'json',
+//                url: '{{route("fcl-report-rekap-view-photo","")}}/'+id,
+//                error: function (jqXHR, textStatus, errorThrown)
+//                {
+//                    alert('Something went wrong, please try again later.');
+//                },
+//                beforeSend:function()
+//                {
+//                    $('#verify-photo').html('');
+//                },
+//                success:function(json)
+//                {
+//                    var html_container = '';
+//
+//                    if(json.data.photo_release_extra){
+//                        var photos_container = $.parseJSON(json.data.photo_release_extra);
+//                        var html_container = '';
+//                        $.each(photos_container, function(i, item) {
+//                            /// do stuff
+//                            html_container += '<img src="{{url("uploads/photos/container/fcl")}}/'+json.data.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
+//
+//                        });
+//                        $('#verify-photo').html(html_container);
+//                        $('#verify-contid').val(id);
+//                        
+//                        $('#verify-modal').modal('show');
+//                    }else{
+//                        alert('Silahkan upload photo kontainer terlebih dahulu!');
+//                        return false;
+//                    }
+//                }
+//            });
             
-            // Verify
-            $.ajax({
-                type: 'GET',
-                dataType : 'json',
-                url: '{{route("fcl-report-rekap-view-photo","")}}/'+id,
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Something went wrong, please try again later.');
-                },
-                beforeSend:function()
-                {
-                    $('#verify-photo').html('');
-                },
-                success:function(json)
-                {
-                    var html_container = '';
-
-                    if(json.data.photo_release_extra){
-                        var photos_container = $.parseJSON(json.data.photo_release_extra);
-                        var html_container = '';
-                        $.each(photos_container, function(i, item) {
-                            /// do stuff
-                            html_container += '<img src="{{url("uploads/photos/container/fcl")}}/'+json.data.NOCONTAINER+'/'+item+'" style="width: 200px;padding:5px;" />';
-
-                        });
-                        $('#verify-photo').html(html_container);
-                        $('#verify-contid').val(id);
-                        
-                        $('#verify-modal').modal('show');
-                    }else{
-                        alert('Silahkan upload photo kontainer terlebih dahulu!');
-                        return false;
-                    }
-                }
-            });
-            
-//            window.open("{{ route('fcl-delivery-suratjalan-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
+            window.open("{{ route('fcl-delivery-suratjalan-cetak', '') }}/"+id,"preview surat jalan","width=600,height=600,menubar=no,status=no,scrollbars=yes");
         });
         
         $("#verify-form").submit(function(event){

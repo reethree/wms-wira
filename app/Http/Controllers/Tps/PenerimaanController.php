@@ -998,7 +998,7 @@ class PenerimaanController extends Controller
                 $details = \DB::table('tps_responplptujuandetailxml')
                     ->select('JNS_CONT')
                     ->where('tps_responplptujuanxml_fk', $header->tps_responplptujuanxml_pk)
-                    ->where('JNS_CONT','!=','')
+//                    ->where('JNS_CONT','!=','')
                     ->get();
                 
                 if(count($details) > 0){
@@ -1008,15 +1008,18 @@ class PenerimaanController extends Controller
                     foreach ($details as $detail):
                         if($detail->JNS_CONT == 'L'){
                             $l ++;
-                            break;
+//                            break;
                         }elseif($detail->JNS_CONT == 'F'){
                             $f ++;
-                            break;
+//                            break;
+                        }else{
+                            $u ++;
                         }
                     endforeach;
-                }else{
-                    $u ++;
                 }
+//                else{
+//                    $u ++;
+//                }
             endforeach;
             
             return json_encode(array(
