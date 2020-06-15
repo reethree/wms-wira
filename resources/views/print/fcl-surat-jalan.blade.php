@@ -60,7 +60,7 @@
                     <table>
                         <tr style="height: 30px;vertical-align: top;">
                             <td style="width: 100px;"></td>
-                            <td><b style="font-size:18px;">{{$container->NOCONTAINER}}</b>&nbsp;</td>
+                            <td><b style="font-size:20px;">{{$container->NOCONTAINER}}</b>&nbsp;</td>
                         </tr>
                         <tr style="height: 33px;vertical-align: top;">
                             <td></td>
