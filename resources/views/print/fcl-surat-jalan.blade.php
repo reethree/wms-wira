@@ -7,7 +7,7 @@
 @section('content')
 <style>
     body {
-        font-family: Tahoma, Geneva, sans-serif;
+        /*font-family: Tahoma, Geneva, sans-serif;*/
     }
     table{
         font-size: 14px;
@@ -60,11 +60,11 @@
                     <table>
                         <tr style="height: 30px;vertical-align: top;">
                             <td style="width: 100px;"></td>
-                            <td><b style="font-size:16px;">{{$container->NOCONTAINER}}</b>&nbsp;</td>
+                            <td><b style="font-size:18px;">{{$container->NOCONTAINER}}</b>&nbsp;</td>
                         </tr>
                         <tr style="height: 30px;vertical-align: top;">
                             <td></td>
-                            <td>{{$container->SIZE}}&nbsp;</td>
+                            <td><b style="font-size:18px;">{{$container->SIZE}}</b>&nbsp;</td>
                         </tr>
                         <tr style="height: 30px;vertical-align: top;">
                             <td></td>
@@ -80,7 +80,7 @@
                         </tr>
                         <tr style="height: 30px;vertical-align: top;">
                             <td></td>
-                            <td>{{$container->CONSIGNEE}}&nbsp;</td>
+                            <td><b style="font-size:15px;">{{$container->CONSIGNEE}}</b>&nbsp;</td>
                         </tr>
                         <tr style="height: 30px;vertical-align: top;">
                             <td></td>
