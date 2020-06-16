@@ -999,6 +999,7 @@ class PenerimaanController extends Controller
                     ->select('JNS_CONT')
                     ->where('tps_responplptujuanxml_fk', $header->tps_responplptujuanxml_pk)
 //                    ->where('JNS_CONT','!=','')
+                    ->groupBy('NO_CONT')
                     ->get();
                 
                 if(count($details) > 0){
