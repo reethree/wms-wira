@@ -56,43 +56,43 @@
     <div style="width: 100%;height: 200px;border: 1px solid transparent;">
         <table width="100%">
             <tr>
-                <td style="width: 65%;">
+                <td style="width: 63%;">
                     <table>
-                        <tr>
+                        <tr style="height: 30px;vertical-align: top;">
                             <td style="width: 100px;"></td>
-                            <td><b>{{$container->NOCONTAINER}}</b>&nbsp;</td>
+                            <td><b style="font-size:20px;">{{$container->NOCONTAINER}}</b>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
-                            <td>{{$container->SIZE}}&nbsp;</td>
+                            <td><b style="font-size:18px;">{{$container->SIZE}}</b>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>{{$container->VESSEL.' V.'.$container->VOY}}&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>TPS WIRA&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>{{$container->NAMA_TUJUAN_MTY}}&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>{{$container->NOPOL_MTY}}&nbsp;</td>
                         </tr>
                     </table>
                 </td>
-                <td style="width: 35%;vertical-align: top;">
+                <td style="width: 37%;vertical-align: top;">
                     <table>
                         <tr>
                             <td style="width: 50px;"></td>
@@ -120,8 +120,9 @@
                         </tr>
                         <tr>
                             <td></td>
+                            <td>&nbsp;</td>
                             <!--<td>{{date('d-M-y', strtotime($pay_date))}}&nbsp;</td>-->
-                            <td>{{date('d-M-y', strtotime($container->TGLBUANGMTY))}}&nbsp;</td>
+                            <!--<td>{{date('d-M-y', strtotime($container->TGLBUANGMTY))}}&nbsp;</td>-->
                         </tr>
                     </table>
                 </td>
