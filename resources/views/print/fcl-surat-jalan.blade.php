@@ -118,7 +118,19 @@
                             <td></td>
                             <!--<td>{{date('d-M-y', strtotime($pay_date))}}&nbsp;</td>-->
                             <!--<td>{{date('d-M-y', strtotime($container->TGLRELEASE))}}&nbsp;</td>-->
+                            <td>{{date('d-M-y')}}&nbsp;</td>
+                        </tr>
+                        <tr style="height: 33px;vertical-align: top;">
+                            <td></td>
                             <td>&nbsp;</td>
+                        </tr>
+                        <tr style="height: 33px;vertical-align: top;">
+                            <td></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr style="height: 33px;vertical-align: top;">
+                            <td></td>
+                            <td>&nbsp;&nbsp;&nbsp;{{date('d F Y')}}&nbsp;</td>
                         </tr>
                     </table>
                 </td>
