@@ -32,7 +32,7 @@
     <div style="float:left;font-size: 10px;">PRINT TIME {{ date('d/m/Y H:i')}}</div>
     <!--<div style="width: 100%;height: 80px;border: 1px solid transparent;display: relative;">-->
         
-        <div style="float: right;margin-top: 80px;margin-bottom: 20px;color: transparent;">
+        <div style="float: right;margin-top: 60px;margin-bottom: 20px;color: transparent;">
             <table style="color: transparent;">
                 <tr>
                     <td align="right">{{$container->KODE_DOKUMEN}}</td>
