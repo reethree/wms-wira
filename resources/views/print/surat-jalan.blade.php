@@ -134,7 +134,7 @@
                         </tr>
                         <tr style="height: 33px;vertical-align: top;">
                             <td></td>
-                            <td>&nbsp;&nbsp;&nbsp;{{date('d F Y')}}&nbsp;</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{date('d F Y')}}&nbsp;</td>
                         </tr>
                     </table>
                 </td>
