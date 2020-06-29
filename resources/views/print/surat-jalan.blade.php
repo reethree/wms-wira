@@ -7,7 +7,7 @@
 @section('content')
 <style>
     body {
-        font-family: Tahoma, Geneva, sans-serif;
+        /*font-family: Tahoma, Geneva, sans-serif;*/
     }
     table{
         font-size: 14px;
@@ -32,7 +32,7 @@
     <div style="float:left;font-size: 10px;">PRINT TIME {{ date('d/m/Y H:i')}}</div>
     <!--<div style="width: 100%;height: 80px;border: 1px solid transparent;display: relative;">-->
         
-        <div style="float: right;margin-top: 80px;margin-bottom: 20px;color: transparent;">
+        <div style="float: right;margin-top: 100px;margin-bottom: 20px;color: transparent;">
             <table style="color: transparent;">
                 <tr>
                     <td align="right">{{$container->KODE_DOKUMEN}}</td>
@@ -94,31 +94,31 @@
                 </td>
                 <td style="width: 37%;vertical-align: top;">
                     <table>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td style="width: 50px;"></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                         </tr>
-                        <tr>
+                        <tr style="height: 33px;vertical-align: top;">
                             <td></td>
                             <td>&nbsp;</td>
                             <!--<td>{{date('d-M-y', strtotime($pay_date))}}&nbsp;</td>-->
