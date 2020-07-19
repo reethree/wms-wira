@@ -992,11 +992,11 @@ class PenerimaanController extends Controller
                     ->where($request->by, '<=', $end_date)
                     ->get();
             
-            $l = 0;$f = 0;$u = 0;
+            $l20 = 0;$l40 = 0;$f20 = 0;$f40 = 0;$f45 = 0;$u = 0;
             
             foreach ($headers as $header):
                 $details = \DB::table('tps_responplptujuandetailxml')
-                    ->select('JNS_CONT')
+                    ->select('JNS_CONT','UK_CONT')
                     ->where('tps_responplptujuanxml_fk', $header->tps_responplptujuanxml_pk)
 //                    ->where('JNS_CONT','!=','')
                     ->groupBy('NO_CONT')
@@ -1007,11 +1007,20 @@ class PenerimaanController extends Controller
 //                    ->where('tps_responplptujuanxml_fk', $header->tps_responplptujuanxml_pk)
 //                    ->get();
                     foreach ($details as $detail):
-                        if($detail->JNS_CONT == 'L'){
-                            $l ++;
+                        if($detail->JNS_CONT == 'L' && $detail->UK_CONT == 20){
+                            $l20 ++;
 //                            break;
-                        }elseif($detail->JNS_CONT == 'F'){
-                            $f ++;
+                        }elseif($detail->JNS_CONT == 'L' && $detail->UK_CONT == 40){
+                            $l40 ++;
+//                            break;
+                        }elseif($detail->JNS_CONT == 'F' && $detail->UK_CONT == 20){
+                            $f20 ++;
+//                            break;
+                        }elseif($detail->JNS_CONT == 'F' && $detail->UK_CONT == 40){
+                            $f40 ++;
+//                            break;
+                        }elseif($detail->JNS_CONT == 'F' && $detail->UK_CONT == 45){
+                            $f45 ++;
 //                            break;
                         }else{
                             $u ++;
@@ -1025,8 +1034,8 @@ class PenerimaanController extends Controller
             
             return json_encode(array(
                 's' => true,
-                'f' => $f,
-                'l' => $l,
+                'f' => array('k' => $f20, 's' => $f40, 'b' => $f45),
+                'l' => array('k' => $l20, 's' => $l40),
                 'u' => $u
             ));
             
