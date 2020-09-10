@@ -75,6 +75,7 @@
         {{
             GridRender::setGridId("fcllongstayGrid")
             ->enableFilterToolbar()
+            ->setGridOption('filename', 'FCL_ReportINV_'.Auth::getUser()->name)
             ->setGridOption('mtype', 'POST')
             ->setGridOption('url', URL::to('/container/grid-data-cy?module=longstay&report=1&_token='.csrf_token()))
             ->setGridOption('rowNum', 20)

@@ -115,7 +115,7 @@
             $('#id_cont').val(rowdata.TCONTAINER_PK);
             $('#load_photos').html('');
             $('#delete_photo').val('N');
-            
+            $("#status_coari").val(rowdata.status_coari);
             $("#location_id").val(rowdata.location_id).trigger("change")
             
             if(rowdata.photo_gatein_extra){
@@ -334,6 +334,8 @@
                     ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'Status Coari','index'=>'status_coari', 'width'=>70,'hidden'=>true))
+                    ->addColumn(array('label'=>'Status Codeco','index'=>'status_codeco', 'width'=>70,'hidden'=>true))
 //                    ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false))
         //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->renderGrid()
@@ -389,6 +391,12 @@
                         <div class="col-sm-3">
                             <input type="text" id="KD_TPS_ASAL" name="KD_TPS_ASAL" class="form-control" readonly>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Status Coari</label>
+                        <div class="col-sm-5">
+                            <input type="text" id="status_coari" class="form-control" readonly>
+                </div>
                     </div>
                 </div>
                 <div class="col-md-6">

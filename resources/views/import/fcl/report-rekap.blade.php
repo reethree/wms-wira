@@ -17,7 +17,8 @@
     {
         var ids = jQuery("#fclContainerReportGrid").jqGrid('getDataIDs'),
             lt = '',
-            vi = '';   
+            vi = '',
+            info = '';   
             
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
@@ -177,17 +178,18 @@
         {{
             GridRender::setGridId("fclContainerReportGrid")
             ->enableFilterToolbar()
+            ->setGridOption('filename', 'FCL_ReportCONT_'.Auth::getUser()->name)
             ->setGridOption('mtype', 'POST')
             ->setGridOption('url', URL::to('/container/grid-data-cy?report=1&_token='.csrf_token()))
-            ->setGridOption('rowNum', 20)
+            ->setGridOption('rowNum', 50)
             ->setGridOption('shrinkToFit', true)
             ->setGridOption('sortname','TCONTAINER_PK')
             ->setGridOption('sortorder','DESC')
             ->setGridOption('rownumbers', true)
-            ->setGridOption('rownumWidth', 50)
             ->setGridOption('height', '400')
+            ->setGridOption('rownumWidth', 50)
             ->setGridOption('multiselect', true)
-            ->setGridOption('rowList',array(20,50,100))
+            ->setGridOption('rowList',array(50,100,200))
             ->setGridOption('useColSpanStyle', true)
             ->setNavigatorOptions('navigator', array('viewtext'=>'view'))
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
@@ -509,6 +511,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <div id="view-photo-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -523,6 +526,28 @@
                         <div id="gateinout-photo"></div>
                         <h3>CONTAINER</h3>
                         <div id="container-photo"></div>
+                    </div>
+                </div>
+            </div>    
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="view-info-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Informasi Segel (<span id='nobl_info'></span>)</h4>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4><b>Segel (Lock)</b></h4>
+                        <div id="lock-info"></div>
+                        <hr />
+                        <h4><b>Lepas Segel (Unlock)</b></h4>
+                        <div id="unlock-info"></div>
                     </div>
                 </div>
             </div>    

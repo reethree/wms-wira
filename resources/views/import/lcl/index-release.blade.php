@@ -76,9 +76,9 @@
         $('#view-photo-modal').modal('show');
     }
     
-    function onSelectRowEvent()
+    function onSelectRowEvent(rowid)
     {
-        $('#btn-group-1,#btn-group-6').enableButtonGroup();
+        $('#btn-group-1').enableButtonGroup();
     }
     
     $(document).ready(function()
@@ -112,22 +112,29 @@
                 $(".hide-kddoc").hide();
             }
             
-            if($this == 1){
+//            if($this == 1){
+//                @role('super-admin')
+//                    
+//                @else
+//                    $('#NO_SPPB').attr('disabled','disabled');
+//                    $('#TGL_SPPB').attr('disabled','disabled');
+//                @endrole
+//            }else{
+//                if($this == ''){
+//                    $('#NO_SPPB').attr('disabled','disabled');
+//                    $('#TGL_SPPB').attr('disabled','disabled');
+//                }else{
+//                    $('#NO_SPPB').removeAttr('disabled');
+//                    $('#TGL_SPPB').removeAttr('disabled');
+//                }   
+//            }
                 @role('super-admin')
-                    
+                $('#NO_SPPB').removeAttr('disabled');
+                $('#TGL_SPPB').removeAttr('disabled');
                 @else
                     $('#NO_SPPB').attr('disabled','disabled');
                     $('#TGL_SPPB').attr('disabled','disabled');
                 @endrole
-            }else{
-                if($this == ''){
-                    $('#NO_SPPB').attr('disabled','disabled');
-                    $('#TGL_SPPB').attr('disabled','disabled');
-                }else{
-                    $('#NO_SPPB').removeAttr('disabled');
-                    $('#TGL_SPPB').removeAttr('disabled');
-                }   
-            }
         });
         
         $('#get-sppb-btn').click(function(){
@@ -211,6 +218,7 @@
             $('#TGL_SPPB').val(rowdata.TGL_SPPB);
             $('#bcf_consignee').val(rowdata.bcf_consignee).trigger('change');
             $('#telp_ppjk').val(rowdata.telp_ppjk);
+            $("#status_codeco").val(rowdata.status_codeco);
             
             $('#upload-title').html('Upload Photo for '+rowdata.NOHBL);
             $('#no_hbl').val(rowdata.NOHBL);
@@ -228,25 +236,33 @@
                 });
                 $('#load_photos').html(html);
             }
+            
+            @role('super-admin')
             $('#btn-group-2,#btn-sppb,#btn-photo').enableButtonGroup();
             $('#release-form').enableFormGroup();
             $('#btn-group-4').enableButtonGroup();
             $('#btn-group-5').enableButtonGroup();
+            $('#btn-group-6').enableButtonGroup();
+            @endrole
+
             
-            if(rowdata.KD_DOK_INOUT == 1){
+//            if(rowdata.KD_DOK_INOUT == 1){
                 @role('super-admin')
-                    
+                    $('#NO_SPPB').removeAttr('disabled');
+                    $('#TGL_SPPB').removeAttr('disabled');
                 @else
                     $('#NO_SPPB').attr('disabled','disabled');
                     $('#TGL_SPPB').attr('disabled','disabled');
                 @endrole
-            }
+//            }
             
             if(!rowdata.tglrelease && !rowdata.jamrelease) {
 
             }else{ 
                 @role('super-admin')
-
+                    $('#tglrelease').removeAttr('disabled');
+                    $('#jamrelease').removeAttr('disabled');
+                    $('#NOPOL_RELEASE').removeAttr('disabled');
                 @else
                     $('#tglrelease').attr('disabled','disabled');
                     $('#jamrelease').attr('disabled','disabled');
@@ -254,9 +270,16 @@
             }
   
             if(rowdata.status_bc == 'HOLD'){
+                @role('super-admin')
+                    $('#tglrelease').removeAttr('disabled');
+                    $('#jamrelease').removeAttr('disabled');
+                    $('#NOPOL_RELEASE').removeAttr('disabled');
+                @else
                 $('#tglrelease').attr('disabled','disabled');
                 $('#jamrelease').attr('disabled','disabled');
                 $('#NOPOL_RELEASE').attr('disabled','disabled');
+                @endrole
+                
             }else{
 //                $('#tglrelease').removeAttr('disabled');
 //                $('#jamrelease').removeAttr('disabled');
@@ -389,12 +412,11 @@
             $('#release-form').disabledFormGroup();
             $('#btn-toolbar,#btn-sppb, #btn-photo').disabledButtonGroup();
             $('#btn-group-3').enableButtonGroup();
+            $(".hide-kddoc,#btn-group-7,#btn-group-8").hide();
             
             $('#release-form')[0].reset();
             $('.select2').val(null).trigger("change");
             $('#TMANIFEST_PK').val("");
-            
-            $("#btn-group-7,#btn-group-8").hide();
         });
         
         $('#btn-print-sj').click(function() {
@@ -643,6 +665,7 @@
                     ->addColumn(array('label'=>'Photo Release','index'=>'photo_release', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Lokasi Tujuan','index'=>'LOKASI_TUJUAN', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
+                    ->addColumn(array('label'=>'Status Codeco','index'=>'status_codeco', 'width'=>70,'hidden'=>true))
                     ->renderGrid()
                 }}
             </div>
@@ -752,6 +775,7 @@
                     ->addColumn(array('label'=>'Photo Release','index'=>'photo_release', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Lokasi Tujuan','index'=>'LOKASI_TUJUAN', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
+                    ->addColumn(array('label'=>'Status Codeco','index'=>'status_codeco', 'width'=>70,'hidden'=>true))
                     ->renderGrid()
                 }}
                 
@@ -814,6 +838,12 @@
                         <label class="col-sm-3 control-label">No. Tally</label>
                         <div class="col-sm-8">
                             <input type="text" id="NOTALLY" name="NOTALLY" class="form-control" readonly>
+                        </div>
+                    </div>           
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Status Codeco</label>
+                        <div class="col-sm-5">
+                            <input type="text" id="status_codeco" class="form-control" readonly>
                         </div>
                     </div>
 <!--                    <div class="form-group">

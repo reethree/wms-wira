@@ -640,6 +640,14 @@ class LclController extends Controller
         
         if($update){
             
+            $cont = DBContainer::find($id);
+            if(!empty($cont->NO_PLP) && !empty($cont->NO_BC11)){
+                if(!empty($cont->TGLMASUK) && $cont->TGLMASUK != '1970-01-01'){
+                    $cont->status_coari = 'Ready';
+                    $cont->save();
+                }
+            }
+
             $dataManifest['tglmasuk'] = $data['TGLMASUK'];
             $dataManifest['Jammasuk'] = $data['JAMMASUK'];  
             $dataManifest['NOPOL_MASUK'] = $data['NOPOL']; 
@@ -808,15 +816,28 @@ class LclController extends Controller
     public function buangmtyUpdate(Request $request, $id)
     {
         $data = $request->json()->all(); 
-        unset($data['TCONTAINER_PK'], $data['_token']);
+        $delete_photo = $data['delete_photo'];
+        unset($data['TCONTAINER_PK'], $data['delete_photo'], $data['_token']);
         
-        $depomty = DBDepomty::find($data['TUJUAN_MTY']);
-        $data['NAMA_TUJUAN_MTY'] = $depomty->NAMADEPOMTY;
+        if(empty($data['TGLBUANGMTY']) || $data['TGLBUANGMTY'] == '0000-00-00'){
+            $data['TGLBUANGMTY'] = NULL;
+            $data['JAMBUANGMTY'] = NULL;
+        }
+        
+        if($delete_photo == 'Y'){
+            $data['photo_empty'] = '';
+        }
         
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         
         if($update){
+            
+            $cont = DBContainer::find($id);
+            if(!empty($cont->TGLBUANGMTY) && $cont->TGLBUANGMTY != '1970-01-01'){
+                $cont->status_codeco = 'Ready';
+                $cont->save();
+            }
             
             $dataManifest['tglbuangmty'] = $data['TGLBUANGMTY'];
             $dataManifest['jambuangmty'] = $data['JAMBUANGMTY'];  
@@ -980,6 +1001,11 @@ class LclController extends Controller
         
         if($update){
 //            $sor = $this->updateSor('release', $meas->MEAS);
+            $cargo = DBManifest::find($id);
+            if(!empty($cargo->tglrelease) && $cargo->tglrelease != '1970-01-01'){
+                $cargo->status_codeco = 'Ready';
+                $cargo->save();
+            }
 
             return json_encode(array('success' => true, 'message' => 'Release successfully updated!'));
         }
@@ -1261,7 +1287,7 @@ class LclController extends Controller
         return json_encode(array('success' => true, 'data' => $container));
     }
     
-    public function reportHarian()
+    public function reportHarian(Request $request)
     {
         if ( !$this->access->can('show.lcl.report.harian') ) {
             return view('errors.no-access');
@@ -1270,16 +1296,105 @@ class LclController extends Controller
         // Create Roles Access
         $this->insertRoleAccess(array('name' => 'Report Harian LCL', 'slug' => 'show.lcl.report.harian', 'description' => ''));
         
-        $data['page_title'] = "LCL Report Delivery Harian";
+        $data['page_title'] = "LCL Laporan Harian";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'LCL Report Delivery Harian'
+                'title' => 'LCL Laporan Harian'
             ]
         ];        
         
+        if($request->date){
+            $data['date'] = $request->date;
+        }else{
+            $data['date'] = date('Y-m-d');
+        }
+        
+        // Masuk
+        $julmah_bl_masuk = DBManifest::where('tglstripping', $request->date)->count();
+        $bl_ins = DBManifest::select(\DB::raw('SUM(QUANTITY) as qty'),\DB::raw('SUM(WEIGHT) as kgs'),\DB::raw('SUM(MEAS) as m3'))
+                ->where('tglstripping', $request->date)
+                ->get();
+        $data_bl_in = array();
+        $data_bl_in['Jumlah B/L'] = $julmah_bl_masuk;
+        foreach ($bl_ins as $in):
+            $data_bl_in['Quantity'] = $in->qty;
+            $data_bl_in['Weight'] = $in->kgs;
+            $data_bl_in['Measurement'] = $in->m3;
+        endforeach;
+        
+        // Keluar
+        $julmah_bl_keluar = DBManifest::where('tglrelease', $request->date)->count();
+        $bl_out = DBManifest::select(\DB::raw('SUM(QUANTITY) as qty'),\DB::raw('SUM(WEIGHT) as kgs'),\DB::raw('SUM(MEAS) as m3'))
+                ->where('tglrelease', $request->date)
+                ->get();
+        $data_bl_out = array();
+        $data_bl_out['Jumlah B/L'] = $julmah_bl_keluar;
+        foreach ($bl_out as $out):
+            $data_bl_out['Quantity'] = $out->qty;
+            $data_bl_out['Weight'] = $out->kgs;
+            $data_bl_out['Measurement'] = $out->m3;
+        endforeach;
+        
+        $bc20 = DBManifest::where('KD_DOK_INOUT', 1)->where('tglrelease', $request->date)->count();
+        $bc23 = DBManifest::where('KD_DOK_INOUT', 2)->where('tglrelease', $request->date)->count();
+        $bc12 = DBManifest::where('KD_DOK_INOUT', 4)->where('tglrelease', $request->date)->count();
+        $bc15 = DBManifest::where('KD_DOK_INOUT', 9)->where('tglrelease', $request->date)->count();
+        $bc11 = DBManifest::where('KD_DOK_INOUT', 20)->where('tglrelease', $request->date)->count();
+        $bcf26 = DBManifest::where('KD_DOK_INOUT', 5)->where('tglrelease', $request->date)->count();
+        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
+
+        $data['sum_bl_in'] = $data_bl_in;
+        $data['sum_bl_out'] = $data_bl_out;
+        
         return view('import.lcl.report-harian')->with($data);
+    }
+    
+    public function reportHarianCetak($date, $type)
+    {
+        // Data Pemasukan
+        $data['in'] = DBManifest::where('tglstripping', $date)->get();
+        $julmah_bl_masuk = DBManifest::where('tglstripping', $date)->count();
+        $bl_ins = DBManifest::select(\DB::raw('SUM(QUANTITY) as qty'),\DB::raw('SUM(WEIGHT) as kgs'),\DB::raw('SUM(MEAS) as m3'))
+                ->where('tglstripping', $date)
+                ->get();
+        $data_bl_in = array();
+        $data_bl_in['Jumlah B/L'] = $julmah_bl_masuk;
+        foreach ($bl_ins as $in):
+            $data_bl_in['Quantity'] = $in->qty;
+            $data_bl_in['Weight'] = $in->kgs;
+            $data_bl_in['Measurement'] = $in->m3;
+        endforeach;
+        $data['sum_bl_in'] = $data_bl_in;
+        
+        // Data Pengeluaran
+        $data['out'] = DBManifest::where('tglrelease', $date)->get();
+        $julmah_bl_keluar = DBManifest::where('tglrelease', $date)->count();
+        $bl_out = DBManifest::select(\DB::raw('SUM(QUANTITY) as qty'),\DB::raw('SUM(WEIGHT) as kgs'),\DB::raw('SUM(MEAS) as m3'))
+                ->where('tglrelease', $date)
+                ->get();
+        $data_bl_out = array();
+        $data_bl_out['Jumlah B/L'] = $julmah_bl_keluar;
+        foreach ($bl_out as $out):
+            $data_bl_out['Quantity'] = $out->qty;
+            $data_bl_out['Weight'] = $out->kgs;
+            $data_bl_out['Measurement'] = $out->m3;
+        endforeach;
+        $data['sum_bl_out'] = $data_bl_out;
+        
+        $bc20 = DBManifest::where('KD_DOK_INOUT', 1)->where('tglrelease', $date)->count();
+        $bc23 = DBManifest::where('KD_DOK_INOUT', 2)->where('tglrelease', $date)->count();
+        $bc12 = DBManifest::where('KD_DOK_INOUT', 4)->where('tglrelease', $date)->count();
+        $bc15 = DBManifest::where('KD_DOK_INOUT', 9)->where('tglrelease', $date)->count();
+        $bc11 = DBManifest::where('KD_DOK_INOUT', 20)->where('tglrelease', $date)->count();
+        $bcf26 = DBManifest::where('KD_DOK_INOUT', 5)->where('tglrelease', $date)->count();
+        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
+        
+        $data['date'] = $date;
+        $data['type'] = $type;
+        
+        return view('print.lcl-report-harian')->with($data);
     }
     
     public function reportRekap()
@@ -1817,7 +1932,7 @@ class LclController extends Controller
                 $codecokmsdetail->TGL_IJIN_TPS = '';
                 $codecokmsdetail->RESPONSE_IPC = '';
                 $codecokmsdetail->STATUS_TPS_IPC = '';
-                $codecokmsdetail->KD_TPS_ASAL = '';
+                $codecokmsdetail->KD_TPS_ASAL = $manifest->KD_TPS_ASAL;
                 $codecokmsdetail->TGL_ENTRY = date('Y-m-d');
                 $codecokmsdetail->JAM_ENTRY = date('H:i:s');
                 
@@ -1852,22 +1967,70 @@ class LclController extends Controller
             $sppb = \App\Models\TpsSppbBc::where(array('NO_BL_AWB' => $manifest->NOHBL))
                     ->orWhere('NO_MASTER_BL_AWB', $manifest->NOHBL)
                     ->first();
-        }else{
+        }elseif($kd_dok == 41){
             $sppb = \App\Models\TpsDokPabean::select('NO_DOK_INOUT as NO_SPPB','TGL_DOK_INOUT as TGL_SPPB','NPWP_IMP')
                     ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $manifest->NOHBL))
                     ->first();
+        }else{
+            $sppb = \App\Models\TpsDokManual::select('NO_DOK_INOUT as NO_SPPB','TGL_DOK_INOUT as TGL_SPPB','ID_CONSIGNEE as NPWP_IMP')
+                    ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $manifest->NOHBL))
+                    ->first();
+            if($sppb){
+                $tgl_sppb = explode('/', $sppb->TGL_SPPB);
+                $sppb->TGL_SPPB = $tgl_sppb[2].'-'.$tgl_sppb[1].'-'.$tgl_sppb[0];
+        }
         }
         
         if($sppb){
             $arraysppb = explode('/', $sppb->NO_SPPB);
             $datasppb = array(
-                'NO_SPPB' => $arraysppb[0],
+//                'NO_SPPB' => $arraysppb[0],
+                'NO_SPPB' => $sppb->NO_SPPB,
                 'TGL_SPPB' => date('Y-m-d', strtotime($sppb->TGL_SPPB)),
                 'NPWP' => $sppb->NPWP_IMP
             );
             return json_encode(array('success' => true, 'message' => 'Get Data SPPB has been success.', 'data' => $datasppb));
         }else{
             return json_encode(array('success' => false, 'message' => 'Data SPPB Tidak ditemukan.'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function behandleGetDataSpjm(Request $request)
+    {
+        $manifest_id = $request->id;  
+        $manifest = DBManifest::find($manifest_id);
+        
+        if($manifest){
+            
+            $tgl_bc11 = date('d/m/Y', strtotime($manifest->TGL_BC11));
+            $spjm = \DB::table('tps_spjmkmsxml')->select('tps_spjmxml.NO_PIB as NO_SPJM','tps_spjmxml.TGL_PIB as TGL_SPJM')
+                    ->leftJoin('tps_spjmxml', 'tps_spjmkmsxml.TPS_SPJMXML_FK','=','tps_spjmxml.TPS_SPJMXML_PK')
+                    ->where(array(
+                        'tps_spjmkmsxml.JNS_KMS' => $manifest->KODE_KEMAS, 
+                        'tps_spjmkmsxml.JML_KMS' => $manifest->QUANTITY,
+                        'tps_spjmxml.NO_BC11' => $manifest->NO_BC11, 
+                        'tps_spjmxml.TGL_BC11' => $tgl_bc11))
+                    ->first();
+//            if($spjmcont){
+                
+                if($spjm){
+                    
+                    $tgl_spjm = explode('/', $spjm->TGL_SPJM);
+                    $spjm->TGL_SPJM = $tgl_spjm[2].'-'.$tgl_spjm[1].'-'.$tgl_spjm[0];
+                    $dataspjm = array(
+                        'NO_SPJM' => $spjm->NO_SPJM,
+                        'TGL_SPJM' => date('Y-m-d', strtotime($spjm->TGL_SPJM))
+                    );
+                    return json_encode(array('success' => true, 'message' => 'Get Data SPJM has been success.', 'data' => $dataspjm));
+                    
+                }else{
+                    return json_encode(array('success' => false, 'message' => 'Data SPJM Tidak ditemukan.'));
+                }
+//            }else{
+//                return json_encode(array('success' => false, 'message' => 'Data Container Tidak ditemukan.'));
+//            }
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
@@ -2383,6 +2546,38 @@ class LclController extends Controller
             $oldJson = json_decode($container->photo_stripping);
             $newJson = array_collapse([$oldJson,$picture]);
             $container->photo_stripping = json_encode($newJson);
+            if($container->save()){
+                return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
+            }else{
+                return back()->with('error', 'Photo uploaded, but not save in Database.');
+            }
+            
+        } else {
+            return back()->with('error', 'Something wrong!!! Can\'t upload photo, please try again.');
+        }
+    }
+    
+    public function buangmtyUploadPhoto(Request $request)
+    {
+        $picture = array();
+        if ($request->hasFile('photos')) {
+            $files = $request->file('photos');
+            $destinationPath = base_path() . '/public/uploads/photos/container/lcl/'.$request->no_cont;
+            $i = 1;
+            foreach($files as $file){
+//                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                
+                $filename = date('dmyHis').'_'.str_slug($request->no_cont).'_'.$i.'.'.$extension;
+                $picture[] = $filename;
+                $file->move($destinationPath, $filename);
+                $i++;
+            }
+            // update to Database
+            $container = DBContainer::find($request->id_cont);
+            $oldJson = json_decode($container->photo_empty);
+            $newJson = array_collapse([$oldJson,$picture]);
+            $container->photo_empty = json_encode($newJson);
             if($container->save()){
                 return back()->with('success', 'Photo for Container '. $request->no_cont .' has been uploaded.');
             }else{

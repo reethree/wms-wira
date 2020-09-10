@@ -208,6 +208,59 @@
             });
         });
         
+        $('#get-spjm-btn').click(function(){
+     
+            if(!confirm('Apakah anda yakin?')){return false;} 
+            
+            $this = $(this);
+            $this.html('<i class="fa fa-spin fa-spinner"></i> Please wait...');
+            $this.attr('disabled','disabled');
+            
+            var url = '{{ route("fcl-delivery-behandle-getdataspjm") }}';
+
+            $.ajax({
+                type: 'POST',
+                data: 
+                {
+                    'id' : $('#TCONTAINER_PK').val(),
+                    'nobc' : $('#NO_BC11').val(),
+                    'tglbc' : $('#TGL_BC11').val(),
+                    '_token' : '{{ csrf_token() }}'
+                },
+                dataType : 'json',
+                url: url,
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Something went wrong, please try again later.');
+                    $this.html('<i class="fa fa-download"></i> Get Data');
+                    $this.removeAttr('disabled');
+                },
+                beforeSend:function()
+                {
+
+                },
+                success:function(json)
+                {
+                    console.log(json);
+
+                    if(json.success) {
+                        $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                        
+                        var dataspjm = json.data; 
+                        $('#NO_SPJM').val(dataspjm.NO_SPJM);
+                        $('#TGL_SPJM').val(dataspjm.TGL_SPJM);
+//                        $('#ID_CONSIGNEE').val(datasppb.NPWP);
+                    } else {
+                      $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                    }
+                    
+                    $this.html('<i class="fa fa-download"></i> Get Data');
+                    $this.removeAttr('disabled');
+
+                }
+    });
+        });
+    
     });
     
 </script>
@@ -405,7 +458,11 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="form-group">
+                        <div class="col-sm-11" id="btn-spjm">
+                            <button type="button" class="btn btn-info pull-right" id="get-spjm-btn"><i class="fa fa-download"></i> Get Data</button>
+                        </div>
+                    </div>
                     
                 </div>
                 <div class="col-md-6"> 

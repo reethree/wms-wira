@@ -121,6 +121,7 @@
         {{
             GridRender::setGridId("lclContainerReportGrid")
             ->enableFilterToolbar()
+            ->setGridOption('filename', 'LCL_ReportCONT_'.Auth::getUser()->name)
             ->setGridOption('mtype', 'POST')
             ->setGridOption('url', URL::to('/container/grid-data?_token='.csrf_token()))
             ->setGridOption('rowNum', 20)

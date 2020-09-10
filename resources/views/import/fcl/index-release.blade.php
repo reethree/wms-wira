@@ -102,22 +102,29 @@
             }else{
                 $(".hide-kddoc").hide();
             }
-            if($this == 1){
+//            if($this == 1){
+//                @role('super-admin')
+//                    
+//                @else
+//                    $('#NO_SPPB').attr('disabled','disabled');
+//                    $('#TGL_SPPB').attr('disabled','disabled');
+//                @endrole
+//            }else{
+//                if($this == ''){
+//                    $('#NO_SPPB').attr('disabled','disabled');
+//                    $('#TGL_SPPB').attr('disabled','disabled');
+//                }else{
+//                    $('#NO_SPPB').removeAttr('disabled');
+//                    $('#TGL_SPPB').removeAttr('disabled');
+//                }
+//            }
                 @role('super-admin')
-                    
+                $('#NO_SPPB').removeAttr('disabled');
+                $('#TGL_SPPB').removeAttr('disabled');
                 @else
                     $('#NO_SPPB').attr('disabled','disabled');
                     $('#TGL_SPPB').attr('disabled','disabled');
                 @endrole
-            }else{
-                if($this == ''){
-                    $('#NO_SPPB').attr('disabled','disabled');
-                    $('#TGL_SPPB').attr('disabled','disabled');
-                }else{
-                    $('#NO_SPPB').removeAttr('disabled');
-                    $('#TGL_SPPB').removeAttr('disabled');
-                }
-            }
         });
         
         $('#get-sppb-btn').click(function(){
@@ -220,6 +227,7 @@
             $('#id_hold').val(rowdata.TCONTAINER_PK);
             $('#load_photos').html('');
             $('#delete_photo').val('N');
+            $("#status_codeco").val(rowdata.status_codeco);
             
             if(rowdata.photo_release_extra){
                 var html = '';
@@ -236,20 +244,23 @@
             $('#btn-group-4').enableButtonGroup();
             $('#btn-group-5').enableButtonGroup();
             
-            if(rowdata.KD_DOK_INOUT == 1){
+//            if(rowdata.KD_DOK_INOUT == 1){
                 @role('super-admin')
-                    
+                    $('#NO_SPPB').removeAttr('disabled');
+                    $('#TGL_SPPB').removeAttr('disabled');
                 @else
                     $('#NO_SPPB').attr('disabled','disabled');
                     $('#TGL_SPPB').attr('disabled','disabled');
                 @endrole
-            }
+//            }
             
             if(!rowdata.TGLRELEASE && !rowdata.JAMRELEASE) {
                 
             }else{
                 @role('super-admin')
-
+                    $('#TGLRELEASE').removeAttr('disabled');
+                    $('#JAMRELEASE').removeAttr('disabled');
+                    $('#NOPOL_OUT').removeAttr('disabled');
                 @else
                     $('#TGLRELEASE').attr('disabled','disabled');
                     $('#JAMRELEASE').attr('disabled','disabled');
@@ -257,9 +268,16 @@
             }
             
             if(rowdata.status_bc == 'HOLD'){
+                @role('super-admin')
+                    $('#TGLRELEASE').removeAttr('disabled');
+                    $('#JAMRELEASE').removeAttr('disabled');
+                    $('#NOPOL_OUT').removeAttr('disabled');
+                @else
                 $('#TGLRELEASE').attr('disabled','disabled');
                 $('#JAMRELEASE').attr('disabled','disabled');
                 $('#NOPOL_OUT').attr('disabled','disabled');
+                @endrole
+                
             }else{
 //                $('#TGLRELEASE').removeAttr('disabled');
 //                $('#JAMRELEASE').removeAttr('disabled');
@@ -679,7 +697,7 @@
                     ->addColumn(array('label'=>'Photo','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('label'=>'Status BC','index'=>'status_bc','width'=>100, 'align'=>'center'))
                     ->addColumn(array('label'=>'Segel Merah','index'=>'flag_bc','width'=>80, 'align'=>'center'))
-                    ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
+                    ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160,'hidden'=>true))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>160,'editable' => true, 'editrules' => array('required' => true)))
                     ->addColumn(array('label'=>'Size','index'=>'SIZE', 'width'=>80,'align'=>'center','editable' => true, 'editrules' => array('required' => true,'number'=>true),'edittype'=>'select','editoptions'=>array('value'=>"20:20;40:40")))
                     ->addColumn(array('label'=>'Vessel','index'=>'VESSEL','width'=>120,'align'=>'center'))
@@ -737,6 +755,7 @@
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY', 'width'=>150, 'search'=>false,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam. Entry','index'=>'JAMENTRY', 'width'=>150, 'search'=>false, 'hidden'=>true))
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
+                    ->addColumn(array('label'=>'Status Codeco','index'=>'status_codeco', 'width'=>70,'hidden'=>true))
                     ->renderGrid()
                 }}
                 

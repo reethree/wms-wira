@@ -22,4 +22,10 @@ Route::group(['prefix' => 'lcl/realisasi', 'namespace' => 'Import'], function(){
         'as' => 'lcl-buangmty-upload',
         'uses' => 'LclController@buangmtyUpload'
     ]);
+    
+    // UPLOAD PHOTO
+    Route::post('/buangmty/upload/photo', [
+        'as' => 'lcl-buangmty-upload-photo',
+        'uses' => 'LclController@buangmtyUploadPhoto'
+    ]);
 });

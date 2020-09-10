@@ -110,15 +110,23 @@ class BarcodeController extends Controller
             foreach ($ids as $ref_id):
                 // Check data
                 $ref_number = '';
+                $ref_status = 'active';
+                
                 if($type == 'manifest'){
                     $refdata = \App\Models\Manifest::find($ref_id);
                     $ref_number = $refdata->NOHBL;
+                    if($refdata->flag_bc == 'Y' || $refdata->status_bc == 'HOLD'){
+                        $ref_status = 'hold';
+                    }
                 }elseif($type == 'lcl'){
                     $refdata = \App\Models\Container::find($ref_id);
                     $ref_number = $refdata->NOCONTAINER;
                 }elseif($type == 'fcl'){
                     $refdata = \App\Models\Containercy::find($ref_id);
                     $ref_number = $refdata->NOCONTAINER;
+                    if($refdata->flag_bc == 'Y' || $refdata->status_bc == 'HOLD'){
+                        $ref_status = 'hold';
+                    }
                     if($action == 'get'){
                         $expired = date('Y-m-d', strtotime('+3 day'));
                     }
@@ -143,7 +151,7 @@ class BarcodeController extends Controller
 //                    continue;
                     $barcode = \App\Models\Barcode::find($check->id);
                     $barcode->expired = $expired;
-                    $barcode->status = 'active';
+                    $barcode->status = $ref_status;
                     $barcode->uid = \Auth::getUser()->name;
                     $barcode->save();
                 }else{
@@ -152,19 +160,9 @@ class BarcodeController extends Controller
                     $barcode->ref_type = ucwords($type);
                     $barcode->ref_action = $action;
                     $barcode->ref_number = $ref_number;
-                    
-//                    if($refdata->KD_TPS_ASAL == 'MAL0'){
-//                        if($type == 'manifest'){
-//                            $barcode->barcode = $refdata->NOHBL;
-//                        }else{
-//                            $barcode->barcode = $refdata->NOCONTAINER;
-//                        } 
-//                    }else{
-                        $barcode->barcode = str_random(20);
-//                    }
-                    
+                    $barcode->barcode = str_random(20);
                     $barcode->expired = $expired;
-                    $barcode->status = 'active';
+                    $barcode->status = $ref_status;
                     $barcode->uid = \Auth::getUser()->name;
                     $barcode->save();
                 }  
@@ -527,10 +525,12 @@ class BarcodeController extends Controller
                 case 'Fcl':
                     $model = \App\Models\Containercy::find($data_barcode->ref_id);
                     $ref_number = $model->REF_NUMBER;
+                    $ref_number_out = $model->REF_NUMBER_OUT;
                     break;
                 case 'Lcl':
                     $model = \App\Models\Container::find($data_barcode->ref_id);
                     $ref_number = $model->REF_NUMBER_IN;
+                    $ref_number_out = $model->REF_NUMBER_OUT;
                     break;
                 case 'Manifest':
                     $model = \App\Models\Manifest::find($data_barcode->ref_id);
@@ -555,6 +555,13 @@ class BarcodeController extends Controller
                             // Update Manifest If LCL
                             if($data_barcode->ref_type == 'Lcl'){
                                 \App\Models\Manifest::where('TCONTAINER_FK', $model->TCONTAINER_PK)->update(array('tglmasuk' => $model->TGLMASUK, 'jammasuk' => $model->JAMMASUK));
+                            }
+                            
+                            if(!empty($model->NO_PLP) && !empty($model->NO_BC11)){
+                                if(!empty($model->TGLMASUK) && $model->TGLMASUK != '1970-01-01'){
+                                    $model->status_coari = 'Ready';
+                                    $model->save();
+                                }
                             }
                             
                             // Upload Coari Container TPS Online
@@ -598,6 +605,9 @@ class BarcodeController extends Controller
                             }
 
                             if($model->save()){
+                                    if(!empty($model->tglrelease) && $model->jamrelease != '1970-01-01'){
+                                        $model->status_codeco = 'Ready';
+                                    }
                                 return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             }else{
                                 return 'Something wrong!!! Cannot store to database';
@@ -618,13 +628,10 @@ class BarcodeController extends Controller
                                 $model->photo_release_out = $filename;
                             }
                             if($model->save()){
-                                // Check Coari Exist
-//                                if($ref_number){
+                                if(!empty($model->TGLRELEASE) && $model->TGLRELEASE != '1970-01-01'){
+                                    $model->status_codeco = 'Ready';
+                                }
                                     return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-//                                }else{
-//                                    $codeco_id = $this->uploadTpsOnlineCodecoCont($data_barcode->ref_type,$data_barcode->ref_id);
-//                                    return redirect()->route('tps-codecoCont-upload', $codeco_id);
-//                                }
                             }else{
                                 return 'Something wrong!!! Cannot store to database';
                             }
@@ -646,13 +653,11 @@ class BarcodeController extends Controller
                             $model->photo_empty_out = $filename;
                         }
                         if($model->save()){
-                            // Check Coari Exist
-//                            if($ref_number){
+                            if(!empty($model->TGLBUANGMTY) && $model->TGLBUANGMTY != '1970-01-01'){
+                                $model->status_codeco = 'Ready';
+                                $model->save();
+                            }
                                 return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-//                            }else{
-//                                $codeco_id = $this->uploadTpsOnlineCodecoCont($data_barcode->ref_type,$data_barcode->ref_id);
-//                                return redirect()->route('tps-codecoCont-upload', $codeco_id);
-//                            }
                         }else{
                             return 'Something wrong!!! Cannot store to database';
                         }
@@ -707,8 +712,8 @@ class BarcodeController extends Controller
                     $coaricontdetail->TGL_BL_AWB = (!empty($container->TGL_BL_AWB) ? date('Ymd', strtotime($container->TGL_BL_AWB)) : '');
                     $coaricontdetail->NO_MASTER_BL_AWB = $container->NOMBL;
                     $coaricontdetail->TGL_MASTER_BL_AWB = (!empty($container->TGL_MASTER_BL) ? date('Ymd', strtotime($container->TGL_MASTER_BL)) : '');
-                    $coaricontdetail->ID_CONSIGNEE = $container->ID_CONSOLIDATOR;
-                    $coaricontdetail->CONSIGNEE = $container->NAMACONSOLIDATOR;
+                    $coaricontdetail->ID_CONSIGNEE = $container->ID_CONSIGNEE;
+                    $coaricontdetail->CONSIGNEE = $container->CONSIGNEE;
                     $coaricontdetail->BRUTO = (!empty($container->WEIGHT) ? $container->WEIGHT : 0);
                     $coaricontdetail->NO_BC11 = $container->NO_BC11;
                     $coaricontdetail->TGL_BC11 = (!empty($container->TGL_BC11) ? date('Ymd', strtotime($container->TGL_BC11)) : '');

@@ -597,12 +597,18 @@ class FclController extends Controller
         
         if($update){
             $cont = DBContainer::find($id);
+            if(!empty($cont->NO_PLP) && !empty($cont->NO_BC11)){
+                if(!empty($cont->TGLMASUK) && $cont->TGLMASUK != '1970-01-01'){
+                    $cont->status_coari = 'Ready';
+                }
+            }
+            
             if($cont->yor_update == 0){
 //                $yor = $this->updateYor('gatein', $teus->TEUS);
                 $this->updateYorByTeus();
                 $cont->yor_update = 1;
-                $cont->save();
             }
+                $cont->save();
             
 //            $dataManifest['tglmasuk'] = $data['tglmasuk'];
 //            $dataManifest['Jammasuk'] = $data['JAMMASUK'];  
@@ -834,12 +840,18 @@ class FclController extends Controller
         
         if($update){
             $cont = DBContainer::find($id);
+            
+            if(!empty($cont->TGLRELEASE) && $cont->TGLRELEASE != '1970-01-01'){
+                $cont->status_codeco = 'Ready';
+            }
+                
             if($cont->yor_update == 1){
 //                $yor = $this->updateYor('release', $container->TEUS);
                 $this->updateYorByTeus();
                 $cont->yor_update = 2;
-                $cont->save();
             }
+            
+            $cont->save();
             
             return json_encode(array('success' => true, 'message' => 'Release successfully updated!'));
         }
@@ -986,7 +998,7 @@ class FclController extends Controller
     }
     
     // REPORT
-    public function reportHarian()
+    public function reportHarian(Request $request)
     {
         if ( !$this->access->can('show.fcl.report.harian') ) {
             return view('errors.no-access');
@@ -995,16 +1007,54 @@ class FclController extends Controller
         // Create Roles Access
         $this->insertRoleAccess(array('name' => 'Report Harian FCL', 'slug' => 'show.fcl.report.harian', 'description' => ''));
         
-        $data['page_title'] = "FCL Report Delivery Harian";
+        $data['page_title'] = "FCL Laporan Harian";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'FCL Report Delivery Harian'
+                'title' => 'FCL Laporan Harian'
             ]
         ];        
         
+        if($request->date){
+            $data['date'] = $request->date;
+        }else{
+            $data['date'] = date('Y-m-d');
+        }
+        
+        // BY DOKUMEN
+        $bc20 = DBContainer::where('KD_DOK_INOUT', 1)->where('TGLRELEASE', $data['date'])->count();
+        $bc23 = DBContainer::where('KD_DOK_INOUT', 2)->where('TGLRELEASE', $data['date'])->count();
+        $bc12 = DBContainer::where('KD_DOK_INOUT', 4)->where('TGLRELEASE', $data['date'])->count();
+        $bc15 = DBContainer::where('KD_DOK_INOUT', 9)->where('TGLRELEASE', $data['date'])->count();
+        $bc11 = DBContainer::where('KD_DOK_INOUT', 20)->where('TGLRELEASE', $data['date'])->count();
+        $bcf26 = DBContainer::where('KD_DOK_INOUT', 5)->where('TGLRELEASE', $data['date'])->count();
+        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
+        
         return view('import.fcl.report-harian')->with($data);
+    }
+    
+    public function reportHarianCetak($date, $type)
+    {
+        // MASUK
+        $data['in'] = DBContainer::where('TGLMASUK', $date)->orderBy('JAMMASUK', 'DESC')->get();
+        
+        // KELUAR
+        $data['out'] = DBContainer::where('TGLRELEASE', $date)->orderBy('JAMRELEASE', 'DESC')->get();
+        
+        // BY DOKUMEN
+        $bc20 = DBContainer::where('KD_DOK_INOUT', 1)->where('TGLRELEASE', $date)->count();
+        $bc23 = DBContainer::where('KD_DOK_INOUT', 2)->where('TGLRELEASE', $date)->count();
+        $bc12 = DBContainer::where('KD_DOK_INOUT', 4)->where('TGLRELEASE', $date)->count();
+        $bc15 = DBContainer::where('KD_DOK_INOUT', 9)->where('TGLRELEASE', $date)->count();
+        $bc11 = DBContainer::where('KD_DOK_INOUT', 20)->where('TGLRELEASE', $date)->count();
+        $bcf26 = DBContainer::where('KD_DOK_INOUT', 5)->where('TGLRELEASE', $date)->count();
+        $data['countbydoc'] = array('BC 2.0' => $bc20, 'BC 2.3' => $bc23, 'BC 1.2' => $bc12, 'BC 1.5' => $bc15, 'BC 1.1' => $bc11, 'BCF 2.6' => $bcf26);
+
+        $data['date'] = $date;
+        $data['type'] = $type;
+        
+        return view('print.fcl-report-harian')->with($data);
     }
     
     public function reportRekap(Request $request)
@@ -1377,12 +1427,12 @@ class FclController extends Controller
                 $codecocontdetail->TGL_IJIN_TPS = '';
                 $codecocontdetail->RESPONSE_IPC = '';
                 $codecocontdetail->STATUS_TPS_IPC = '';
-                $codecocontdetail->NOSPPB = '';
-                $codecocontdetail->TGLSPPB = '';
+                $codecocontdetail->NOSPPB = (!empty($container->NO_SPPB) ? $container->NO_SPPB : '');;
+                $codecocontdetail->TGLSPPB = (!empty($container->TGL_SPPB) ? date('Ymd', strtotime($container->TGL_SPPB)) : '');;
                 $codecocontdetail->FLAG_REVISI = '';
                 $codecocontdetail->TGL_REVISI = '';
                 $codecocontdetail->TGL_REVISI_UPDATE = '';
-                $codecocontdetail->KD_TPS_ASAL = '';
+                $codecocontdetail->KD_TPS_ASAL = $container->KD_TPS_ASAL;
                 $codecocontdetail->RESPONSE_MAL0 = '';
                 $codecocontdetail->STATUS_TPS_MAL0 = '';
                 $codecocontdetail->TGL_ENTRY = date('Y-m-d');
@@ -1858,22 +1908,70 @@ class FclController extends Controller
             $sppb = \App\Models\TpsSppbBc::where(array('NO_BL_AWB' => $container->NO_BL_AWB))
                     ->orWhere('NO_MASTER_BL_AWB', $container->NO_BL_AWB)
                     ->first();
-        }else{
+        }elseif($kd_dok == 41){
             $sppb = \App\Models\TpsDokPabean::select('NO_DOK_INOUT as NO_SPPB','TGL_DOK_INOUT as TGL_SPPB','NPWP_IMP')
                     ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $container->NO_BL_AWB))
                     ->first();
+        }else{
+            $sppb = \App\Models\TpsDokManual::select('NO_DOK_INOUT as NO_SPPB','TGL_DOK_INOUT as TGL_SPPB','ID_CONSIGNEE as NPWP_IMP')
+                    ->where(array('KD_DOK_INOUT' => $kd_dok, 'NO_BL_AWB' => $container->NO_BL_AWB))
+                    ->first();
+            if($sppb){
+                $tgl_sppb = explode('/', $sppb->TGL_SPPB);
+                $sppb->TGL_SPPB = $tgl_sppb[2].'-'.$tgl_sppb[1].'-'.$tgl_sppb[0];
+        }
         }
         
         if($sppb){
             $arraysppb = explode('/', $sppb->NO_SPPB);
             $datasppb = array(
-                'NO_SPPB' => $arraysppb[0],
+//                'NO_SPPB' => $arraysppb[0],
+                'NO_SPPB' => $sppb->NO_SPPB,
                 'TGL_SPPB' => date('Y-m-d', strtotime($sppb->TGL_SPPB)),
                 'NPWP' => $sppb->NPWP_IMP
             );
             return json_encode(array('success' => true, 'message' => 'Get Data SPPB has been success.', 'data' => $datasppb));
         }else{
             return json_encode(array('success' => false, 'message' => 'Data SPPB Tidak ditemukan.'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
+    public function behandleGetDataSpjm(Request $request)
+    {
+        $container_id = $request->id;  
+        $container = DBContainer::find($container_id);
+        
+        if($container){
+            
+            $tgl_bc11 = date('d/m/Y', strtotime($container->TGL_BC11));
+            $spjm = \DB::table('tps_spjmcontxml')->select('tps_spjmxml.NO_PIB as NO_SPJM','tps_spjmxml.TGL_PIB as TGL_SPJM')
+                    ->leftJoin('tps_spjmxml', 'tps_spjmcontxml.TPS_SPJMXML_FK','=','tps_spjmxml.TPS_SPJMXML_PK')
+                    ->where(array(
+                        'tps_spjmcontxml.NO_CONT' => $container->NOCONTAINER, 
+                        'tps_spjmcontxml.SIZE' => $container->SIZE, 
+                        'tps_spjmxml.NO_BC11' => $container->NO_BC11, 
+                        'tps_spjmxml.TGL_BC11' => $tgl_bc11))
+                    ->first();
+//            if($spjmcont){
+                            
+                if($spjm){
+                    
+                    $tgl_spjm = explode('/', $spjm->TGL_SPJM);
+                    $spjm->TGL_SPJM = $tgl_spjm[2].'-'.$tgl_spjm[1].'-'.$tgl_spjm[0];
+                    $dataspjm = array(
+                        'NO_SPJM' => $spjm->NO_SPJM,
+                        'TGL_SPJM' => date('Y-m-d', strtotime($spjm->TGL_SPJM))
+                    );
+                    return json_encode(array('success' => true, 'message' => 'Get Data SPJM has been success.', 'data' => $dataspjm));
+                    
+                }else{
+                    return json_encode(array('success' => false, 'message' => 'Data SPJM Tidak ditemukan.'));
+                }
+//            }else{
+//                return json_encode(array('success' => false, 'message' => 'Data Container Tidak ditemukan.'));
+//            }
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));

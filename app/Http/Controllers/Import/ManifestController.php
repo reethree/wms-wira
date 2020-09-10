@@ -124,7 +124,7 @@ class ManifestController extends Controller
         $data['jammasuk'] = $container->JAMMASUK;
         $data['tglentry'] = date('Y-m-d');
         $data['jamentry'] = date('H:i:s');
-        $data['UID'] = $data['UID'] = \Auth::getUser()->name;
+        $data['UID'] = \Auth::getUser()->name;
         
         $insert_id = DBManifest::insertGetId($data);
         
@@ -363,7 +363,7 @@ class ManifestController extends Controller
     public function approveAll($container_id)
     {
         
-        $container = DBContainer::find($container_id)->first();
+        $container = DBContainer::find($container_id);
         
         if(empty($container->TGLSTRIPPING) || $container->TGLSTRIPPING == '0000-00-00' || $container->TGLSTRIPPING == '01-01-1970'){
             return json_encode(array('success' => false, 'message' => 'Kontainer ini belum melakukan stripping!'));
@@ -382,6 +382,9 @@ class ManifestController extends Controller
                     DBManifest::where('TMANIFEST_PK', $mfs->TMANIFEST_PK)->update(array('sor_update'=>1));
                 }
             endforeach;
+            
+            $container->status_coari_cargo = 'Ready';
+            $container->save();
             
             return json_encode(array('success' => true, 'message' => 'All Manifest successfully approved!'));
         }

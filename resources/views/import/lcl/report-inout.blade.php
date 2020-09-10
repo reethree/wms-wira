@@ -46,12 +46,17 @@
                 $("#" + cl).find("td").css("background-color", "#ffe500");
             }  
             
-            if(rowdata.photo_release_in != '' || rowdata.photo_release_out != '' || rowdata.photo_release != '' || rowdata.photo_stripping != ''){
+            if(rowdata.photo_get_in != '' || rowdata.photo_get_out != '' || rowdata.photo_gatein_extra != ''){
                 vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
             }else{
                 vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" disabled><i class="fa fa-photo"></i> Not Found</button>';
             }
             
+            if(rowdata.photo_release_in != '' || rowdata.photo_release_out != '' || rowdata.photo_release != '' || rowdata.photo_stripping != ''){
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
+            }else{
+                vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" disabled><i class="fa fa-photo"></i> Not Found</button>';
+            }
             
             jQuery("#lclInoutReportGrid").jqGrid('setRowData',ids[i],{action:vi,lamaTimbun:lt}); 
         } 
@@ -161,6 +166,7 @@
         {{
             GridRender::setGridId("lclInoutReportGrid")
             ->enableFilterToolbar()
+            ->setGridOption('filename', 'LCL_ReportSTOCK_'.Auth::getUser()->name)
             ->setGridOption('mtype', 'POST')
             ->setGridOption('url', URL::to('/lcl/manifest/grid-data?report=1&_token='.csrf_token()))
             ->setGridOption('rowNum', 20)
@@ -358,7 +364,7 @@
             <div class="modal-body"> 
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>AUTOGATE</h3>
+                        <h3>RELEASE IN / OUT</h3>
                         <div id="gateinout-photo"></div>
                         <h3>STRIPPING</h3>
                         <div id="stripping-photo"></div>

@@ -95,9 +95,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">No.Container/Size/No.Segel</label>
+                        <label class="col-sm-4 control-label">No.Container</label>
                         <div class="col-sm-8">
                             <input type="text" readonly="" name="NOCONTAINER" class="form-control" value="{{ $container->NOCONTAINER.' / '.$container->SIZE.' / '.$container->NO_SEAL }}" required="">
                         </div>
@@ -111,7 +111,14 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Status Coari</label>
+                        <div class="col-sm-8">
+                            <input type="text" readonly="" name="status_coari_cargo" class="form-control" value="{{ $container->status_coari_cargo }}" required="">
+            </div>
+                    </div>
+                </div>
             </div>
             
         </div>
@@ -712,7 +719,7 @@
                             <button class="btn btn-info" id="btn-get-nopos"><i class="fa fa-download"></i> Get No.POS</button>
                         </div>
                         <div id="btn-group-4" class="btn-group pull-right">
-                            <button class="btn btn-default" id="btn-print-tally" onclick="window.open('{{ route('lcl-manifest-cetak', array('id'=>$container->TCONTAINER_PK,'type'=>'tally')) }}','preview tally sheet','width=600,height=600,menubar=no,status=no,scrollbars=yes');"><i class="fa fa-print"></i> Cetak Tally Sheet</button>
+                            <button class="btn btn-default" id="btn-print-tally" onclick="window.open('{{ route('lcl-manifest-cetak', array('id'=>$container->TCONTAINER_PK,'type'=>'tally')) }}','preview tally sheet','width=800,height=800,menubar=no,status=no,scrollbars=yes');"><i class="fa fa-print"></i> Cetak Tally Sheet</button>
                             <!--<button class="btn btn-default" id="btn-print-log" onclick="window.open('{{ route('lcl-manifest-cetak', array('id'=>$container->TCONTAINER_PK,'type'=>'log')) }}','preview log stripping','width=600,height=600,menubar=no,status=no,scrollbars=yes');"><i class="fa fa-print"></i> Cetak Log Stripping</button>-->
                         </div>
                         <div id="btn-group-5" class="btn-group pull-right">

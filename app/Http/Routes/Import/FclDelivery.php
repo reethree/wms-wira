@@ -14,6 +14,12 @@ Route::group(['prefix' => 'fcl/delivery', 'namespace' => 'Import'], function(){
         'as' => 'fcl-delivery-behandle-ready',
         'uses' => 'FclController@behandleReady'
     ]);
+    // GET DATA SPJM
+    Route::post('/behandle/getdataspjm', [
+        'as' => 'fcl-delivery-behandle-getdataspjm',
+        'uses' => 'FclController@behandleGetDataSpjm'
+    ]);
+    
     // PRINT
     Route::get('/behandle/cetak/{id}', [
         'as' => 'fcl-behandle-cetak',

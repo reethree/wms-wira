@@ -234,6 +234,7 @@
         {{
             GridRender::setGridId("fclContainerReportGrid")
             ->enableFilterToolbar()
+            ->setGridOption('filename', 'FCL_ReportCONT_'.Auth::getUser()->name)
             ->setGridOption('mtype', 'POST')
             ->setGridOption('url', URL::to('/container/grid-data-cy?report=1&_token='.csrf_token()))
             ->setGridOption('rowNum', 20)

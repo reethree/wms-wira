@@ -114,6 +114,7 @@
         {{
             GridRender::setGridId("lcllongstayGrid")
             ->enableFilterToolbar()
+            ->setGridOption('filename', 'LCL_ReportINV_'.Auth::getUser()->name)
             ->setGridOption('mtype', 'POST')
             ->setGridOption('url', URL::to('/lcl/manifest/grid-data?module=longstay&_token='.csrf_token()))
             ->setGridOption('rowNum', 50)
