@@ -958,27 +958,27 @@ class LclController extends Controller
             $data['jamrelease'] = NULL;
         }
         
-        if($manifest->release_bc == 'Y'){
+//        if($manifest->release_bc == 'Y'){
             $data['status_bc'] = 'RELEASE';
             $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
-        }else{
-            if($data['KD_DOK_INOUT'] > 1){
-                $data['status_bc'] = 'HOLD';
-                $data['tglrelease'] = NULL;
-                $data['jamrelease'] = NULL;
-                $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
-            }else{
-                if($manifest->flag_bc == 'Y'){
-                    $data['status_bc'] = 'HOLD';
-                    $data['tglrelease'] = NULL;
-                    $data['jamrelease'] = NULL;
-                    $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
-                }else{
-                    $data['status_bc'] = 'RELEASE';
-                    $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
-                }
-            }
-        }
+//        }else{
+//            if($data['KD_DOK_INOUT'] > 1){
+//                $data['status_bc'] = 'HOLD';
+//                $data['tglrelease'] = NULL;
+//                $data['jamrelease'] = NULL;
+//                $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
+//            }else{
+//                if($manifest->flag_bc == 'Y'){
+//                    $data['status_bc'] = 'HOLD';
+//                    $data['tglrelease'] = NULL;
+//                    $data['jamrelease'] = NULL;
+//                    $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
+//                }else{
+//                    $data['status_bc'] = 'RELEASE';
+//                    $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
+//                }
+//            }
+//        }
         
         $data['TGLSURATJALAN'] = $data['tglrelease'];
         $data['JAMSURATJALAN'] = $data['jamrelease'];

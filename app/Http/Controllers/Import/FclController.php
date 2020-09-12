@@ -796,27 +796,27 @@ class FclController extends Controller
             $data['JAMRELEASE'] = NULL;
         }
         
-        if($container->release_bc == 'Y'){
+//        if($container->release_bc == 'Y'){
             $data['status_bc'] = 'RELEASE';
             $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'active');
-        }else{
-            if($data['KD_DOK_INOUT'] > 1){
-                $data['status_bc'] = 'HOLD';
-                $data['TGLRELEASE'] = NULL;
-                $data['JAMRELEASE'] = NULL;
-                $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
-            }else{
-                if($container->flag_bc == 'Y'){
-                    $data['status_bc'] = 'SEGEL';
-                    $data['TGLRELEASE'] = NULL;
-                    $data['JAMRELEASE'] = NULL;
-                    $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
-                }else{
-                    $data['status_bc'] = 'RELEASE';
-                    $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'active');
-                }
-            }
-        }
+//        }else{
+//            if($data['KD_DOK_INOUT'] > 1){
+//                $data['status_bc'] = 'HOLD';
+//                $data['TGLRELEASE'] = NULL;
+//                $data['JAMRELEASE'] = NULL;
+//                $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
+//            }else{
+//                if($container->flag_bc == 'Y'){
+//                    $data['status_bc'] = 'SEGEL';
+//                    $data['TGLRELEASE'] = NULL;
+//                    $data['JAMRELEASE'] = NULL;
+//                    $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'hold');
+//                }else{
+//                    $data['status_bc'] = 'RELEASE';
+//                    $this->changeBarcodeStatus($container->TCONTAINER_PK, $container->NOCONTAINER, 'Fcl', 'active');
+//                }
+//            }
+//        }
 
         $data['TGLFIAT'] = $data['TGLRELEASE'];
         $data['JAMFIAT'] = $data['JAMRELEASE'];

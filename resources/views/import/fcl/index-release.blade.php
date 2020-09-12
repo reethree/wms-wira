@@ -119,8 +119,8 @@
 //                }
 //            }
                 @role('super-admin')
-                $('#NO_SPPB').removeAttr('disabled');
-                $('#TGL_SPPB').removeAttr('disabled');
+                    $('#NO_SPPB').removeAttr('disabled');
+                    $('#TGL_SPPB').removeAttr('disabled');
                 @else
                     $('#NO_SPPB').attr('disabled','disabled');
                     $('#TGL_SPPB').attr('disabled','disabled');

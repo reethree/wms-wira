@@ -129,8 +129,8 @@
 //                }   
 //            }
                 @role('super-admin')
-                $('#NO_SPPB').removeAttr('disabled');
-                $('#TGL_SPPB').removeAttr('disabled');
+                    $('#NO_SPPB').removeAttr('disabled');
+                    $('#TGL_SPPB').removeAttr('disabled');
                 @else
                     $('#NO_SPPB').attr('disabled','disabled');
                     $('#TGL_SPPB').attr('disabled','disabled');
@@ -237,15 +237,12 @@
                 $('#load_photos').html(html);
             }
             
-            @role('super-admin')
             $('#btn-group-2,#btn-sppb,#btn-photo').enableButtonGroup();
             $('#release-form').enableFormGroup();
             $('#btn-group-4').enableButtonGroup();
             $('#btn-group-5').enableButtonGroup();
             $('#btn-group-6').enableButtonGroup();
-            @endrole
-
-            
+ 
 //            if(rowdata.KD_DOK_INOUT == 1){
                 @role('super-admin')
                     $('#NO_SPPB').removeAttr('disabled');
@@ -275,9 +272,9 @@
                     $('#jamrelease').removeAttr('disabled');
                     $('#NOPOL_RELEASE').removeAttr('disabled');
                 @else
-                $('#tglrelease').attr('disabled','disabled');
-                $('#jamrelease').attr('disabled','disabled');
-                $('#NOPOL_RELEASE').attr('disabled','disabled');
+                    $('#tglrelease').attr('disabled','disabled');
+                    $('#jamrelease').attr('disabled','disabled');
+                    $('#NOPOL_RELEASE').attr('disabled','disabled');
                 @endrole
                 
             }else{
