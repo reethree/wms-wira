@@ -239,39 +239,37 @@ class BarcodeController extends Controller
         
         if($data_barcode) {
         
-        $picture = array();
-        if ($request->hasFile('fileKamera')) {
-            
-            $files = $request->file('fileKamera');
-            
-//            return $file->getClientOriginalName();
-            
-            $destinationPath = base_path() . '/public/uploads/photos/autogate';
-            $i = 1;
-            foreach($files as $file){
-                if($file){
-                    $filename = ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'_'.$file->getClientOriginalName();
-    //                $extension = $file->getClientOriginalExtension();
+            $picture = array();
+            if ($request->hasFile('fileKamera')) {
 
-    //                $filename = date('dmyHis').'_'.$barcode.'_'.ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'.'.$extension;
-                    $picture[] = $filename;
-                    $file->move($destinationPath, $filename);
-                    $i++;
+                $files = $request->file('fileKamera');
+
+    //            return $file->getClientOriginalName();
+
+                $destinationPath = base_path() . '/public/uploads/photos/autogate';
+                $i = 1;
+                foreach($files as $file){
+                    if($file){
+                        $filename = ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'_'.$file->getClientOriginalName();
+        //                $extension = $file->getClientOriginalExtension();
+
+        //                $filename = date('dmyHis').'_'.$barcode.'_'.ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'.'.$extension;
+                        $picture[] = $filename;
+                        $file->move($destinationPath, $filename);
+                        $i++;
+                    }
                 }
-            }
-            
-            if($tipe == 'in'){
-                $data_barcode->photo_in = @serialize($picture);
-            }else{
-                $data_barcode->photo_out = @serialize($picture);
+
+                if($tipe == 'in'){
+                    $data_barcode->photo_in = @serialize($picture);
+                }else{
+                    $data_barcode->photo_out = @serialize($picture);
+                }
+
+                $data_barcode->save();
+
             }
 
-            $data_barcode->save();
-            
-        }
-        
-//        if($data_barcode){
-//            return $data_barcode;
             switch ($data_barcode->ref_type) {
                 case 'Fcl':
                     $model = \App\Models\Containercy::find($data_barcode->ref_id);
@@ -289,7 +287,7 @@ class BarcodeController extends Controller
             if($model){
                 
                 if($data_barcode->ref_action == 'get'){
-//                    if($data_barcode->time_in != NULL){
+                    if($data_barcode->time_in != NULL){
                         // GATEIN
                         $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
                         $model->JAMMASUK = date('H:i:s', strtotime($data_barcode->time_in));
@@ -300,15 +298,12 @@ class BarcodeController extends Controller
                         }
                         $model->UIDMASUK = 'Autogate';
 
-                        if($model->save()){
-                            // Update Manifest If LCL
-                            if($data_barcode->ref_type == 'Lcl'){
-                                \App\Models\Manifest::where('TCONTAINER_FK', $model->TCONTAINER_PK)->update(array('tglmasuk' => $model->TGLMASUK, 'jammasuk' => $model->JAMMASUK));
-                            }
-                            
-                            // Upload Coari Container TPS Online
-                            // Check Coari Exist
-//                            if($ref_number){
+//                        if($model->save()){
+//                            // Update Manifest If LCL
+//                            if($data_barcode->ref_type == 'Lcl'){
+//                                \App\Models\Manifest::where('TCONTAINER_FK', $model->TCONTAINER_PK)->update(array('tglmasuk' => $model->TGLMASUK, 'jammasuk' => $model->JAMMASUK));
+//                            }
+
 //                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                                 $callback = array(
                                     'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
@@ -325,17 +320,13 @@ class BarcodeController extends Controller
                                 );
                                 
                                 return json_encode($callback);
-//                            }else{
-//                                    $coari_id = $this->uploadTpsOnlineCoariCont($data_barcode->ref_type,$data_barcode->ref_id);
-//                                    return redirect()->route('tps-coariCont-upload', $coari_id);
-//                            }
   
-                        }else{
-                            return 'Something wrong!!! Cannot store to database';
-                        }
-//                    }else{
-//                        return 'Time In is NULL';
-//                    }
+//                        }else{
+//                            return 'Something wrong!!! Cannot store to database';
+//                        }
+                    }else{
+                        return 'Time In is NULL';
+                    }
                 }elseif($data_barcode->ref_action == 'release'){
 //                    if($data_barcode->time_out != NULL){
                         // RELEASE
@@ -361,7 +352,7 @@ class BarcodeController extends Controller
                                 $model->photo_release_out = @serialize($picture);
                             }
 
-                            if($model->save()){
+//                            if($model->save()){
 //                                return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                                 $callback = array(
                                     'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
@@ -378,9 +369,9 @@ class BarcodeController extends Controller
                                 );
                                 
                                 return json_encode($callback);
-                            }else{
-                                return 'Something wrong!!! Cannot store to database';
-                            }
+//                            }else{
+//                                return 'Something wrong!!! Cannot store to database';
+//                            }
                         }else{
                             if($request->time_out){
                                 $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
@@ -396,14 +387,10 @@ class BarcodeController extends Controller
                             }else{
                                 $model->photo_release_out = @serialize($picture);
                             }
-                            if($model->save()){
-                                // Check Coari Exist
-//                                if($ref_number){
-//                                    return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-//                                }else{
-//                                    $codeco_id = $this->uploadTpsOnlineCodecoCont($data_barcode->ref_type,$data_barcode->ref_id);
-//                                    return redirect()->route('tps-codecoCont-upload', $codeco_id);
-//                                }
+//                            if($model->save()){
+
+//                          return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
+
                             $callback = array(
                                     'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
                                     'd' => array(
@@ -419,9 +406,9 @@ class BarcodeController extends Controller
                                 );
                                 
                                 return json_encode($callback);
-                            }else{
-                                return 'Something wrong!!! Cannot store to database';
-                            }
+//                            }else{
+//                                return 'Something wrong!!! Cannot store to database';
+//                            }
                         }
 //                    }else{
 //                        return 'Error';
@@ -439,34 +426,25 @@ class BarcodeController extends Controller
                         }else{
                             $model->photo_empty_out = @serialize($picture);
                         }
-                        if($model->save()){
-                            // Check Coari Exist
-//                            if($ref_number){
+//                        if($model->save()){
 //                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-                                $callback = array(
-                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
-                                    'd' => array(
-                                        'nocont' => $model->NOCONTAINER,
-                                        'nopol' => $model->NOPOL_MTY,
-                                        'noplp' => $model->NO_PLP,
-                                        'tglplp' => $model->TGL_PLP,
-                                        'nobc11' => $model->NO_BC11,
-                                        'tglbc11' => $model->TGL_BC11,
-                                        'kegiatan' => 'empty',
-                                        'tipe' => $data_barcode->ref_type
-                                    )
-                                );
-                                
-                                return json_encode($callback);
-//                            }else{
-//                                $codeco_id = $this->uploadTpsOnlineCodecoCont($data_barcode->ref_type,$data_barcode->ref_id);
-//                                return redirect()->route('tps-codecoCont-upload', $codeco_id);
-//                            }
-                        }else{
-                            return 'Something wrong!!! Cannot store to database';
-                        }
+                            $callback = array(
+                                'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
+                                'd' => array(
+                                    'nocont' => $model->NOCONTAINER,
+                                    'nopol' => $model->NOPOL_MTY,
+                                    'noplp' => $model->NO_PLP,
+                                    'tglplp' => $model->TGL_PLP,
+                                    'nobc11' => $model->NO_BC11,
+                                    'tglbc11' => $model->TGL_BC11,
+                                    'kegiatan' => 'empty',
+                                    'tipe' => $data_barcode->ref_type
+                                )
+                            );
+
+                            return json_encode($callback);
 //                    }else{
-//                        
+//                        return 'Something wrong!!! Cannot store to database';
 //                    }
                 }
                 

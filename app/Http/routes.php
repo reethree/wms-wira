@@ -81,6 +81,9 @@
         // Barcode Routes
         require_once 'Routes/RoutesBarcode.php';
         
+        // NLE Routes
+        require_once 'Routes/RoutesNle.php';
+        
         // GLOBAL Routes
         Route::get('/getDataPelabuhan', [
             'as' => 'getDataPelabuhan',
@@ -130,3 +133,9 @@ Route::group(['namespace' => 'Payment'], function(){
         'uses' => 'PaymentController@bniNotification'
     ]);
 });
+
+// SP2 Barcode
+Route::get('/gatepass/print/{type}/{id}', [
+    'as' => 'barcode-print-pdf',
+    'uses' => 'BarcodeController@printBarcodePdf'
+]);

@@ -146,6 +146,13 @@
                         </ul>
                     </li>
                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">NLE <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ route('nle-sp2-index') }}">Data Container</a></li>
+                            <li><a href="{{ route('nle-sp2-doc') }}">Document SP2</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
                         <a href="{{route('barcode-index')}}">Autogate</a>
                     </li>
                 @endif
@@ -444,7 +451,13 @@
                             </li>
                         </ul>
                       </li>
-
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">NLE <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ route('nle-sp2-index') }}">Data Container</a></li>
+                            <li><a href="{{ route('nle-sp2-doc') }}">Document SP2</a></li>
+                        </ul>
+                    </li>
                       <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Invoice <span class="caret"></span></a>
                           <ul class="dropdown-menu" role="manu">
