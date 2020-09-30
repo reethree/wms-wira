@@ -298,11 +298,11 @@ class BarcodeController extends Controller
                         }
                         $model->UIDMASUK = 'Autogate';
 
-//                        if($model->save()){
-//                            // Update Manifest If LCL
-//                            if($data_barcode->ref_type == 'Lcl'){
-//                                \App\Models\Manifest::where('TCONTAINER_FK', $model->TCONTAINER_PK)->update(array('tglmasuk' => $model->TGLMASUK, 'jammasuk' => $model->JAMMASUK));
-//                            }
+                        if($model->save()){
+                            // Update Manifest If LCL
+                            if($data_barcode->ref_type == 'Lcl'){
+                                \App\Models\Manifest::where('TCONTAINER_FK', $model->TCONTAINER_PK)->update(array('tglmasuk' => $model->TGLMASUK, 'jammasuk' => $model->JAMMASUK));
+                            }
 
 //                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                                 $callback = array(
@@ -321,9 +321,9 @@ class BarcodeController extends Controller
                                 
                                 return json_encode($callback);
   
-//                        }else{
-//                            return 'Something wrong!!! Cannot store to database';
-//                        }
+                        }else{
+                            return 'Something wrong!!! Cannot store to database';
+                        }
                     }else{
                         return 'Time In is NULL';
                     }
@@ -352,7 +352,7 @@ class BarcodeController extends Controller
                                 $model->photo_release_out = @serialize($picture);
                             }
 
-//                            if($model->save()){
+                            if($model->save()){
 //                                return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                                 $callback = array(
                                     'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
@@ -369,9 +369,9 @@ class BarcodeController extends Controller
                                 );
                                 
                                 return json_encode($callback);
-//                            }else{
-//                                return 'Something wrong!!! Cannot store to database';
-//                            }
+                            }else{
+                                return 'Something wrong!!! Cannot store to database';
+                            }
                         }else{
                             if($request->time_out){
                                 $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
@@ -387,7 +387,7 @@ class BarcodeController extends Controller
                             }else{
                                 $model->photo_release_out = @serialize($picture);
                             }
-//                            if($model->save()){
+                            if($model->save()){
 
 //                          return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
 
@@ -406,9 +406,9 @@ class BarcodeController extends Controller
                                 );
                                 
                                 return json_encode($callback);
-//                            }else{
-//                                return 'Something wrong!!! Cannot store to database';
-//                            }
+                            }else{
+                                return 'Something wrong!!! Cannot store to database';
+                            }
                         }
 //                    }else{
 //                        return 'Error';
@@ -426,7 +426,7 @@ class BarcodeController extends Controller
                         }else{
                             $model->photo_empty_out = @serialize($picture);
                         }
-//                        if($model->save()){
+                        if($model->save()){
 //                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             $callback = array(
                                 'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
@@ -443,9 +443,9 @@ class BarcodeController extends Controller
                             );
 
                             return json_encode($callback);
-//                    }else{
-//                        return 'Something wrong!!! Cannot store to database';
-//                    }
+                    }else{
+                        return 'Something wrong!!! Cannot store to database';
+                    }
                 }
                 
             }else{
