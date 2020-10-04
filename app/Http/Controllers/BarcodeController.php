@@ -15,6 +15,7 @@ class BarcodeController extends Controller
         $fcl_sb = \App\Models\Containercy::whereIn('status_behandle',array('Ready','Siap Periksa'))->count();
         
         View::share('notif_behandle', array('lcl' => $lcl_sb, 'fcl' => $fcl_sb, 'total' => $lcl_sb+$fcl_sb));
+        ini_set( 'soap.wsdl_cache_enabled', '0' );
     }
     
     public function index()
@@ -203,15 +204,17 @@ class BarcodeController extends Controller
         $server = new \soap_server($server);
         $server->configureWSDL('AutogateService', $ns, url('autogate/service'));
         $server->wsdl->schemaTargetNamespace = $ns;
-        
+        $server->soap_defencoding = 'UTF-8';
+        $server->decode_utf8 = false;
+        $server->encode_utf8 = true;
         $server->register('CheckGatePass', array('barcode' => 'xsd:string'), array('callback'=>'xsd:string'), $ns);     
         $server->register('SendDataGate', array('barcode' => 'xsd:string', 'tipe' => 'xsd:string', 'time' => 'xsd:dateTime', 'fileKamera' => 'xsd:string'), array('callback'=>'xsd:string'), $ns);
         
         $rawPostData = file_get_contents("php://input");
-        return \Response::make($server->service($rawPostData), 200, array('Content-Type' => 'text/xml; charset=ISO-8859-1'));
+//        return \Response::make($server->service($rawPostData), 200, array('Content-Type' => 'text/xml; charset=utf-8'));
         
-//        $server->service(true);
-//        exit();
+        $server->service($rawPostData);
+        exit();
     }
     
     public function autogateCheck(Request $request)
