@@ -119,6 +119,11 @@ Route::post('/autogate/notification', [
     'uses' => 'BarcodeController@notification',
     'as' => 'autogate-notification'
 ]);
+// Autogate WSDL
+Route::any('/autogate/service', [
+    'uses' => 'BarcodeController@autogateWsdlService',
+    'as' => 'autogate-service-wsdl'
+]);
 
 // Behandle Notification
 Route::get('/status-behandle/notification', [

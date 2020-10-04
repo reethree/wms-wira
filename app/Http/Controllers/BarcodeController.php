@@ -196,6 +196,24 @@ class BarcodeController extends Controller
 //        return $pdf->stream('Delivery-Release-Barcode-'.$mainfest->NOHBL.'-'.date('dmy').'.pdf');
     }
     
+    public function autogateWsdlService()
+    {
+        $ns = "http://localhost/";
+        
+        $server = new \soap_server($server);
+        $server->configureWSDL('AutogateService', $ns, url('autogate/service'));
+        $server->wsdl->schemaTargetNamespace = $ns;
+        
+        $server->register('CheckGatePass', array('barcode' => 'xsd:string'), array('callback'=>'xsd:string'), $ns);     
+        $server->register('SendDataGate', array('barcode' => 'xsd:string', 'tipe' => 'xsd:string', 'time' => 'xsd:dateTime', 'fileKamera' => 'xsd:string'), array('callback'=>'xsd:string'), $ns);
+        
+        $rawPostData = file_get_contents("php://input");
+        return \Response::make($server->service($rawPostData), 200, array('Content-Type' => 'text/xml; charset=ISO-8859-1'));
+        
+//        $server->service(true);
+//        exit();
+    }
+    
     public function autogateCheck(Request $request)
     {
         if(isset($request->barcode)) :
@@ -225,7 +243,7 @@ class BarcodeController extends Controller
         $time = $request->time;
         
         if(!isset($barcode) || !isset($tipe) || !isset($time)){
-            return 'Something wrong!!! Some parameters not detected.';
+            return json_encode(array('msg' => 'Something wrong!!! Some parameters not detected.'));
         }
         
         // update barcode
@@ -322,16 +340,16 @@ class BarcodeController extends Controller
                                 return json_encode($callback);
   
                         }else{
-                            return 'Something wrong!!! Cannot store to database';
+                            return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
                         }
                     }else{
-                        return 'Time In is NULL';
+                        return json_encode(array('msg' => 'Time In is NULL'));
                     }
                 }elseif($data_barcode->ref_action == 'release'){
 //                    if($data_barcode->time_out != NULL){
                         // RELEASE
                     if($model->status_bc == 'HOLD' || $model->flag_bc == 'Y'):
-                        return 'Status BC is HOLD or FLAGING, please unlock!!!';
+                        return json_encode(array('msg' => 'Status BC is HOLD or FLAGING, please unlock!!!'));
                     endif;
                     
                         if($data_barcode->ref_type == 'Manifest'){
@@ -370,7 +388,7 @@ class BarcodeController extends Controller
                                 
                                 return json_encode($callback);
                             }else{
-                                return 'Something wrong!!! Cannot store to database';
+                                return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
                             }
                         }else{
                             if($request->time_out){
@@ -407,7 +425,7 @@ class BarcodeController extends Controller
                                 
                                 return json_encode($callback);
                             }else{
-                                return 'Something wrong!!! Cannot store to database';
+                                return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
                             }
                         }
 //                    }else{
@@ -444,15 +462,15 @@ class BarcodeController extends Controller
 
                             return json_encode($callback);
                     }else{
-                        return 'Something wrong!!! Cannot store to database';
+                        return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
                     }
                 }
                 
             }else{
-                return 'Something wrong in Model!!!';
+                return json_encode(array('msg' => 'Something wrong in Model!!!'));
             }
         }else{
-            return 'Barcode not found!!';
+            return json_encode(array('msg' => 'Barcode not found!!'));
         }
     }
 
