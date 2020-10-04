@@ -198,7 +198,7 @@ class BarcodeController extends Controller
     
     public function autogateWsdlService()
     {
-        $ns = "http://localhost/";
+        $ns = "http://wira.wmsinventory.com/";
         
         $server = new \soap_server($server);
         $server->configureWSDL('AutogateService', $ns, url('autogate/service'));
