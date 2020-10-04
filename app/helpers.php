@@ -38,8 +38,17 @@
         $data_barcode = \App\Models\Barcode::where('barcode', $barcode)->first();
         
         if($data_barcode) {
-        
-//            $picture = array();
+            $picture = array();
+            if($fileKamera){
+                $picture = explode('|', $fileKamera);
+                if($tipe == 'in'){
+                    $data_barcode->photo_in = @serialize($picture);
+                }else{
+                    $data_barcode->photo_out = @serialize($picture);
+                }
+
+                $data_barcode->save();
+            }
 //            if ($request->hasFile('fileKamera')) {
 //
 //                $files = $request->file('fileKamera');
@@ -91,11 +100,11 @@
                         // GATEIN
                         $model->TGLMASUK = date('Y-m-d', strtotime($data_barcode->time_in));
                         $model->JAMMASUK = date('H:i:s', strtotime($data_barcode->time_in));
-//                        if($tipe == 'in'){
-//                            $model->photo_get_in = @serialize($picture);
-//                        }else{
-//                            $model->photo_get_out = @serialize($picture);
-//                        }
+                        if($tipe == 'in'){
+                            $model->photo_get_in = @serialize($picture);
+                        }else{
+                            $model->photo_get_out = @serialize($picture);
+                        }
                         $model->UIDMASUK = 'Autogate';
 
                         if($model->save()){
@@ -146,11 +155,11 @@
                                 $model->NAMAEMKL = 'Autogate';
                                 $model->UIDSURATJALAN = 'Autogate';
                             }
-//                            if($tipe == 'in'){
-//                                $model->photo_release_in = @serialize($picture);
-//                            }else{
-//                                $model->photo_release_out = @serialize($picture);
-//                            }
+                            if($tipe == 'in'){
+                                $model->photo_release_in = @serialize($picture);
+                            }else{
+                                $model->photo_release_out = @serialize($picture);
+                            }
 
                             if($model->save()){
 //                                return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
@@ -182,11 +191,11 @@
                                 $model->TGLSURATJALAN = date('Y-m-d', strtotime($data_barcode->time_out));
                                 $model->JAMSURATJALAN = date('H:i:s', strtotime($data_barcode->time_out));
                             }
-//                            if($tipe == 'in'){
-//                                $model->photo_release_in = @serialize($picture);
-//                            }else{
-//                                $model->photo_release_out = @serialize($picture);
-//                            }
+                            if($tipe == 'in'){
+                                $model->photo_release_in = @serialize($picture);
+                            }else{
+                                $model->photo_release_out = @serialize($picture);
+                            }
                             if($model->save()){
 
 //                          return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
@@ -221,11 +230,11 @@
                             $model->JAMBUANGMTY = date('H:i:s', strtotime($data_barcode->time_out));
                             $model->UIDMTY = 'Autogate';
                         }
-//                        if($tipe == 'in'){
-//                            $model->photo_empty_in = @serialize($picture);
-//                        }else{
-//                            $model->photo_empty_out = @serialize($picture);
-//                        }
+                        if($tipe == 'in'){
+                            $model->photo_empty_in = @serialize($picture);
+                        }else{
+                            $model->photo_empty_out = @serialize($picture);
+                        }
                         if($model->save()){
 //                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
                             $callback = array(

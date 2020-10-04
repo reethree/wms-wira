@@ -189,8 +189,12 @@
                     <tr>
                         <td>
                             @if($barcode->photo_in)
-                            <img src="{{url("uploads/photos/autogate/".str_replace('_C2','_C1',$barcode->photo_in))}}" width="400" />
-                            <img src="{{url("uploads/photos/autogate/".$barcode->photo_in)}}" width="400" />
+                            <?php
+                                $imgs = @unserialize($barcode->photo_in);
+                            ?>
+                                @foreach($imgs as $img)
+                                    <img src="{{$img}}" width="400" />
+                                @endforeach
                             @endif
                         </td>
                     </tr>
@@ -200,8 +204,12 @@
                     <tr>
                         <td>
                             @if($barcode->photo_out)
-                            <img src="{{url("uploads/photos/autogate/".str_replace('_C2','_C1',$barcode->photo_out))}}" width="400" />
-                            <img src="{{url("uploads/photos/autogate/".$barcode->photo_out)}}" width="400" />
+                            <?php
+                                $imgs = @unserialize($barcode->photo_out);
+                            ?>
+                                @foreach($imgs as $img)
+                                    <img src="{{$img}}" width="400" />
+                                @endforeach
                             @endif
                         </td>
                     </tr>
