@@ -49,35 +49,6 @@
 
                 $data_barcode->save();
             }
-//            if ($request->hasFile('fileKamera')) {
-//
-//                $files = $request->file('fileKamera');
-//
-//    //            return $file->getClientOriginalName();
-//
-//                $destinationPath = base_path() . '/public/uploads/photos/autogate';
-//                $i = 1;
-//                foreach($files as $file){
-//                    if($file){
-//                        $filename = ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'_'.$file->getClientOriginalName();
-//        //                $extension = $file->getClientOriginalExtension();
-//
-//        //                $filename = date('dmyHis').'_'.$barcode.'_'.ucwords($data_barcode->ref_type).'_'.ucwords($data_barcode->ref_action).'_'.ucwords($tipe).'.'.$extension;
-//                        $picture[] = $filename;
-//                        $file->move($destinationPath, $filename);
-//                        $i++;
-//                    }
-//                }
-//
-//                if($tipe == 'in'){
-//                    $data_barcode->photo_in = @serialize($picture);
-//                }else{
-//                    $data_barcode->photo_out = @serialize($picture);
-//                }
-//
-//                $data_barcode->save();
-//
-//            }
 
             switch ($data_barcode->ref_type) {
                 case 'Fcl':

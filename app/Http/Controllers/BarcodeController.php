@@ -208,7 +208,7 @@ class BarcodeController extends Controller
         $server->decode_utf8 = false;
         $server->encode_utf8 = true;
         $server->register('CheckGatePass', array('barcode' => 'xsd:string'), array('callback'=>'xsd:string'), $ns);     
-        $server->register('SendDataGate', array('barcode' => 'xsd:string', 'tipe' => 'xsd:string', 'time' => 'xsd:dateTime', 'fileKamera' => 'xsd:string'), array('callback'=>'xsd:string'), $ns);
+        $server->register('SendDataGate', array('barcode' => 'xsd:string', 'tipe' => 'xsd:string', 'time' => 'xsd:string', 'fileKamera' => 'xsd:string'), array('callback'=>'xsd:string'), $ns);
         
         $rawPostData = file_get_contents("php://input");
 //        return \Response::make($server->service($rawPostData), 200, array('Content-Type' => 'text/xml; charset=utf-8'));
