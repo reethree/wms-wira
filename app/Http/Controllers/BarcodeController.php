@@ -356,7 +356,7 @@ class BarcodeController extends Controller
                     endif;
                     
                         if($data_barcode->ref_type == 'Manifest'){
-                            if($request->time_out){
+                            if($data_barcode->time_out){
                                 $model->tglrelease = date('Y-m-d', strtotime($data_barcode->time_out));
                                 $model->jamrelease = date('H:i:s', strtotime($data_barcode->time_out));
                                 $model->UIDRELEASE = 'Autogate';
@@ -394,7 +394,7 @@ class BarcodeController extends Controller
                                 return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
                             }
                         }else{
-                            if($request->time_out){
+                            if($data_barcode->time_out){
                                 $model->TGLRELEASE = date('Y-m-d', strtotime($data_barcode->time_out));
                                 $model->JAMRELEASE = date('H:i:s', strtotime($data_barcode->time_out));
                                 $model->UIDKELUAR = 'Autogate';
