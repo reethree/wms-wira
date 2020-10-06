@@ -85,21 +85,23 @@
                             }
 
 //                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-                                $callback = array(
-                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
-                                    'd' => array(
-                                        'nocont' => $model->NOCONTAINER,
-                                        'nopol' => $model->NOPOL,
-                                        'noplp' => $model->NO_PLP,
-                                        'tglplp' => $model->TGL_PLP,
-                                        'nobc11' => $model->NO_BC11,
-                                        'tglbc11' => $model->TGL_BC11,
-                                        'kegiatan' => 'masuk',
-                                        'tipe' => $data_barcode->ref_type
-                                    )
-                                );
+//                                $callback = array(
+//                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
+//                                    'd' => array(
+//                                        'nocont' => $model->NOCONTAINER,
+//                                        'nopol' => $model->NOPOL,
+//                                        'noplp' => $model->NO_PLP,
+//                                        'tglplp' => $model->TGL_PLP,
+//                                        'nobc11' => $model->NO_BC11,
+//                                        'tglbc11' => $model->TGL_BC11,
+//                                        'kegiatan' => 'masuk',
+//                                        'tipe' => $data_barcode->ref_type
+//                                    )
+//                                );
+//                                
+//                                return json_encode($callback);
                                 
-                                return json_encode($callback);
+                                return "nocont:".$model->NOCONTAINER.",nopol:".$model->NOPOL.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:masuk,tipe:".$data_barcode->ref_type;
   
                         }else{
                             return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
@@ -134,21 +136,23 @@
 
                             if($model->save()){
 //                                return $model->NOHBL.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-                                $callback = array(
-                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
-                                    'd' => array(
-                                        'nohbl' => $model->NOHBL,
-                                        'nopol' => $model->NOPOL_RELEASE,
-                                        'noplp' => $model->NO_PLP,
-                                        'tglplp' => $model->TGL_PLP,
-                                        'nobc11' => $model->NO_BC11,
-                                        'tglbc11' => $model->TGL_BC11,
-                                        'kegiatan' => 'keluar',
-                                        'tipe' => $data_barcode->ref_type
-                                    )
-                                );
+//                                $callback = array(
+//                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
+//                                    'd' => array(
+//                                        'nohbl' => $model->NOHBL,
+//                                        'nopol' => $model->NOPOL_RELEASE,
+//                                        'noplp' => $model->NO_PLP,
+//                                        'tglplp' => $model->TGL_PLP,
+//                                        'nobc11' => $model->NO_BC11,
+//                                        'tglbc11' => $model->TGL_BC11,
+//                                        'kegiatan' => 'keluar',
+//                                        'tipe' => $data_barcode->ref_type
+//                                    )
+//                                );
+//                                
+//                                return json_encode($callback);
                                 
-                                return json_encode($callback);
+                                return "nohbl:".$model->NOHBL.",nopol:".$model->NOPOL_RELEASE.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:keluar,tipe:".$data_barcode->ref_type;
                             }else{
                                 return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
                             }
@@ -171,21 +175,22 @@
 
 //                          return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
 
-                            $callback = array(
-                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
-                                    'd' => array(
-                                        'nocont' => $model->NOCONTAINER,
-                                        'nopol' => $model->NOPOL_OUT,
-                                        'noplp' => $model->NO_PLP,
-                                        'tglplp' => $model->TGL_PLP,
-                                        'nobc11' => $model->NO_BC11,
-                                        'tglbc11' => $model->TGL_BC11,
-                                        'kegiatan' => 'keluar',
-                                        'tipe' => $data_barcode->ref_type
-                                    )
-                                );
-                                
-                                return json_encode($callback);
+//                            $callback = array(
+//                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
+//                                    'd' => array(
+//                                        'nocont' => $model->NOCONTAINER,
+//                                        'nopol' => $model->NOPOL_OUT,
+//                                        'noplp' => $model->NO_PLP,
+//                                        'tglplp' => $model->TGL_PLP,
+//                                        'nobc11' => $model->NO_BC11,
+//                                        'tglbc11' => $model->TGL_BC11,
+//                                        'kegiatan' => 'keluar',
+//                                        'tipe' => $data_barcode->ref_type
+//                                    )
+//                                );
+//                                
+//                                return json_encode($callback);
+                                return "nocont:".$model->NOCONTAINER.",nopol:".$model->NOPOL_OUT.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:keluar,tipe:".$data_barcode->ref_type;
                             }else{
                                 return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
                             }
@@ -208,21 +213,22 @@
                         }
                         if($model->save()){
 //                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
-                            $callback = array(
-                                'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
-                                'd' => array(
-                                    'nocont' => $model->NOCONTAINER,
-                                    'nopol' => $model->NOPOL_MTY,
-                                    'noplp' => $model->NO_PLP,
-                                    'tglplp' => $model->TGL_PLP,
-                                    'nobc11' => $model->NO_BC11,
-                                    'tglbc11' => $model->TGL_BC11,
-                                    'kegiatan' => 'empty',
-                                    'tipe' => $data_barcode->ref_type
-                                )
-                            );
-
-                            return json_encode($callback);
+//                            $callback = array(
+//                                'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
+//                                'd' => array(
+//                                    'nocont' => $model->NOCONTAINER,
+//                                    'nopol' => $model->NOPOL_MTY,
+//                                    'noplp' => $model->NO_PLP,
+//                                    'tglplp' => $model->TGL_PLP,
+//                                    'nobc11' => $model->NO_BC11,
+//                                    'tglbc11' => $model->TGL_BC11,
+//                                    'kegiatan' => 'empty',
+//                                    'tipe' => $data_barcode->ref_type
+//                                )
+//                            );
+//
+//                            return json_encode($callback);
+                            return "nocont:".$model->NOCONTAINER.",nopol:".$model->NOPOL_MTY.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:empty,tipe:".$data_barcode->ref_type;
                     }else{
                         return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
                     }
