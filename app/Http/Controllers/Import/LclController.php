@@ -828,6 +828,11 @@ class LclController extends Controller
             $data['photo_empty'] = '';
         }
         
+        if($data['TUJUAN_MTY']){
+            $depomty = DBDepomty::find($data['TUJUAN_MTY']);
+            $data['NAMA_TUJUAN_MTY'] = $depomty->NAMADEPOMTY;
+        }
+        
         $update = DBContainer::where('TCONTAINER_PK', $id)
             ->update($data);
         

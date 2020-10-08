@@ -260,7 +260,7 @@
                     ->addColumn(array('label'=>'Photo Empty','index'=>'photo_empty', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'No. POL MTY','index'=>'NOPOL_MTY','width'=>120,'align'=>'center','hidden'=>false))
                     ->addColumn(array('index'=>'TUJUAN_MTY','hidden'=>true))
-                    ->addColumn(array('label'=>'Tujuan MTY','index'=>'NAMADEPOMTY','width'=>160,'align'=>'left','hidden'=>false))
+                    ->addColumn(array('label'=>'Tujuan MTY','index'=>'NAMA_TUJUAN_MTY','width'=>160,'align'=>'left','hidden'=>false))
         //            ->addColumn(array('label'=>'Layout','index'=>'layout','width'=>80,'align'=>'center','hidden'=>true))
         //            ->addColumn(array('label'=>'UID','index'=>'UID', 'width'=>150))
                     ->addColumn(array('label'=>'Tgl. Entry','index'=>'TGLENTRY','align'=>'center', 'width'=>150))
