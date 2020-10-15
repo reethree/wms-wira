@@ -1086,18 +1086,18 @@ class LclController extends Controller
     
     public function registerPrintPermohonan(Request $request)
     {
-        $data = $request->except(['_token']);
-        $container = DBContainer::find($data['container_id']);
-        $lokasisandar = DBLokasisandar::find($container->TLOKASISANDAR_FK);
+        $container = DBContainer::find($request->id);
+        $header = \DB::table('surat_lcl')->where('kode', $container->KD_TPS_ASAL)->first();
         
-        $result['info'] = $data;
+        $result['no_surat'] = $request->no."/WMP-OPS/SP/".$this->romawi(date('m'))."/".date('Y');
+        $result['sor'] = $request->sor;
         $result['container'] = $container;
-        $result['lokasisandar'] = $lokasisandar;
+        $result['header'] = $header;
         
-        $pdf = \PDF::loadView('print.permohonan', $result);
-        return $pdf->download('Permohonan-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
+//        $pdf = \PDF::loadView('print.permohonan', $result);
+//        return $pdf->download('Permohonan-'.$container->NOCONTAINER.'-'.date('dmy').'.pdf');
         
-//        return view('print.permohonan', $result);
+        return view('print.permohonan', $result);
     }
     
     public function buangmtyCetak($id, $type)

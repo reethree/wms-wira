@@ -1,99 +1,116 @@
 @extends('print')
 
-@section('content')
+@section('title')
+    {{ 'LCL Permohonan Pindah Lokasi' }}
+@stop
 
-<div class="invoice">
-    
-    <div class="row">
-        <div class="col-sm-6 invoice-col">
-            Jakarta, {{ date('d M Y') }}<br /><br />
-            NO.  {{ $info['no_surat'] }}<br /><br />
-            Kepada Yth.<br />
-            {{ $lokasisandar['JABATANPERMOHONAN'] }}<br />
-            {{ $lokasisandar['PERUSAHAANPERMOHONAN'] }}<br /><br />
-            {{ $lokasisandar['PELABUHANPERMOHONAN'] }}<br />
-            {{ $lokasisandar['KOTAPERMOHONAN'] }}<br />
-            {{ $lokasisandar['NEGARAPERMOHONAN'] }}<br /><br/>
-        </div>
-        <div class="col-sm-12 invoice-col">
-            <b>Perihal: {{ $info['prihal_surat'] }}</b><br/><br/>
-        </div>
-        <div class="col-sm-12 invoice-col">
-            Dengan hormat, <br/>
-            <p>Sehubungan dengan kedatangan barang import mitra kami, maka kami memohon agar kiranya dapat melaksanakan Over Brengen (OB) ke Gudang WIRA MITRA PRIMA</p>
-            <p>Adapun data-datanya adalah sebagai berikut:</p>
-        </div>
+@section('content')
+<style>
+    body {font-size: 12px;}
+    table, table tr, table tr td{
+        font-size: 12px;
+    }
+    table {
+        margin-bottom: 10px;
+    }
+    @media print {
+        body {
+            background: #FFF;
+            color: #000;
+        }
+        @page {
+            size: auto;   /* auto is the initial value */
+            font-weight: bold;
+        }
+        .print-btn {
+            display: none;
+        }
+    }
+</style>
+<a href="#" class="print-btn" type="button" onclick="window.print();">PRINT</a>
+
+
+    <div id="details" class="clearfix">
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>Jakarta, {{ date('d F Y') }}</td>
+                <td style="text-align: right;">Nomor : {{$no_surat}}</td>
+            </tr>
+            <tr><td colspan="2"></td></tr>
+            <tr><td colspan="2"></td></tr>
+            <tr>
+                <td colspan="2">Kepada Yth.</td>
+            </tr>
+            <tr>
+                <td>{{$header->attn}}</td>
+            </tr>
+            <tr>
+                <td>{{$header->nama}}</td>
+            </tr>
+            <tr>
+                <td>{{$header->alamat}}</td>
+            </tr>
+        </table>
     </div>
+    <p>Perihal : Permohonan Pindah Lokasi Penimbunan LCL</p>
+    <br />
     
-    <div class="row">
-        <div class="col-xs-8 table-responsive">
-            <table class="table" style="font-size: 14px;">
-                <tbody>
-                    <tr>
-                        <td>NO. B/L</td>
-                        <td> : </td>
-                        <td>{{ $container['NOMBL'] }}</td>
-                    </tr>
-                    <tr>
-                        <td>Vessel</td>
-                        <td> : </td>
-                        <td>{{ $container['VESSEL'] }}</td>
-                    </tr>
-                    <tr>
-                        <td>ETA</td>
-                        <td> : </td>
-                        <td>{{ date("d-m-Y", strtotime($container['ETA'])) }}</td>
-                    </tr>
-                    <tr>
-                        <td>Party</td>
-                        <td> : </td>
-                        <td>{{ "1x".$container['SIZE'] }}</td>
-                    </tr>
-                    <tr>
-                        <td>NO. Container</td>
-                        <td> : </td>
-                        <td>{{ $container['NOCONTAINER'] }}</td>
-                    </tr>
-                    <tr>
-                        <td>Pkgs/Brutto</td>
-                        <td> : </td>
-                        <td>{{ $container['WEIGHT'].' Pkgs' }} / {{ $container['MEAS'].' Brutto' }}</td>
-                    </tr>
-                    <tr>
-                        <td>NO./TGL BC11</td>
-                        <td> : </td>
-                        <td>{{ $container['NO_BC11'].' / '.date("d-M-Y", strtotime($container['TGL_BC11'])) }}</td>
-                    </tr>
-                    <tr>
-                        <td>PSM</td>
-                        <td> : </td>
-                        <td>{{ $container['NAMACONSOLIDATOR'] }}</td>
-                    </tr>
-                    <tr>
-                        <td>SOR</td>
-                        <td> : </td>
-                        <td>{{ $info['sor'] }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <p>Dengan Hormat,</p>
+    <p>Menunjuk surat permohonan Pindah Lokasi Penimbunan LCL dari {{ $container->NAMACONSOLIDATOR }} tanggal {{ date('d F Y', strtotime($container->TGL_PLP)) }}, dengan ini kami mohon diberikan izin agar container tersebut dapat dipindahlokasikan ke gudang PT. Wira Mitra Prima.<br />Dengan data-data sebagai berikut :</p>
+    
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>NO. Container</td>
+                <td> : </td>
+                <td>{{ $container['NOCONTAINER'] }} / {{ $container->SIZE }}'</td>
+            </tr>
+            <tr>
+                <td>Ex. Kapal</td>
+                <td> : </td>
+                <td>{{ $container['VESSEL'] }} VOY. {{ $container['VOY'] }}</td>
+            </tr>
+            <tr>
+                <td>ETA</td>
+                <td> : </td>
+                <td>{{ date("d F Y", strtotime($container['ETA'])) }}</td>
+            </tr>
+            <tr>
+                <td>NO. MB/L</td>
+                <td> : </td>
+                <td>{{ $container['NOMBL'] }}</td>
+            </tr>
+            <tr>
+                <td>NO./TGL BC11</td>
+                <td> : </td>
+                <td>{{ $container['NO_BC11'].' / '.date("d-m-Y", strtotime($container['TGL_BC11'])) }}</td>
+            </tr>
+            <tr>
+                <td>Jumlah Pos</td>
+                <td> : </td>
+                <td>{{ $container->jumlah_bl }} POS</td>
+            </tr>
+            <tr>
+                <td>Jumlah Kemasan/GW</td>
+                <td> : </td>
+                <td>{{ $container['MEAS'].' PKGs' }} / {{ $container['WEIGHT'].' KGs' }}</td>
+            </tr>
+            <tr>
+                <td>S O R</td>
+                <td> : </td>
+                <td>{{ $sor }} %</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <p>Demikian permohonan ini kami buat, atas perhatian dan kerjasamanya kami ucapkan terimakasih.</p>
+    
+    <div style="margin-bottom: 50px;">
+        Hormat Kami,
     </div>
-    
-    <div class="row">
-        <div class="col-sm-12 invoice-col">
-            <p>Demikian surat permohonan kami ini. atas perhatian dan kerjasamanya kami ucapkan terima kasih.</p>
-            <p>Segala biaya / resiko yang timbul menjadi beban pemohon.</p><br />
-        </div>
-        <div class="col-sm-12 invoice-col" style="margin-bottom: 50px;">
-            Hormat Kami,<br />
-            PT. Wira Mitra Prima
-        </div>
-        <div class="col-sm-12 invoice-col">
-            {{ $info['penandatangan'] }}<br />
-            {{ $info['jabatan'] }}
-        </div>
+    <div>
+        <span style="border-bottom: 1px solid;">Muhammad Akbar</span><br />
+        Spv. CY & CFS TPS
     </div>
-    
-</div>
         
 @stop

@@ -367,7 +367,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title">Cetak Permohonan</h4>
             </div>
-            <form class="form-horizontal" action="{{ route('lcl-register-print-permohonan') }}" method="POST">
+            <form class="form-horizontal" action="#" method="POST" id="lcl-permohonan-form">
                 <div class="modal-body"> 
                     <div class="row">
                         <div class="col-md-12">
@@ -375,31 +375,13 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">No. Surat</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="no_surat" class="form-control" > 
+                                    <input type="text" name="no_surat" id="no_surat" class="form-control" > 
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Prihal</label>
+                                <label class="col-sm-3 control-label">SOR %</label>
                                 <div class="col-sm-8">
-                                    <textarea name="prihal_surat" class="form-control" >Permohonan PLP-LCL Ke Gudang Wira Mitra Prima</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">SOR</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="sor" class="form-control" > 
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Penandatangan</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="penandatangan" class="form-control" > 
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Jabatan Pemohon</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="jabatan" class="form-control" > 
+                                    <input type="number" name="sor" id="sor" class="form-control" > 
                                 </div>
                             </div>
                             <input id="container_id" name="container_id" type="hidden" />
@@ -512,6 +494,13 @@
         }else{
             alert('Please Select Container.');
         }
+    });
+    $('#lcl-permohonan-form').on("submit", function(e){
+        e.preventDefault();
+        var id = $("#container_id").val();
+        var no = $("#no_surat").val();
+        var sor = $("#sor").val();
+        window.open("{{ route('lcl-register-print-permohonan', array('','','')) }}/"+id+"/"+no+"/"+sor,"preview lcl permohonan","width=800,height=800,menubar=no,status=no,scrollbars=yes");   
     });
     $('#upload-file').on("click", function(){
         $('#upload-file-modal').modal('show');
