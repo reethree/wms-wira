@@ -504,7 +504,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title">Cetak Permohonan</h4>
             </div>
-            <form class="form-horizontal" action="{{ route('lcl-register-print-permohonan') }}" method="POST">
+            <form class="form-horizontal" action="" method="POST">
                 <div class="modal-body"> 
                     <div class="row">
                         <div class="col-md-12">
