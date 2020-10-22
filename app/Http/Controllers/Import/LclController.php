@@ -1090,7 +1090,12 @@ class LclController extends Controller
         $header = \DB::table('surat_lcl')->where('kode', $container->KD_TPS_ASAL)->first();
         
         $result['no_surat'] = $request->no."/WMP-OPS/SP/".$this->romawi(date('m'))."/".date('Y');
-        $result['sor'] = $request->sor;
+        $result['data'] = array(
+            'sor' => $request->sor,
+            'tgl_surat' => $request->tgl,
+            'no_bc' => $request->no_bc,
+            'tgl_bc'=> $request->tgl_bc
+        );
         $result['container'] = $container;
         $result['header'] = $header;
         

@@ -379,6 +379,34 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. Surat</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tgl_surat" id="tgl_surat" class="form-control pull-right datepicker" value="{{ date('Y-m-d') }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. BC11</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="no_bc" id="no_bc" class="form-control" value="{{ $joborder->TNO_BC11 }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. BC11</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tgl_bc" id="tgl_bc" class="form-control pull-right datepicker" value="{{ $joborder->TTGL_BC11 }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">SOR %</label>
                                 <div class="col-sm-8">
                                     <input type="number" name="sor" id="sor" class="form-control" > 
@@ -499,8 +527,11 @@
         e.preventDefault();
         var id = $("#container_id").val();
         var no = $("#no_surat").val();
+        var tgl = $("#tgl_surat").val();
+        var no_bc = $("#no_bc").val();
+        var tgl_bc = $("#tgl_bc").val();
         var sor = $("#sor").val();
-        window.open("{{ route('lcl-register-print-permohonan', array('','','')) }}/"+id+"/"+no+"/"+sor,"preview lcl permohonan","width=800,height=800,menubar=no,status=no,scrollbars=yes");   
+        window.open("{{ route('lcl-register-print-permohonan', array('','','','','','')) }}/"+id+"/"+no+"/"+sor+"/"+tgl+"/"+no_bc+"/"+tgl_bc,"preview lcl permohonan","width=800,height=800,menubar=no,status=no,scrollbars=yes");   
     });
     $('#upload-file').on("click", function(){
         $('#upload-file-modal').modal('show');

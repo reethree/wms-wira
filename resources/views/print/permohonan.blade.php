@@ -56,7 +56,7 @@
     <br />
     
     <p>Dengan Hormat,</p>
-    <p>Menunjuk surat permohonan Pindah Lokasi Penimbunan LCL dari {{ $container->NAMACONSOLIDATOR }} tanggal {{ date('d F Y', strtotime($container->TGL_PLP)) }}, dengan ini kami mohon diberikan izin agar container tersebut dapat dipindahlokasikan ke gudang PT. Wira Mitra Prima.<br />Dengan data-data sebagai berikut :</p>
+    <p>Menunjuk surat permohonan Pindah Lokasi Penimbunan LCL dari {{ $container->NAMACONSOLIDATOR }} tanggal {{ date('d F Y', strtotime($data['tgl_surat'])) }}, dengan ini kami mohon diberikan izin agar container tersebut dapat dipindahlokasikan ke gudang PT. Wira Mitra Prima.<br />Dengan data-data sebagai berikut :</p>
     
     <table class="table">
         <tbody>
@@ -83,7 +83,7 @@
             <tr>
                 <td>NO./TGL BC11</td>
                 <td> : </td>
-                <td>{{ $container['NO_BC11'].' / '.date("d-m-Y", strtotime($container['TGL_BC11'])) }}</td>
+                <td>{{ $data['no_bc'].' / '.date("d-m-Y", strtotime($data['tgl_bc'])) }}</td>
             </tr>
             <tr>
                 <td>Jumlah Pos</td>
@@ -98,14 +98,14 @@
             <tr>
                 <td>S O R</td>
                 <td> : </td>
-                <td>{{ $sor }} %</td>
+                <td>{{ $data['sor'] }} %</td>
             </tr>
         </tbody>
     </table>
     
-    <p>Demikian permohonan ini kami buat, atas perhatian dan kerjasamanya kami ucapkan terimakasih.</p>
-    
-    <div style="margin-bottom: 50px;">
+    <p>Demikian permohonan ini kami buat, atas perhatian dan kerjasamanya diucapkan terimakasih.</p>
+    <br />
+    <div style="margin-bottom: 100px;">
         Hormat Kami,
     </div>
     <div>
