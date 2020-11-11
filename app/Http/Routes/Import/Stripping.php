@@ -14,7 +14,10 @@ Route::group(['prefix' => 'lcl/realisasi', 'namespace' => 'Import'], function(){
         'as' => 'lcl-realisasi-stripping-approve',
         'uses' => 'LclController@strippingApprove'
     ]);
-    
+    Route::get('/stripping/izin/{id}', [
+        'as' => 'lcl-realisasi-stripping-izin',
+        'uses' => 'LclController@strippingIzin'
+    ]);
     Route::get('/stripping/view-photo-bl/{id}', [
         'as' => 'lcl-realisasi-stripping-view-photo-bl',
         'uses' => 'LclController@strippingViewPhotoBl'

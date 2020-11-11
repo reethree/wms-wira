@@ -749,6 +749,18 @@ class LclController extends Controller
         
     }
     
+    public function strippingIzin($id)
+    {
+        $update = DBContainer::where('TCONTAINER_PK', $id)
+            ->update(["izin_stripping" => 'Y', "tgl_izin" => date('Y-m-d H:i:s')]);
+        
+        if($update){     
+            return json_encode(array('success' => true, 'message' => 'Izin stripping telah di berikan!'));
+        }
+        
+        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+    }
+    
     public function strippingApprove($id)
     {
         $dataupdate = array();
@@ -963,27 +975,27 @@ class LclController extends Controller
             $data['jamrelease'] = NULL;
         }
         
-//        if($manifest->release_bc == 'Y'){
+        if($manifest->release_bc == 'Y'){
             $data['status_bc'] = 'RELEASE';
             $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
-//        }else{
-//            if($data['KD_DOK_INOUT'] > 1){
-//                $data['status_bc'] = 'HOLD';
-//                $data['tglrelease'] = NULL;
-//                $data['jamrelease'] = NULL;
-//                $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
-//            }else{
-//                if($manifest->flag_bc == 'Y'){
-//                    $data['status_bc'] = 'HOLD';
-//                    $data['tglrelease'] = NULL;
-//                    $data['jamrelease'] = NULL;
-//                    $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
-//                }else{
-//                    $data['status_bc'] = 'RELEASE';
-//                    $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
-//                }
-//            }
-//        }
+        }else{
+            if($data['KD_DOK_INOUT'] > 1){
+                $data['status_bc'] = 'HOLD';
+                $data['tglrelease'] = NULL;
+                $data['jamrelease'] = NULL;
+                $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
+            }else{
+                if($manifest->flag_bc == 'Y'){
+                    $data['status_bc'] = 'HOLD';
+                    $data['tglrelease'] = NULL;
+                    $data['jamrelease'] = NULL;
+                    $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'hold');
+                }else{
+                    $data['status_bc'] = 'RELEASE';
+                    $this->changeBarcodeStatus($manifest->TMANIFEST_PK, $manifest->NOHBL, 'Manifest', 'active');
+                }
+            }
+        }
         
         $data['TGLSURATJALAN'] = $data['tglrelease'];
         $data['JAMSURATJALAN'] = $data['jamrelease'];

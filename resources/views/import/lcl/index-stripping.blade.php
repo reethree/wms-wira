@@ -16,11 +16,19 @@
             var cl = ids[i];
             var rowdata = $('#lclStrippingGrid').getRowData(cl);
             
-            if(rowdata.STARTSTRIPPING !== ''){
-                apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" disabled><i class="fa fa-close"></i> Stripping</button>';
-            }else{
-                apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){ approveStripping('+cl+'); }else{return false;};"><i class="fa fa-check"></i> Stripping</button>';
-            }
+            @role('bea-cukai')
+                if(rowdata.STARTSTRIPPING !== ''){
+                    apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" disabled><i class="fa fa-close"></i> </button>';
+                }else{
+                    apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin akan memberikan izin stripping ?\')){ izinStripping('+cl+'); }else{return false;};"><i class="fa fa-check"></i> Izinkan</button>';
+                }
+            @else
+                if(rowdata.STARTSTRIPPING == '' && rowdata.izin_stripping == 'Y'){
+                    apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" data-id="'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){ approveStripping('+cl+'); }else{return false;};"><i class="fa fa-check"></i> Stripping</button>'; 
+                }else{
+                    apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" disabled><i class="fa fa-close"></i> </button>';
+                }
+            @endrole
             
             if(rowdata.photo_gatein_extra != '' || rowdata.photo_stripping != ''){
                 vi = '<button style="margin:5px;" class="btn btn-default btn-xs approve-manifest-btn" data-id="'+cl+'" onclick="viewPhoto('+cl+')"><i class="fa fa-photo"></i> View Photo</button>';
@@ -30,6 +38,32 @@
             
             jQuery("#lclStrippingGrid").jqGrid('setRowData',ids[i],{action:apv, photo:vi}); 
         } 
+    }
+    
+    function izinStripping($id)
+    {
+        $.ajax({
+            type: 'GET',
+            dataType : 'json',
+            url: '{{route("lcl-realisasi-stripping-izin","")}}/'+$id,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Something went wrong, please try again later.');
+            },
+            beforeSend:function()
+            {},
+            success:function(json)
+            {
+                if(json.success) {
+                    $('#btn-toolbar').showAlertAfterElement('alert-success alert-custom', json.message, 5000);
+                } else {
+                    $('#btn-toolbar').showAlertAfterElement('alert-danger alert-custom', json.message, 5000);
+                }
+
+                //Triggers the "Refresh" button funcionality.
+                $('#btn-refresh').click();
+            }
+        });
     }
     
     function approveStripping($id)
@@ -176,6 +210,11 @@
                 $('#btn-group-2').disabledButtonGroup();
                 $('#stripping-form').disabledFormGroup();
             }
+            
+            if(rowdata.izin_stripping == 'N'){
+                $('#btn-group-2').disabledButtonGroup();
+                $('#stripping-form').disabledFormGroup();
+            }
 
         });
         
@@ -264,6 +303,7 @@
                     ->setGridEvent('gridComplete', 'gridCompleteEvent')
                     ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                     ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>100, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+                    ->addColumn(array('label'=>'Izin','index'=>'izin_stripping', 'width'=>70,'align'=>'center','hidden'=>false))
                     ->addColumn(array('label'=>'Photo','index'=>'photo', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->addColumn(array('key'=>true,'index'=>'TCONTAINER_PK','hidden'=>true))
                     ->addColumn(array('label'=>'No. Container','index'=>'NOCONTAINER','width'=>150))
@@ -303,6 +343,7 @@
                     ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150,'align'=>'center','search'=>false))
                     ->addColumn(array('label'=>'Photo Extra','index'=>'photo_gatein_extra', 'width'=>70,'hidden'=>true))
                     ->addColumn(array('label'=>'Photo Stripping','index'=>'photo_stripping', 'width'=>70,'hidden'=>true))
+                    
         //            ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
                     ->renderGrid()
                 }}
