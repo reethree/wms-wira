@@ -19,8 +19,10 @@
             @role('bea-cukai')
                 if(rowdata.STARTSTRIPPING !== ''){
                     apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" disabled><i class="fa fa-close"></i> </button>';
+                }else if(rowdata.izin_stripping == 'Y'){
+                    apv = '<button style="margin:5px;" class="btn btn-warning btn-xs approve-stripping-btn" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin akan membatalkan izin stripping ?\')){ izinStripping('+cl+',\'N\'); }else{return false;};"><i class="fa fa-close"></i> Batal</button>';
                 }else{
-                    apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin akan memberikan izin stripping ?\')){ izinStripping('+cl+'); }else{return false;};"><i class="fa fa-check"></i> Izinkan</button>';
+                    apv = '<button style="margin:5px;" class="btn btn-danger btn-xs approve-stripping-btn" data-id="'+cl+'" onclick="if (confirm(\'Apakah anda yakin akan memberikan izin stripping ?\')){ izinStripping('+cl+',\'Y\'); }else{return false;};"><i class="fa fa-check"></i> Izinkan</button>';
                 }
             @else
                 if(rowdata.STARTSTRIPPING == '' && rowdata.izin_stripping == 'Y'){
@@ -40,12 +42,12 @@
         } 
     }
     
-    function izinStripping($id)
+    function izinStripping($id,$action)
     {
         $.ajax({
             type: 'GET',
             dataType : 'json',
-            url: '{{route("lcl-realisasi-stripping-izin","")}}/'+$id,
+            url: '{{route("lcl-realisasi-stripping-izin",array("",""))}}/'+$id+'/'+$action,
             error: function (jqXHR, textStatus, errorThrown)
             {
                 alert('Something went wrong, please try again later.');

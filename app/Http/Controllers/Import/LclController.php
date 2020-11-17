@@ -749,13 +749,13 @@ class LclController extends Controller
         
     }
     
-    public function strippingIzin($id)
+    public function strippingIzin($id,$action)
     {
         $update = DBContainer::where('TCONTAINER_PK', $id)
-            ->update(["izin_stripping" => 'Y', "tgl_izin" => date('Y-m-d H:i:s')]);
+            ->update(["izin_stripping" => $action, "tgl_izin" => date('Y-m-d H:i:s')]);
         
         if($update){     
-            return json_encode(array('success' => true, 'message' => 'Izin stripping telah di berikan!'));
+            return json_encode(array('success' => true, 'message' => 'Izin stripping telah di update!'));
         }
         
         return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
