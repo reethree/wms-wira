@@ -9,6 +9,7 @@
     //            Expired
                 $exp_date = $data->expired;
                 if(date('Y-m-d') > $exp_date){
+                    $data_barcode->status = 'expired';
                     return json_encode(array('status' => 'expired', 'code' => 'e'));
                 }
 
@@ -100,7 +101,6 @@
 //                                );
 //                                
 //                                return json_encode($callback);
-                                
                                 return "nocont:".$model->NOCONTAINER.",nopol:".$model->NOPOL.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:masuk,tipe:".$data_barcode->ref_type;
   
                         }else{
@@ -112,9 +112,11 @@
                 }elseif($data_barcode->ref_action == 'release'){
 //                    if($data_barcode->time_out != NULL){
                         // RELEASE
-                    if($model->status_bc == 'HOLD' || $model->flag_bc == 'Y'):
-                        return json_encode(array('msg' => 'Status BC is HOLD or FLAGING, please unlock!!!'));
-                    endif;
+                        if($tipe == 'out'){
+                            if($model->status_bc == 'HOLD' || $model->flag_bc == 'Y'):
+                                return json_encode(array('msg' => 'Status BC is HOLD or FLAGING, please unlock!!!'));
+                            endif;
+                        }
                     
                         if($data_barcode->ref_type == 'Manifest'){
                             if($data_barcode->time_out){
@@ -151,7 +153,10 @@
 //                                );
 //                                
 //                                return json_encode($callback);
-                                
+                                if($tipe == 'out'){
+                                    $data_barcode->status = 'inactive';
+                                    $data_barcode->save();
+                                }
                                 return "nohbl:".$model->NOHBL.",nopol:".$model->NOPOL_RELEASE.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:keluar,tipe:".$data_barcode->ref_type;
                             }else{
                                 return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
@@ -190,6 +195,10 @@
 //                                );
 //                                
 //                                return json_encode($callback);
+                                if($tipe == 'out'){
+                                    $data_barcode->status = 'inactive';
+                                    $data_barcode->save();
+                                }
                                 return "nocont:".$model->NOCONTAINER.",nopol:".$model->NOPOL_OUT.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:keluar,tipe:".$data_barcode->ref_type;
                             }else{
                                 return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
@@ -228,12 +237,16 @@
 //                            );
 //
 //                            return json_encode($callback);
+                            if($tipe == 'out'){
+                                $data_barcode->status = 'inactive';
+                                $data_barcode->save();
+                            }
                             return "nocont:".$model->NOCONTAINER.",nopol:".$model->NOPOL_MTY.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:empty,tipe:".$data_barcode->ref_type;
                     }else{
                         return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
                     }
                 }
-                
+
             }else{
                 return json_encode(array('msg' => 'Something wrong in Model!!!'));
             }
