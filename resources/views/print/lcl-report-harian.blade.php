@@ -42,7 +42,7 @@
         <div class="row invoice-info">
             <div style="text-align: center;">
                 <h3 style="margin-bottom: 0;">LAPORAN PEMASUKAN CARGO GUDANG LCL IMPOR</h3>
-                <h4 style="margin-bottom: 0;margin-top: 0;">GUDANG TPS LAUTAN TIRTA TRANSPORTAMA</h4>
+                <h4 style="margin-bottom: 0;margin-top: 0;">GUDANG TPS PT. WIRA MITRA PRIMA</h4>
                 <p style="margin-top: 0;font-size: 14px;">Tanggal {{date('d F Y', strtotime($date))}}</p>
             </div>
         </div>
@@ -121,7 +121,7 @@
         <div class="row invoice-info">
             <div style="text-align: center;">
                 <h3 style="margin-bottom: 0;">LAPORAN PENGELUARAN CARGO GUDANG LCL IMPOR</h3>
-                <h4 style="margin-bottom: 0;margin-top: 0;">GUDANG TPS LAUTAN TIRTA TRANSPORTAMA</h4>
+                <h4 style="margin-bottom: 0;margin-top: 0;">GUDANG TPS PT. WIRA MITRA PRIMA</h4>
                 <p style="margin-top: 0;font-size: 14px;">Tanggal {{date('d F Y', strtotime($date))}}</p>
             </div>
         </div>
