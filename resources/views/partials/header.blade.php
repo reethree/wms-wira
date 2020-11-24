@@ -368,7 +368,7 @@
                                       <!--<li><a href="{{ route('fcl-report-harian') }}">Delivery Harian</a></li>-->
                                       <li><a href="{{ route('fcl-report-rekap') }}">Report Container</a></li>
                                       <li><a href="{{ route('fcl-report-longstay') }}">Inventory</a></li>
-                                      <li><a href="{{ route('lcl-report-harian') }}">Daily Report</a></li>
+                                      <li><a href="{{ route('fcl-report-harian') }}">Daily Report</a></li>
                                       <!--<li><a href="{{ route('fcl-report-stock') }}">Rekap Stock</a></li>-->
           <!--                                <li>
                                               <a href="">Utilitas Gudang Harian</a>
