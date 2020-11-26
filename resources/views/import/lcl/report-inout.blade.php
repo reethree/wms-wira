@@ -83,16 +83,16 @@
             success:function(json)
             {
                 var html_gate = '';
-                if(json.data.photo_get_in){
+                if(json.data.photo_release_in){
                     var i;
-                    var p_gate_in = json.data.photo_get_in;
+                    var p_gate_in = json.data.photo_release_in;
                     for (i = 0; i < p_gate_in.length; i++) {
                       html_gate += '<img src="'+p_gate_in[i]+'" style="width: 200px;padding:5px;" />';
                     }
                 }
-                if(json.data.photo_get_out){
+                if(json.data.photo_release_out){
                     var i;
-                    var p_gate_out = json.data.photo_get_out;
+                    var p_gate_out = json.data.photo_release_out;
                     for (i = 0; i < p_gate_out.length; i++) {
                       html_gate += '<img src="'+p_gate_out[i]+'" style="width: 200px;padding:5px;" />';
                     }
