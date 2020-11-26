@@ -47,14 +47,23 @@
                 var html_in = '';
                 var html_out = '';
                 var html_container = '';
-                
                 if(json.data.photo_get_in){
-                    html_in += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_get_in+'" style="width: 200px;padding:5px;" />';
+                    var i;
+                    var p_gate_in = json.data.photo_get_in;
+                    for (i = 0; i < p_gate_in.length; i++) {
+                      html_in += '<img src="'+p_gate_in[i]+'" style="width: 200px;padding:5px;" />';
+                    }
                 }
+                if(json.data.photo_get_out){
+                    var i;
+                    var p_gate_out = json.data.photo_get_out;
+                    for (i = 0; i < p_gate_out.length; i++) {
+                      html_out += '<img src="'+p_gate_out[i]+'" style="width: 200px;padding:5px;" />';
+                    }
+                }
+
                 $('#gatein-photo').html(html_in);
-                if(json.data.photo_empty_in){
-                    html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_empty_in+'" style="width: 200px;padding:5px;" />';
-                }
+
                 $('#gateout-photo').html(html_out);
                 
                 if(json.data.photo_gatein_extra){

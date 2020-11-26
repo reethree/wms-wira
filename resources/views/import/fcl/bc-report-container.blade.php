@@ -147,17 +147,26 @@
                 var html_out_container = '';
                 
                 if(json.data.photo_get_in){
-                    html_in += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_get_in.replace("C2", "C1")+'" style="width: 200px;padding:5px;" />';
-                    html_in += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_get_in+'" style="width: 200px;padding:5px;" />';
+                    var i;
+                    var p_gate_in = json.data.photo_get_in;
+                    for (i = 0; i < p_gate_in.length; i++) {
+                      html_in += '<img src="'+p_gate_in[i]+'" style="width: 200px;padding:5px;" />';
+                    }
                 }
                 $('#gatein-photo').html(html_in);
                 if(json.data.photo_release_in){
-                    html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_in.replace("C2", "C1")+'" style="width: 200px;padding:5px;" />';
-                    html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_in+'" style="width: 200px;padding:5px;" />';
+                    var i;
+                    var p_release_in = json.data.photo_release_in;
+                    for (i = 0; i < p_release_in.length; i++) {
+                      html_out += '<img src="'+p_release_in[i]+'" style="width: 200px;padding:5px;" />';
+                    }
                 }
                 if(json.data.photo_release_out){
-                    html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_out.replace("C2", "C1")+'" style="width: 200px;padding:5px;" />';
-                    html_out += '<img src="{{url("uploads/photos/autogate")}}/'+json.data.photo_release_out+'" style="width: 200px;padding:5px;" />';
+                    var i;
+                    var p_release_out = json.data.photo_release_out;
+                    for (i = 0; i < p_release_out.length; i++) {
+                      html_out += '<img src="'+p_release_out[i]+'" style="width: 200px;padding:5px;" />';
+                    }
                 }
                 $('#gateout-photo').html(html_out);
                 

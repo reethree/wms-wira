@@ -1219,10 +1219,12 @@ class LclController extends Controller
         $manifest = DBManifest::find($manifestID);
         $container = DBContainer::find($manifest->TCONTAINER_FK);
         
-        $manifest->photo_get_in = $container->photo_get_in;
-        $manifest->photo_get_out = $container->photo_get_out;
+        $manifest->photo_get_in = @unserialize($container->photo_get_in);
+        $manifest->photo_get_out = @unserialize($container->photo_get_out);
         $manifest->photo_gatein_extra = $container->photo_gatein_extra;
         $manifest->photo_hasil_stripping = $container->photo_stripping;
+        $manifest->photo_release_in = @unserialize($manifest->photo_release_in);
+        $manifest->photo_release_out = @unserialize($manifest->photo_release_out);
         
         return json_encode(array('success' => true, 'data' => $manifest));
     }
@@ -1305,6 +1307,13 @@ class LclController extends Controller
     public function reportContainerViewPhoto($containerID)
     {
         $container = DBContainer::find($containerID);
+        
+        if($container->photo_get_in){
+            $container->photo_get_in = @unserialize($container->photo_get_in);
+        }
+        if($container->photo_get_out){
+            $container->photo_get_out = @unserialize($container->photo_get_out);
+        }
         
         return json_encode(array('success' => true, 'data' => $container));
     }

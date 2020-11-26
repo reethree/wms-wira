@@ -1139,7 +1139,18 @@ class FclController extends Controller
     public function reportRekapViewPhoto($containerID)
     {
         $container = DBContainer::find($containerID);
-        
+        if($container->photo_get_in){
+            $container->photo_get_in = @unserialize($container->photo_get_in);
+        }
+        if($container->photo_get_out){
+            $container->photo_get_out = @unserialize($container->photo_get_out);
+        }
+        if($container->photo_release_in){
+            $container->photo_release_in = @unserialize($container->photo_release_in);
+        }
+        if($container->photo_release_out){
+            $container->photo_release_out = @unserialize($container->photo_release_out);
+        }
         return json_encode(array('success' => true, 'data' => $container));
     }
     
