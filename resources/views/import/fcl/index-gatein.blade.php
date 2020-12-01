@@ -490,7 +490,7 @@
                             <select class="form-control select2" id="location_id" name="location_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                                 <option value="">Choose Location</option>
                                 @foreach($locations as $location)
-                                    <option value="{{ $location->id }}">{{ $location->name.' ('.$location->type.')' }}</option>
+                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
                                 @endforeach
                             </select>
                         </div>
