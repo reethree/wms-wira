@@ -422,12 +422,12 @@ class InvoiceController extends Controller
             return view('errors.no-access');
         }
         
-        $data['page_title'] = "Invoice NCT1";
+        $data['page_title'] = "Invoice";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'Invoice NCT1'
+                'title' => 'Invoice'
             ]
         ];        
 
@@ -440,12 +440,12 @@ class InvoiceController extends Controller
             return view('errors.no-access');
         }
         
-        $data['page_title'] = "Edit Invoice NCT1";
+        $data['page_title'] = "Edit Invoice";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => route('invoice-nct-index'),
-                'title' => 'Invoice NCT1'
+                'title' => 'Invoice'
             ],
             [
                 'action' => '',
@@ -478,10 +478,10 @@ class InvoiceController extends Controller
         $data['gerakan'] = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $data['invoice']->id)->orderBy('lokasi_sandar', 'ASC')->get();
         $data['tarif'] = \App\Models\InvoiceTarifNct::get();
         $data['terbilang'] = ucwords($this->terbilang($data['invoice']->total))." Rupiah";
-//        return view('print.invoice-nct')->with($data);
-        $pdf = \PDF::loadView('print.invoice-nct', $data)->setPaper('legal');
+        return view('print.invoice-nct')->with($data);
+//        $pdf = \PDF::loadView('print.invoice-nct', $data)->setPaper('legal');
         
-        return $pdf->stream($data['invoice']->no_invoice.'.pdf');
+//        return $pdf->stream($data['invoice']->no_invoice.'.pdf');
     }
     
     public function tarifNctIndex()
@@ -490,12 +490,12 @@ class InvoiceController extends Controller
             return view('errors.no-access');
         }
         
-        $data['page_title'] = "Daftar Tarif NCT1";
+        $data['page_title'] = "Daftar Tarif";
         $data['page_description'] = "";
         $data['breadcrumbs'] = [
             [
                 'action' => '',
-                'title' => 'Daftar Tarif NCT1'
+                'title' => 'Daftar Tarif'
             ]
         ];        
         
@@ -509,7 +509,7 @@ class InvoiceController extends Controller
         }
         
         // Create Roles Access
-        $this->insertRoleAccess(array('name' => 'Index Invoice Release NCT1', 'slug' => 'show.invoice.releasenct.index', 'description' => ''));
+        $this->insertRoleAccess(array('name' => 'Index Invoice Release', 'slug' => 'show.invoice.releasenct.index', 'description' => ''));
         
         $data['page_title'] = "Invoice Release FCL";
         $data['page_description'] = "";
