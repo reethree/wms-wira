@@ -826,6 +826,12 @@
                             <input type="text" id="KD_TPS_ASAL" name="KD_TPS_ASAL" class="form-control" readonly>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Status Codeco</label>
+                        <div class="col-sm-5">
+                            <input type="text" id="status_codeco" class="form-control" readonly>
+                        </div>
+                    </div>
 <!--                    <div class="form-group">
                         <label class="col-sm-3 control-label">Consolidator</label>
                         <div class="col-sm-8">
