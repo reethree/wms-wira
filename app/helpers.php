@@ -9,7 +9,8 @@
     //            Expired
                 $exp_date = $data->expired;
                 if(date('Y-m-d') > $exp_date){
-                    $data_barcode->status = 'expired';
+                    $data->status = 'expired';
+                    $data->save();
                     return json_encode(array('status' => 'expired', 'code' => 'e'));
                 }
 
@@ -85,6 +86,13 @@
                                 \App\Models\Manifest::where('TCONTAINER_FK', $model->TCONTAINER_PK)->update(array('tglmasuk' => $model->TGLMASUK, 'jammasuk' => $model->JAMMASUK));
                             }
 
+                            if(!empty($model->NO_PLP) && !empty($model->NO_BC11)){
+                                if(!empty($model->TGLMASUK) && $model->TGLMASUK != '1970-01-01'){
+                                    $model->status_coari = 'Ready';
+                                    $model->save();
+                                }
+                            }
+
 //                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
 //                                $callback = array(
 //                                    'm' => $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated',
@@ -157,6 +165,10 @@
                                     $data_barcode->status = 'inactive';
                                     $data_barcode->save();
                                 }
+                                if(!empty($model->tglrelease) && $model->jamrelease != '1970-01-01'){
+                                    $model->status_codeco = 'Ready';
+                                    $model->save();
+                                }
                                 return "nohbl:".$model->NOHBL.",nopol:".$model->NOPOL_RELEASE.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:keluar,tipe:".$data_barcode->ref_type;
                             }else{
                                 return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
@@ -199,6 +211,10 @@
                                     $data_barcode->status = 'inactive';
                                     $data_barcode->save();
                                 }
+                                if(!empty($model->TGLRELEASE) && $model->TGLRELEASE != '1970-01-01'){
+                                    $model->status_codeco = 'Ready';
+                                    $model->save();
+                                }
                                 return "nocont:".$model->NOCONTAINER.",nopol:".$model->NOPOL_OUT.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:keluar,tipe:".$data_barcode->ref_type;
                             }else{
                                 return json_encode(array('msg' => 'Something wrong!!! Cannot store to database'));
@@ -240,6 +256,10 @@
                             if($tipe == 'out'){
                                 $data_barcode->status = 'inactive';
                                 $data_barcode->save();
+                            }
+                            if(!empty($model->TGLBUANGMTY) && $model->TGLBUANGMTY != '1970-01-01'){
+                                $model->status_codeco = 'Ready';
+                                $model->save();
                             }
                             return "nocont:".$model->NOCONTAINER.",nopol:".$model->NOPOL_MTY.",noplp:".$model->NO_PLP.",tglplp:".$model->TGL_PLP.",nobc11:".$model->NO_BC11.",tglbc11:".$model->TGL_BC11.",kegiatan:empty,tipe:".$data_barcode->ref_type;
                     }else{

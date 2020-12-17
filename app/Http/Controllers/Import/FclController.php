@@ -1512,9 +1512,12 @@ class FclController extends Controller
             if($invoice_nct->save()) {
                 
                 
-                if($data['KD_TPS_ASAL'] == 'KOJA'){
-                    $nct_gerakan = array('Pas Truck' => 9100, 'Cost Rec/Surcarge' => 75000);
-//                    $nct_gerakan = array('Pas Truck' => 9100, 'Gate Pass Admin' => 20000, 'Cost Rec/Surcarge' => 75000);
+                if($data['KD_TPS_ASAL'] == 'NCT1' || $data['KD_TPS_ASAL'] == 'KOJA'){
+                    if($data['KD_TPS_ASAL'] == 'KOJA'){
+                        $nct_gerakan = array('Pas Truck' => 9100, 'Cost Rec/Surcarge' => 75000);
+                    }else{
+                        $nct_gerakan = array('Pas Truck' => 9100, 'Gate Pass Admin' => 20000, 'Cost Rec/Surcarge' => 75000);
+                    }
 
                     foreach($nct_gerakan as $key=>$value):
                         $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
@@ -1557,7 +1560,7 @@ class FclController extends Controller
                         $invoice_penumpukan->size = 20;
                         $invoice_penumpukan->qty = count($container20);
                         
-                        if($t20->lokasi_sandar == 'KOJA' || $t20->lokasi_sandar == 'JICT') {
+                        if($t20->lokasi_sandar == 'KOJA' || $t20->lokasi_sandar == 'NCT1') {
                             
                             // GERAKAN
                             $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
@@ -1657,7 +1660,7 @@ class FclController extends Controller
                         $invoice_penumpukan->size = 40;
                         $invoice_penumpukan->qty = count($container40);
                         
-                        if($t40->lokasi_sandar == 'KOJA' || $t40->lokasi_sandar == 'JICT') {
+                        if($t40->lokasi_sandar == 'KOJA' || $t40->lokasi_sandar == 'NCT1') {
                             // GERAKAN
                             $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
                         
@@ -1754,7 +1757,7 @@ class FclController extends Controller
                         $invoice_penumpukan->size = 45;
                         $invoice_penumpukan->qty = count($container45);
                         
-                        if($t45->lokasi_sandar == 'KOJA' || $t45->lokasi_sandar == 'JICT') {
+                        if($t45->lokasi_sandar == 'KOJA' || $t45->lokasi_sandar == 'NCT1') {
                             // GERAKAN
                             $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
                         
