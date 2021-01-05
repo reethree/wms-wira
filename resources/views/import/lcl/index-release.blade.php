@@ -424,7 +424,11 @@
                 alert("Dokumen masih dalam pemeriksaan.");
                 return false;
             }
-            
+            if(rowdata.NO_SPPB == ''){
+                alert("Data SPPB masih kosong..");
+                return false;
+            }
+
             window.open("{{ route('lcl-delivery-suratjalan-cetak', '') }}/"+id,"preview wo fiat muat","width=600,height=600,menubar=no,status=no,scrollbars=yes");
         });
         
