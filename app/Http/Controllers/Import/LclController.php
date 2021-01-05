@@ -1846,10 +1846,11 @@ class LclController extends Controller
             $invoice_import->tgl_cetak = $request->tgl_cetak;
             $invoice_import->tgl_keluar = $tglrelease;
             
-            if($sub_total >= 250000 && $sub_total < 1000000){
-                $materai = 3000;
-            }elseif($sub_total >= 1000000){
-                $materai = 6000;
+//            if($sub_total >= 250000 && $sub_total < 1000000){
+//                $materai = 3000;
+//            }else
+            if($sub_total >= 5000000){
+                $materai = 10000;
             }else{
                 $materai = 0;
             }
