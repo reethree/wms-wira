@@ -1587,7 +1587,12 @@ class FclController extends Controller
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
                             $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
-                            $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+
+                            if($t20->lokasi_sandar == 'KOJA'){
+                                $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
+                            }else{
+                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+                            }
                             
                             $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa2 * $t20->masa1) * count($container20);
                             $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $t20->masa2 * 3) * count($container20);
@@ -1600,7 +1605,11 @@ class FclController extends Controller
 //                            if($data['BEHANDLE'] == 'Y') {
 //                                $jenis = array('Lift On/Off' => $t20->lift_off,'Paket PLP' => $t20->paket_plp,'Behandle' => $t20->behandle);
 //                            }else{
-                                $jenis = array('Lift On/Off' => $t20->lift_off,'Paket PLP' => $t20->paket_plp);
+                            if($data->jenis_container == 'BB') {
+                                $jenis = array('Lift On/Off' => $t20->lift_off*2, 'Paket PLP' => $t20->paket_plp);
+                            }else{
+                                $jenis = array('Lift On/Off' => $t20->lift_off, 'Paket PLP' => $t20->paket_plp);
+                            }
 //                            }
                             
                             
@@ -1622,14 +1631,23 @@ class FclController extends Controller
                             $date1 = date_create($data['TGLMASUK']);
                             $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
-                            $hari = $diff->format("%a");
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $hari = $diff->format("%a") + 1;
+                            }else{
+                                $hari = $diff->format("%a");
+                            }
                             
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
                             $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
-                            
-                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
-                            $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
+
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,1)) : 0;
+                                $invoice_penumpukan->hari_masa2 = ($hari > 1) ? $hari-1 : 0;
+                            }else{
+                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
+                                $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
+                            }
                             $invoice_penumpukan->hari_masa3 = 0;
                             $invoice_penumpukan->hari_masa4 = 0;
                             
@@ -1686,7 +1704,11 @@ class FclController extends Controller
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
                             $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
-                            $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+                            if($t40->lokasi_sandar == 'KOJA'){
+                                $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
+                            }else{
+                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+                            }
                             
                             $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t40->masa1) * count($container40);
                             $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $t40->masa2 * 3) * count($container40);
@@ -1698,7 +1720,11 @@ class FclController extends Controller
 //                            if($data['BEHANDLE'] == 'Y') {
 //                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp,'Behandle' => $t40->behandle);
 //                            }else{
-                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp);
+                            if($data->jenis_container == 'BB') {
+                                $jenis = array('Lift On/Off' => $t40->lift_off*2, 'Paket PLP' => $t40->paket_plp);
+                            }else{
+                                $jenis = array('Lift On/Off' => $t40->lift_off, 'Paket PLP' => $t40->paket_plp);
+                            }
 //                            }
                             
                             foreach ($jenis as $key=>$value):
@@ -1719,14 +1745,23 @@ class FclController extends Controller
                             $date1 = date_create($data['TGLMASUK']);
                             $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
-                            $hari = $diff->format("%a");
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $hari = $diff->format("%a") + 1;
+                            }else{
+                                $hari = $diff->format("%a");
+                            }
                             
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
                             $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
-                            
-                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
-                            $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
+
+                            if($data['KD_TPS_ASAL']  == 'KOJA'){
+                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,1)) : 0;
+                                $invoice_penumpukan->hari_masa2 = ($hari > 1) ? $hari-1 : 0;
+                            }else{
+                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
+                                $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
+                            }
                             $invoice_penumpukan->hari_masa3 = 0;
                             $invoice_penumpukan->hari_masa4 = 0;
                             
@@ -1783,7 +1818,11 @@ class FclController extends Controller
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
                             $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
-                            $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+                            if($t45->lokasi_sandar == 'KOJA'){
+                                $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
+                            }else{
+                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+                            }
                             
                             $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t45->masa1) * count($container45);
                             $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $t45->masa2 * 3) * count($container45);
@@ -1795,7 +1834,11 @@ class FclController extends Controller
 //                            if($data['BEHANDLE'] == 'Y') {
 //                                $jenis = array('Lift On/Off' => $t45->lift_off,'Paket PLP' => $t45->paket_plp,'Behandle' => $t45->behandle);
 //                            }else{
-                                $jenis = array('Lift On/Off' => $t45->lift_off,'Paket PLP' => $t45->paket_plp);
+                            if($data->jenis_container == 'BB') {
+                                $jenis = array('Lift On/Off' => $t45->lift_off*2, 'Paket PLP' => $t45->paket_plp);
+                            }else{
+                                $jenis = array('Lift On/Off' => $t45->lift_off, 'Paket PLP' => $t45->paket_plp);
+                            }
 //                            }
                             
                             foreach ($jenis as $key=>$value):
@@ -1820,14 +1863,23 @@ class FclController extends Controller
                             $date1 = date_create($data['TGLMASUK']);
                             $date2 = date_create($tgl_release);
                             $diff = date_diff($date1, $date2);
-                            $hari = $diff->format("%a");
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $hari = $diff->format("%a") + 1;
+                            }else{
+                                $hari = $diff->format("%a");
+                            }
                             
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
                             $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
-                            
-                            $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
-                            $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
+
+                            if($data['KD_TPS_ASAL'] == 'KOJA'){
+                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,1)) : 0;
+                                $invoice_penumpukan->hari_masa2 = ($hari > 1) ? $hari-1 : 0;
+                            }else{
+                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
+                                $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
+                            }
                             $invoice_penumpukan->hari_masa3 = 0;
                             $invoice_penumpukan->hari_masa4 = 0;
                             
