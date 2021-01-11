@@ -647,7 +647,7 @@ class TpsScheduleController extends BaseController
             // SEND
             \SoapWrapper::add(function ($service) {
                 $service
-                    ->name('CoarriCodeco_Container')
+                    ->name('Coari_Container')
                     ->wsdl($this->wsdl)
                     ->trace(true)                                                                                                                                                  
                     ->cache(WSDL_CACHE_NONE)                                        
@@ -669,7 +669,7 @@ class TpsScheduleController extends BaseController
             ];
 
             // Using the added service
-            \SoapWrapper::service('CoarriCodeco_Container', function ($service) use ($datas) {        
+            \SoapWrapper::service('Coari_Container', function ($service) use ($datas) {
                 $this->response = $service->call('CoarriCodeco_Container', [$datas])->CoarriCodeco_ContainerResult;      
             });
             
@@ -758,7 +758,7 @@ class TpsScheduleController extends BaseController
             // SEND
             \SoapWrapper::add(function ($service) {
                 $service
-                    ->name('CoarriCodeco_Container')
+                    ->name('Codeco_Container')
                     ->wsdl($this->wsdl)
                     ->trace(true)                                                                                                                                                 
                     ->cache(WSDL_CACHE_NONE)                                        
@@ -780,7 +780,7 @@ class TpsScheduleController extends BaseController
             ];
 
             // Using the added service
-            \SoapWrapper::service('CoarriCodeco_Container', function ($service) use ($datas) {        
+            \SoapWrapper::service('Codeco_Container', function ($service) use ($datas) {
                 $this->response = $service->call('CoarriCodeco_Container', [$datas])->CoarriCodeco_ContainerResult;      
             });
             
