@@ -122,6 +122,9 @@ class BarcodeController extends Controller
                 }elseif($type == 'lcl'){
                     $refdata = \App\Models\Container::find($ref_id);
                     $ref_number = $refdata->NOCONTAINER;
+                    if($action == 'empty'){
+                        $expired = date('Y-m-d', strtotime('+2 day'));
+                    }
                 }elseif($type == 'fcl'){
                     $refdata = \App\Models\Containercy::find($ref_id);
                     $ref_number = $refdata->NOCONTAINER;
