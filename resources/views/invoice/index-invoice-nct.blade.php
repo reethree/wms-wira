@@ -46,15 +46,35 @@
             jQuery("#fclInvoicesGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
         } 
     }
+
+    function onSelectRowEvent()
+    {
+        rowid = $('#fclInvoicesGrid').jqGrid('getGridParam', 'selrow');
+        rowdata = $('#fclInvoicesGrid').getRowData(rowid);
+
+        $("#invoice_id").val(rowdata.id);
+    }
+
+    $(document).ready(function()
+    {
+        $('#extend-btn').on("click", function(){
+            rowid = $('#fclInvoicesGrid').jqGrid('getGridParam', 'selrow');
+            if(rowid){
+                $('#extend-invoice-modal').modal('show');
+            }else{
+                alert('Please select the invoice that will be extended.');
+            }
+        });
+    });
     
 </script>
 
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">FCL Invoices Lists</h3>
-<!--        <div class="box-tools">
-            <button class="btn btn-block btn-info btn-sm" id="cetak-rekap"><i class="fa fa-print"></i> Cetak Rekap Harian</button>
-        </div>-->
+        <div class="box-tools">
+            <button class="btn btn-block btn-warning btn-sm" id="extend-btn"><i class="fa fa-forward"></i> Extend</button>
+        </div>
     </div>
     <div class="box-body table-responsive">
         <div class="row" style="margin-bottom: 30px;margin-right: 0;">
@@ -105,8 +125,10 @@
             ->setNavigatorOptions('view',array('closeOnEscape'=>false))
             ->setFilterToolbarOptions(array('autosearch'=>true))
             ->setGridEvent('gridComplete', 'gridCompleteEvent')
+            ->setGridEvent('onSelectRow', 'onSelectRowEvent')
             ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'id','hidden'=>true))
+            ->addColumn(array('label'=>'Extend','index'=>'extend','width'=>60,'align'=>'center'))
             ->addColumn(array('label'=>'Jenis','index'=>'type','width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'No. Invoice','index'=>'no_invoice','width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'No. Pajak','index'=>'no_pajak','width'=>120,'align'=>'center'))
@@ -134,7 +156,53 @@
     </div>
 </div>
 
-
+<div id="extend-invoice-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Extend Invoice</h4>
+            </div>
+            <form id="create-invoice-form" class="form-horizontal" action="{{ route("invoice-extend") }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}" />
+                            <input name="invoice_id" type="hidden" id="invoice_id" />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Invoice</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="no_invoice" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tgl. Perpanjang</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="tgl_extend" class="form-control pull-right datepicker" value="{{date('Y-m-d')}}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Pajak</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="no_pajak" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 
 @section('custom_css')

@@ -1508,6 +1508,7 @@ class FclController extends Controller
             $invoice_nct->gateout_terminal = $data['TGLMASUK'];	
             $invoice_nct->gateout_tps = $tgl_release;
             $invoice_nct->type = $data['jenis_container'];
+            $invoice_nct->tps_asal = $data['KD_TPS_ASAL'];
             $invoice_nct->uid = \Auth::getUser()->name;	
             
             if($invoice_nct->save()) {
@@ -1655,7 +1656,7 @@ class FclController extends Controller
                                     $sisa_hari = 10-$hari_terminal;
                                     $hari_depo_masa1 = min(array($hari, $sisa_hari));
                                     $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
-                                    $invoice_penumpukan->hari_masa2 = $hari-$hari_depo_masa1;
+                                    $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
                                 }
                             }else{
                                 $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
@@ -1776,7 +1777,7 @@ class FclController extends Controller
                                     $sisa_hari = 10-$hari_terminal;
                                     $hari_depo_masa1 = min(array($hari, $sisa_hari));
                                     $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
-                                    $invoice_penumpukan->hari_masa2 = $hari-$hari_depo_masa1;
+                                    $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
                                 }
                             }else{
                                 $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
@@ -1901,7 +1902,7 @@ class FclController extends Controller
                                     $sisa_hari = 10-$hari_terminal;
                                     $hari_depo_masa1 = min(array($hari, $sisa_hari));
                                     $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
-                                    $invoice_penumpukan->hari_masa2 = $hari-$hari_depo_masa1;
+                                    $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
                                 }
                             }else{
                                 $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;

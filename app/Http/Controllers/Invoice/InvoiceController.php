@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Invoice;
 
+use App\Models\Invoice;
+use App\Models\InvoiceNct;
+use App\Models\InvoiceNctPenumpukan;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -568,6 +571,110 @@ class InvoiceController extends Controller
         }
         
         return back()->with('error', 'Tidak ada invoice yang di update.');
+    }
+
+    public function invoiceExtend(Request $request)
+    {
+        $invoice_id = $request->invoice_id;
+        $old_invoice = InvoiceNct::find($invoice_id);
+        $hari_terminal = InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_id)->groupBy('size')->sum('lama_timbun');
+
+        // Create Invoice Header
+        $invoice_nct = new \App\Models\InvoiceNct;
+        $invoice_nct->no_invoice = $request->no_invoice;
+        $invoice_nct->no_pajak = $request->no_pajak;
+        $invoice_nct->consignee = $old_invoice->consignee;
+        $invoice_nct->npwp = $old_invoice->npwp;
+        $invoice_nct->alamat = $old_invoice->alamat;
+        $invoice_nct->consignee_id = $old_invoice->consignee_id;
+        $invoice_nct->vessel = $old_invoice->vessel;
+        $invoice_nct->voy = $old_invoice->voy;
+        $invoice_nct->no_do = $old_invoice->no_do;
+        $invoice_nct->no_bl = $old_invoice->no_bl;
+        $invoice_nct->eta = $old_invoice->eta;
+        $invoice_nct->gateout_terminal = $old_invoice->gateout_terminal;
+        $invoice_nct->gateout_tps = $old_invoice->gateout_tps;
+        $invoice_nct->type = $old_invoice->type;
+        $invoice_nct->extend = 'Y';
+        $invoice_nct->tgl_extend = $request->tgl_extend;
+        $invoice_nct->tps_asal = $old_invoice->tps_asal;
+        $invoice_nct->uid = \Auth::getUser()->name;
+
+        if($invoice_nct->save()) {
+            $old_penumpukan = InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_id)->get();
+            $total_qty = 0;
+            foreach ($old_penumpukan as $op) {
+                if($op->lokasi_sandar == 'TPS') {
+                    $total_qty += $op->qty;
+                    $tarif = \App\Models\InvoiceTarifNct::where(array('size' => $op->size, 'type' => $invoice_nct->type, 'lokasi_sandar' => $op->lokasi_sandar))->first();
+
+                    // PENUMPUKAN
+                    $invoice_penumpukan = new \App\Models\InvoiceNctPenumpukan;
+                    $invoice_penumpukan->invoice_nct_id = $invoice_nct->id;
+                    $invoice_penumpukan->lokasi_sandar = $op->lokasi_sandar;
+                    $invoice_penumpukan->size = $op->size;
+                    $invoice_penumpukan->qty = $op->qty;
+
+                    $date1 = date_create($op->enddate);
+                    $date2 = date_create($invoice_nct->tgl_extend);
+                    $diff = date_diff($date1, $date2);
+                    $hari = $diff->format("%a");
+
+                    $invoice_penumpukan->startdate = $op->enddate;
+                    $invoice_penumpukan->enddate = $invoice_nct->tgl_extend;
+                    $invoice_penumpukan->lama_timbun = $hari;
+
+                    if($hari_terminal >= 10){
+                        $invoice_penumpukan->hari_masa1 = 0;
+                        $invoice_penumpukan->hari_masa2 = $hari;
+                    }else{
+                        $sisa_hari = abs(10-$hari_terminal);
+                        $hari_depo_masa1 = min(array($hari, $sisa_hari));
+                        $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
+                        $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
+                    }
+                    $invoice_penumpukan->hari_masa3 = 0;
+                    $invoice_penumpukan->hari_masa4 = 0;
+
+                    $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $tarif->masa1 * 2) * $op->qty;
+                    $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $tarif->masa2 * 3) * $op->qty;
+                    $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $tarif->masa3) * $op->qty;
+                    $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $tarif->masa4) * $op->qty;
+                    $invoice_penumpukan->total = array_sum(array($invoice_penumpukan->masa1,$invoice_penumpukan->masa2,$invoice_penumpukan->masa3,$invoice_penumpukan->masa4));
+
+                    $invoice_penumpukan->save();
+                }
+            }
+        }
+
+        $update_nct = \App\Models\InvoiceNct::find($invoice_nct->id);
+
+        $total_penumpukan = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
+
+        if($invoice_nct->tps_asal == 'KOJA'):
+            $update_nct->perawatan_it = $total_qty * 90000;
+            if($invoice_nct->type == 'BB'){
+                $total_penumpukan_tps = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->where('lokasi_sandar','TPS')->sum('total');
+                $update_nct->surcharge = ($total_penumpukan_tps)*(25/100);
+            }
+            $update_nct->administrasi = 20000;
+        else:
+            $update_nct->administrasi = $total_qty * 100000;
+        endif;
+
+        $update_nct->total_non_ppn = $total_penumpukan + $update_nct->administrasi + $update_nct->perawatan_it + $update_nct->surcharge;
+        $update_nct->ppn = $update_nct->total_non_ppn * 10/100;
+        if(($update_nct->total_non_ppn+$update_nct->ppn) >= 5000000){
+            $materai = 10000;
+        }else{
+            $materai = 0;
+        }
+        $update_nct->materai = $materai;
+        $update_nct->total = $update_nct->total_non_ppn+$update_nct->ppn+$update_nct->materai;
+
+        if($update_nct->save()) {
+            return back()->with('success', 'Invoice perpanjangan berhasih dibuat.');
+        }
     }
 
 }

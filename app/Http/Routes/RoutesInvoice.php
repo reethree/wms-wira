@@ -138,6 +138,11 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
             'uses' => 'InvoiceController@releaseNctIndex'
         ]);
 
+        Route::post('/extend', [
+            'as' => 'invoice-extend',
+            'uses' => 'InvoiceController@invoiceExtend'
+        ]);
+
     });
     
     

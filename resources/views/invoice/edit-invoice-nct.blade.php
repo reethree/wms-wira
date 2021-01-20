@@ -91,6 +91,13 @@
                   <td>:&nbsp;&nbsp;</td>
                   <td>{{ date("d/m/Y", strtotime($invoice->gateout_tps)) }}</td>
               </tr>
+              @if($invoice->extend == 'Y')
+                  <tr>
+                      <td><b>Perpanjangan</b></td>
+                      <td>:&nbsp;&nbsp;</td>
+                      <td>{{ date("d/m/Y", strtotime($invoice->tgl_extend)) }}</td>
+                  </tr>
+              @endif
           </table>
       </div>
       <!-- /.col -->
