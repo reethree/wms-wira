@@ -1512,7 +1512,12 @@ class FclController extends Controller
             
             if($invoice_nct->save()) {
                 
-                
+                // HARI TERMINAL
+                $date1_terminal = date_create($data['ETA']);
+                $date2_terminal = date_create(date('Y-m-d',strtotime($data['TGLMASUK']. '+1 days')));
+                $diff_terminal = date_diff($date1_terminal, $date2_terminal);
+                $hari_terminal = $diff_terminal->format("%a");
+
                 if($data['KD_TPS_ASAL'] == 'NCT1' || $data['KD_TPS_ASAL'] == 'KOJA'){
                     if($data['KD_TPS_ASAL'] == 'KOJA'){
                         $nct_gerakan = array('Pas Truck' => 9100, 'Cost Rec/Surcarge' => 75000);
@@ -1643,8 +1648,15 @@ class FclController extends Controller
                             $invoice_penumpukan->lama_timbun = $hari;
 
                             if($data['KD_TPS_ASAL'] == 'KOJA'){
-                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,1)) : 0;
-                                $invoice_penumpukan->hari_masa2 = ($hari > 1) ? $hari-1 : 0;
+                                if($hari_terminal >= 10){
+                                    $invoice_penumpukan->hari_masa1 = 0;
+                                    $invoice_penumpukan->hari_masa2 = $hari;
+                                }else{
+                                    $sisa_hari = 10-$hari_terminal;
+                                    $hari_depo_masa1 = min(array($hari, $sisa_hari));
+                                    $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
+                                    $invoice_penumpukan->hari_masa2 = $hari-$hari_depo_masa1;
+                                }
                             }else{
                                 $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
                                 $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
@@ -1757,8 +1769,15 @@ class FclController extends Controller
                             $invoice_penumpukan->lama_timbun = $hari;
 
                             if($data['KD_TPS_ASAL']  == 'KOJA'){
-                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,1)) : 0;
-                                $invoice_penumpukan->hari_masa2 = ($hari > 1) ? $hari-1 : 0;
+                                if($hari_terminal >= 10){
+                                    $invoice_penumpukan->hari_masa1 = 0;
+                                    $invoice_penumpukan->hari_masa2 = $hari;
+                                }else{
+                                    $sisa_hari = 10-$hari_terminal;
+                                    $hari_depo_masa1 = min(array($hari, $sisa_hari));
+                                    $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
+                                    $invoice_penumpukan->hari_masa2 = $hari-$hari_depo_masa1;
+                                }
                             }else{
                                 $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
                                 $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
@@ -1875,8 +1894,15 @@ class FclController extends Controller
                             $invoice_penumpukan->lama_timbun = $hari;
 
                             if($data['KD_TPS_ASAL'] == 'KOJA'){
-                                $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,1)) : 0;
-                                $invoice_penumpukan->hari_masa2 = ($hari > 1) ? $hari-1 : 0;
+                                if($hari_terminal >= 10){
+                                    $invoice_penumpukan->hari_masa1 = 0;
+                                    $invoice_penumpukan->hari_masa2 = $hari;
+                                }else{
+                                    $sisa_hari = 10-$hari_terminal;
+                                    $hari_depo_masa1 = min(array($hari, $sisa_hari));
+                                    $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
+                                    $invoice_penumpukan->hari_masa2 = $hari-$hari_depo_masa1;
+                                }
                             }else{
                                 $invoice_penumpukan->hari_masa1 = ($hari > 0) ? min(array($hari,2)) : 0;
                                 $invoice_penumpukan->hari_masa2 = ($hari > 2) ? $hari-2 : 0;
