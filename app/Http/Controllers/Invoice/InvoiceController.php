@@ -624,11 +624,11 @@ class InvoiceController extends Controller
                     $invoice_penumpukan->enddate = $invoice_nct->tgl_extend;
                     $invoice_penumpukan->lama_timbun = $hari;
 
-                    if($hari_terminal >= 10){
+                    if($hari_terminal >= 8){
                         $invoice_penumpukan->hari_masa1 = 0;
                         $invoice_penumpukan->hari_masa2 = $hari;
                     }else{
-                        $sisa_hari = abs(10-$hari_terminal);
+                        $sisa_hari = abs(8-$hari_terminal);
                         $hari_depo_masa1 = min(array($hari, $sisa_hari));
                         $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
                         $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
