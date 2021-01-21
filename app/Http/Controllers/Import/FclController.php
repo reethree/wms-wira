@@ -1649,11 +1649,11 @@ class FclController extends Controller
                             $invoice_penumpukan->lama_timbun = $hari;
 
                             if($data['KD_TPS_ASAL'] == 'KOJA'){
-                                if($hari_terminal >= 10){
+                                if($hari_terminal >= 8){
                                     $invoice_penumpukan->hari_masa1 = 0;
                                     $invoice_penumpukan->hari_masa2 = $hari;
                                 }else{
-                                    $sisa_hari = 10-$hari_terminal;
+                                    $sisa_hari = 8-$hari_terminal;
                                     $hari_depo_masa1 = min(array($hari, $sisa_hari));
                                     $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
                                     $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
@@ -1770,11 +1770,11 @@ class FclController extends Controller
                             $invoice_penumpukan->lama_timbun = $hari;
 
                             if($data['KD_TPS_ASAL']  == 'KOJA'){
-                                if($hari_terminal >= 10){
+                                if($hari_terminal >= 8){
                                     $invoice_penumpukan->hari_masa1 = 0;
                                     $invoice_penumpukan->hari_masa2 = $hari;
                                 }else{
-                                    $sisa_hari = 10-$hari_terminal;
+                                    $sisa_hari = 8-$hari_terminal;
                                     $hari_depo_masa1 = min(array($hari, $sisa_hari));
                                     $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
                                     $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
@@ -1895,11 +1895,11 @@ class FclController extends Controller
                             $invoice_penumpukan->lama_timbun = $hari;
 
                             if($data['KD_TPS_ASAL'] == 'KOJA'){
-                                if($hari_terminal >= 10){
+                                if($hari_terminal >= 8){
                                     $invoice_penumpukan->hari_masa1 = 0;
                                     $invoice_penumpukan->hari_masa2 = $hari;
                                 }else{
-                                    $sisa_hari = 10-$hari_terminal;
+                                    $sisa_hari = 8-$hari_terminal;
                                     $hari_depo_masa1 = min(array($hari, $sisa_hari));
                                     $invoice_penumpukan->hari_masa1 = $hari_depo_masa1;
                                     $invoice_penumpukan->hari_masa2 = abs($hari-$hari_depo_masa1);
