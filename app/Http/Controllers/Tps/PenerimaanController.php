@@ -969,7 +969,7 @@ class PenerimaanController extends Controller
     public function responPlpCetakPermohonan($id)
     {
         $data['respon'] = \App\Models\TpsResponPlp::find($id);
-        $data['details'] = \App\Models\TpsResponPlpDetail::where('tps_responplptujuanxml_fk', $id)->get();
+        $data['details'] = \App\Models\TpsResponPlpDetail::where('tps_responplptujuanxml_fk', $id)->groupby('NO_CONT')->get();
         
         return view('print.respon-plp-permohonan', $data);
     }
