@@ -154,7 +154,7 @@
             ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE', 'width'=>300))
             ->addColumn(array('label'=>'Desc of Goods','index'=>'DESCOFGOODS', 'width'=>300))
             ->addColumn(array('label'=>'Qty','index'=>'QUANTITY', 'width'=>80,'align'=>'center'))
-            ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120))
+            ->addColumn(array('label'=>'Packing','index'=>'NAMAPACKING', 'width'=>120,'hidden'=>true))
             ->addColumn(array('label'=>'Kode Kemas','index'=>'KODE_KEMAS', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Weight','index'=>'WEIGHT', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Meas','index'=>'MEAS', 'width'=>100,'align'=>'center'))
