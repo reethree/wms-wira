@@ -17,7 +17,7 @@
             
             rowdata = $('#lclReleaseGrid').getRowData(cl);
             if(rowdata.VALIDASI == 'Y') {
-                $("#" + cl).find("td").css("color", "#666");
+                $("#" + cl).find("td").css("background-color", "#a0ffc0");
             }
             if(rowdata.perubahan_hbl == 'Y') {
                 $("#" + cl).find("td").css("background-color", "#3dc6f2");
@@ -306,7 +306,12 @@
                 $('#btn-sppb,#btn-photo').disabledButtonGroup();
                 $('#release-form').disabledFormGroup();
                 $('#btn-group-2').disabledFormGroup();
-            }            
+            }
+
+            if(rowdata.VALIDASI == 'N'){
+                $('#btn-group-4').disabledButtonGroup();
+                $('#btn-group-6').disabledButtonGroup();
+            }
 
             $('#telp_ppjk').removeAttr('disabled');
         });
