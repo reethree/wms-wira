@@ -3,7 +3,7 @@
     function CheckGatePass($barcode) {
 
         if(isset($barcode)) :
-            $data = \App\Models\Barcode::where('barcode', $barcode)->first();
+            $data = \App\Models\Barcode::where('barcode', $barcode)->where('status', 'active')->first();
 
             if($data){
     //            Expired
@@ -91,6 +91,11 @@
                                     $model->status_coari = 'Ready';
                                     $model->save();
                                 }
+                            }
+
+                            if($tipe == 'out'){
+                                $data_barcode->status = 'inactive';
+                                $data_barcode->save();
                             }
 
 //                                return $model->NOCONTAINER.' '.$data_barcode->ref_type.' '.$data_barcode->ref_action.' Updated';
