@@ -3,7 +3,7 @@
     function CheckGatePass($barcode) {
 
         if(isset($barcode)) :
-            $data = \App\Models\Barcode::where('barcode', $barcode)->where('status', 'active')->first();
+            $data = \App\Models\Barcode::where('barcode', $barcode)->where('status','!=','inactive')->first();
 
             if($data){
     //            Expired
