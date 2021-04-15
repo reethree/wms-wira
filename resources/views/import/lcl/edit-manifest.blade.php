@@ -107,7 +107,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Tgl.Stripping</label>
                         <div class="col-sm-8">
-                            <input type="text" readonly="" name="NOJOBORDER" class="form-control" value="{{ date('d-m-Y', strtotime($container->TGLSTRIPPING)) }}" required="">
+                            <input type="text" readonly="" name="TGLSTRIPPING" class="form-control" value="{{ date('d-m-Y', strtotime($container->TGLSTRIPPING)) }}" required="">
                         </div>
                     </div>
                 </div>
@@ -318,6 +318,8 @@
         $("#NO_POS_BC11").val(rowdata.NO_POS_BC11);
         $("#final_qty").val(rowdata.final_qty);
         $("#packing_tally").val(rowdata.packing_tally);
+        $("#tglstripping").val(rowdata.tglstripping);
+        $("#jamstripping").val(rowdata.jamstripping);
         
 //        console.log(rowdata);
         $('#btn-toolbar').disabledButtonGroup();
@@ -332,6 +334,8 @@
             $('#NO_POS_BC11').removeAttr('disabled');
             $('#final_qty').removeAttr('disabled');
             $('#packing_tally').removeAttr('disabled');
+            $('#tglstripping').removeAttr('disabled');
+            $('#jamstripping').removeAttr('disabled');
         @endrole
         
         $('#upload-title').html('Upload Photo for '+rowdata.NOHBL);
@@ -682,10 +686,10 @@
                         ->addColumn(array('label'=>'Alasan Perubahan','index'=>'alasan_perubahan','width'=>150,'align'=>'center','hidden'=>true))
                         ->addColumn(array('index'=>'location_id', 'width'=>150,'hidden'=>true))
                         ->addColumn(array('label'=>'Location','index'=>'location_name','width'=>200, 'align'=>'center'))
-                        ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120))
+                        ->addColumn(array('label'=>'Tgl. Entry','index'=>'tglentry', 'width'=>120, 'align'=>'center'))
                         ->addColumn(array('label'=>'Jam. Entry','index'=>'jamentry', 'width'=>70,'hidden'=>true))
-                        ->addColumn(array('label'=>'Tgl. Stripping','index'=>'tglstripping', 'width'=>70,'hidden'=>true))
-                        ->addColumn(array('label'=>'Jam. Stripping','index'=>'jamstripping', 'width'=>70,'hidden'=>true))
+                        ->addColumn(array('label'=>'Tgl. Stripping','index'=>'tglstripping', 'width'=>120,'hidden'=>false, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Jam. Stripping','index'=>'jamstripping', 'width'=>100,'hidden'=>false, 'align'=>'center'))
                         ->addColumn(array('label'=>'Photo Stripping','index'=>'photo_stripping', 'width'=>70,'hidden'=>true))
                         ->addColumn(array('label'=>'Updated','index'=>'last_update', 'width'=>150, 'search'=>false,'hidden'=>true))
                         ->renderGrid()
@@ -803,6 +807,30 @@
                                         <option value="{{ $location->id }}">{{ $location->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Tgl.Stripping</label>
+                            <div class="col-sm-8">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" id="tglstripping" name="tglstripping" class="form-control pull-right datepicker" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bootstrap-timepicker">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Jam Stripping</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" id="jamstripping" name="jamstripping" class="form-control timepicker" required>
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group" id="btn-photo">
@@ -1041,12 +1069,13 @@
 
 <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/datepicker/datepicker3.css") }}">
-
+<link rel="stylesheet" href="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.css") }}">
 @endsection
 
 @section('custom_js')
 
 <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
+<script src="{{ asset("/bower_components/AdminLTE/plugins/timepicker/bootstrap-timepicker.min.js") }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 <script type="text/javascript">
     $('select').select2();
@@ -1056,6 +1085,15 @@
         todayHighlight: true,
         format: 'yyyy-mm-dd' 
     });
+    // $('.timepicker').timepicker({
+    //     showMeridian: false,
+    //     showInputs: false,
+    //     showSeconds: false,
+    //     defaultTime: false,
+    //     minuteStep: 1,
+    //     secondStep: 1
+    // });
+    $("#jamstripping").mask("99:99:99");
     $('.approve-manifest-btn').on('click', function() {
         console.log('ok');
         console.log($(this).data('id'));
