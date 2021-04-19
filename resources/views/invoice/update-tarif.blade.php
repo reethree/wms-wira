@@ -178,6 +178,16 @@
                             <input type="number" name="surveyor_40" class="form-control" id="surveyor_40" value="{{ $tarif->surveyor_40 }}" required>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Empty 20ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="empty_20" class="form-control" id="empty_20" required>
+                        </div>
+                        <label class="col-sm-2 control-label">40ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="empty_40" class="form-control" id="empty_40" required>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

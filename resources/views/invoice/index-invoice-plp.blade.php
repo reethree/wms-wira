@@ -146,7 +146,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Create Paket PLP</h4>
                 </div>
-                <form class="form-horizontal" action="{{ route('invoice-print-rekap-akumulasi') }}" method="POST">
+                <form class="form-horizontal" action="{{ route('invoice-plp-create') }}" method="POST">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -174,7 +174,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label">Tgl. Invoice</label>
+                                    <label class="col-sm-3 control-label">Tgl. Masuk</label>
                                     <div class="col-sm-4">
                                         <div class="input-group date">
                                             <div class="input-group-addon">
@@ -204,22 +204,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{--                            <div class="form-group">--}}
-                                {{--                                <label class="col-sm-3 control-label">Type</label>--}}
-                                {{--                                <div class="col-sm-8">--}}
-                                {{--                                    <select class="form-control select2" name="type" style="width: 100%;" tabindex="-1" aria-hidden="true" required>--}}
-                                {{--                                        <option value="">Choose Type</option>--}}
-                                {{--                                        <option value="BB">BB</option>--}}
-                                {{--                                        <option value="DRY">DRY</option>--}}
-                                {{--                                    </select>--}}
-                                {{--                                </div>--}}
-                                {{--                            </div>--}}
-                                {{--                            <div class="form-group">--}}
-                                {{--                                <label class="col-sm-3 control-label">Free PPN</label>--}}
-                                {{--                                <div class="col-sm-5">--}}
-                                {{--                                    <input type="checkbox" name="free_ppn" value="1" />--}}
-                                {{--                                </div>--}}
-                                {{--                            </div>--}}
                             </div>
                         </div>
                     </div>

@@ -11,7 +11,7 @@
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
             
-            edt = '<a title="Edit" href="{{ route("invoice-tarif-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
+            edt = '<a title="Edit" href="{{ route("invoice-tarif-nct-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
 //            del = '<a href="{{ route("invoice-tarif-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
             jQuery("#invTarifGrid").jqGrid('setRowData',ids[i],{action:edt}); 
         } 
@@ -29,7 +29,7 @@
                 ->setGridOption('url', URL::to('/invoice/fcl/tarif/grid-data'))
                 ->setGridOption('rowNum', 20)
                 ->setGridOption('shrinkToFit', true)
-                ->setGridOption('sortname','id')
+                ->setGridOption('sortname','lokasi_sandar')
                 ->setGridOption('rownumbers', true)
                 ->setGridOption('height', '295')
                 ->setGridOption('rowList',array(20,50,100))

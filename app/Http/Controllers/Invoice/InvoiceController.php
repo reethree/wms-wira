@@ -7,6 +7,8 @@ use App\Models\Containercy;
 use App\Models\Invoice;
 use App\Models\InvoiceNct;
 use App\Models\InvoiceNctPenumpukan;
+use App\Models\InvoiceTarifNct;
+use App\Models\Lokasisandar;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -190,7 +192,7 @@ class InvoiceController extends Controller
         return view('print.invoice-plp')->with($data);
     }
     
-    public function invoicePrintRekapAkumulasi(Request $request)
+    public function invoiceCreatePaketPlp(Request $request)
     {
         $consolidator_id = $request->consolidator_id;
         $no_inv = $request->no_invoice;
@@ -202,18 +204,18 @@ class InvoiceController extends Controller
 
         // Find Data Container
         $containers20 = Container::where('TCONSOLIDATOR_FK', $consolidator_id)
-            ->where('TGLSTRIPPING','>=',$start)
-            ->where('TGLSTRIPPING','<=',$end)
+            ->where('TGLMASUK','>=',$start)
+            ->where('TGLMASUK','<=',$end)
             ->where('SIZE', 20)
             ->get();
         $containers40 = Container::where('TCONSOLIDATOR_FK', $consolidator_id)
-            ->where('TGLSTRIPPING','>=',$start)
-            ->where('TGLSTRIPPING','<=',$end)
+            ->where('TGLMASUK','>=',$start)
+            ->where('TGLMASUK','<=',$end)
             ->where('SIZE', 40)
             ->get();
 
         if(count($containers20) > 0 || count($containers40) > 0){
-            $tarif = \App\Models\InvoiceTarif::select('plp_20','plp_40','lift_on_20','lift_on_40','lift_off_20','lift_off_40','stripping_20','stripping_40','surveyor_20','surveyor_40')->where('consolidator_id', $consolidator_id)->first();
+            $tarif = \App\Models\InvoiceTarif::select('plp_20','plp_40','lift_on_20','lift_on_40','lift_off_20','lift_off_40','stripping_20','stripping_40','surveyor_20','surveyor_40','empty_20','empty_40')->where('consolidator_id', $consolidator_id)->first();
             $no_cont_20 = array();
             $weight_20 = 0;
             $meas_20 = 0;
@@ -252,7 +254,7 @@ class InvoiceController extends Controller
             $invoice_rekap_id = \DB::table('invoice_rekap')->insertGetId($dataRekap);
 
             $dataRekapItem = array();
-            $key_item = array('Paket PLP','Paket Stripping','Lift Off Full','Lift On Empty','Surveyor');
+            $key_item = array('Paket PLP','Paket Stripping','Lift Off Full','Lift On Empty','Surveyor','Empty Container');
             $grand_total = 0;
 
             // Insert Invoice Rekap Item
@@ -276,6 +278,9 @@ class InvoiceController extends Controller
                 }elseif($key == 'Surveyor'){
                     $dataRekapItem['rates_20'] = $tarif->surveyor_20;
                     $dataRekapItem['rates_40'] = $tarif->surveyor_40;
+                }elseif($key == 'Empty Container'){
+                    $dataRekapItem['rates_20'] = $tarif->empty_20;
+                    $dataRekapItem['rates_40'] = $tarif->empty_40;
                 }
                 $dataRekapItem['subtotal'] = ($dataRekapItem['cont_20']*$dataRekapItem['rates_20'])+($dataRekapItem['cont_40']*$dataRekapItem['rates_40']);
 
@@ -293,37 +298,63 @@ class InvoiceController extends Controller
 
             return back()->with('success', 'Invoice Rekap Berhasil dibuat.');
         }
-
-
-
-//        if(count($data['invoices']) > 0):
-//
-//            $sum_total = array();
-//            foreach ($data['invoices'] as $invoice):
-//                $sum_total[] = $invoice->sub_total;
-//            endforeach;
-//
-//            $data['sub_total'] = array_sum($sum_total);
-//            if(isset($request->free_ppn)):
-//                $data['ppn'] = 0;
-//            else:
-//                $data['ppn'] = $data['sub_total']*10/100;
-//            endif;
-//
-//            $data['materai'] = ($data['sub_total'] + $data['ppn'] >= 5000000) ? '10000' : '0';
-//            $data['total'] = round($data['sub_total'] + $data['ppn'] + $data['materai']);
-//            $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
-//            $data['tgl_cetak'] = $request->tgl_cetak;
-//            $data['tgl_release'] = array('start' => $start, 'end' => $end);
-//
-//            return \View('print.invoice-rekap-akumulasi', $data);
-//
-//            $pdf = \PDF::loadView('print.invoice-rekap-akumulasi', $data)->setPaper('legal');
-//
-//            return $pdf->stream('Rekap Akumulasi Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
-//
-//        endif;
         
+        return back()->with('error', 'Data tidak ditemukan.')->withInput();
+    }
+
+    public function invoicePrintRekapAkumulasi(Request $request)
+    {
+        $consolidator_id = $request->consolidator_id;
+        $start = $request->start_date;
+        $end = $request->end_date;
+        $type = $request->type;
+
+        $data['consolidator'] = \App\Models\Consolidator::find($consolidator_id);
+
+        $data['invoices'] = \App\Models\Invoice::select('tmanifest.tglrelease',
+            \DB::raw('SUM(invoice_import.sub_total) as sub_total'),
+            \DB::raw('SUM(invoice_import.cbm) as total_cbm'),
+            \DB::raw('SUM(invoice_import.rdm) as total_rdm'),
+            \DB::raw('COUNT(invoice_import.id) as total_inv'))
+            ->join('tmanifest','invoice_import.manifest_id','=','tmanifest.TMANIFEST_PK')
+            ->where('tmanifest.TCONSOLIDATOR_FK', $consolidator_id)
+            ->where('tmanifest.tglrelease','>=',$start)
+            ->where('tmanifest.tglrelease','<=',$end)
+            ->where('tmanifest.INVOICE', $type)
+            ->groupBy('tmanifest.tglrelease')
+            ->get();
+
+//        return $data['invoices'];
+
+        if(count($data['invoices']) > 0):
+
+            $sum_total = array();
+            foreach ($data['invoices'] as $invoice):
+                $sum_total[] = $invoice->sub_total;
+            endforeach;
+
+            $data['sub_total'] = array_sum($sum_total);
+            if(isset($request->free_ppn)):
+                $data['ppn'] = 0;
+            else:
+                $data['ppn'] = $data['sub_total']*10/100;
+            endif;
+
+            $data['materai'] = ($data['sub_total'] + $data['ppn'] >= 5000000) ? '10000' : '0';
+            $data['total'] = round($data['sub_total'] + $data['ppn'] + $data['materai']);
+            $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
+            $data['tgl_cetak'] = $request->tgl_cetak;
+            $data['tgl_release'] = array('start' => $start, 'end' => $end);
+            $data['type'] = $type;
+
+            return \View('print.invoice-rekap-akumulasi', $data);
+
+            $pdf = \PDF::loadView('print.invoice-rekap-akumulasi', $data)->setPaper('legal');
+
+            return $pdf->stream('Rekap Akumulasi Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
+
+        endif;
+
         return back()->with('error', 'Data tidak ditemukan.')->withInput();
     }
     
@@ -657,6 +688,44 @@ class InvoiceController extends Controller
         ];        
         
         return view('invoice.index-tarif-nct')->with($data);
+    }
+
+    public function tarifNctEdit($id)
+    {
+        if ( !$this->access->can('show.tarifnct.edit') ) {
+            return view('errors.no-access');
+        }
+
+        $data['page_title'] = "Edit Tarif";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'Edit Tarif'
+            ]
+        ];
+
+        $data['tarif'] = InvoiceTarifNct::find($id);
+        $data['lokasisandar'] = Lokasisandar::get();
+
+        return view('invoice.edit-tarif-nct')->with($data);
+    }
+
+    public function tarifNctUpdate(Request $request, $id)
+    {
+        if ( !$this->access->can('show.tarifnct.edit') ) {
+            return view('errors.no-access');
+        }
+
+        $data = $request->except(['_token']);
+
+        $update = \App\Models\InvoiceTarifNct::where('id', $id)->update($data);
+
+        if($update){
+            return redirect()->route('invoice-tarif-nct-index')->with('success', 'Tarif has been updated.');
+        }
+
+        return back()->with('error', 'Tarif cannot update, please try again.')->withInput();
     }
     
     public function releaseNctIndex()

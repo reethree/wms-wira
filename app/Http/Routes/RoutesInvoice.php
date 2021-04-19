@@ -38,6 +38,10 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
         'as' => 'invoice-plp-print',
         'uses' => 'InvoiceController@invoicePaketPlpPrint'
     ]);
+    Route::post('/paket-plp/create', [
+        'as' => 'invoice-plp-create',
+        'uses' => 'InvoiceController@invoiceCreatePaketPlp'
+    ]);
     Route::get('/print/{id}', [
         'as' => 'invoice-print',
         'uses' => 'InvoiceController@invoicePrint'
@@ -156,7 +160,17 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
         {
             GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_tarif_nct',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
         });
-        
+
+        Route::get('/tarif/edit/{id}', [
+            'as' => 'invoice-tarif-nct-edit',
+            'uses' => 'InvoiceController@tarifNctEdit'
+        ]);
+
+        Route::post('/tarif/edit/{id}', [
+            'as' => 'invoice-tarif-nct-update',
+            'uses' => 'InvoiceController@tarifNctUpdate'
+        ]);
+
         // RELEASE INVOICE
         Route::get('/release', [
             'as' => 'invoice-release-nct-index',

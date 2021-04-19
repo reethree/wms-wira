@@ -70,6 +70,8 @@
                 ->addColumn(array('label'=>'Stripping 40ft','index'=>'stripping_40', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
                 ->addColumn(array('label'=>'Surveyor 20ft','index'=>'surveyor_20', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
                 ->addColumn(array('label'=>'Surveyor 40ft','index'=>'surveyor_40', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+                ->addColumn(array('label'=>'Empty 20ft','index'=>'empty_20', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+                ->addColumn(array('label'=>'Empty 40ft','index'=>'empty_40', 'width'=>150, 'align'=>'center', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
                 ->addColumn(array('label'=>'Created','index'=>'created_at', 'width'=>160, 'align'=>'center'))
                 ->addColumn(array('label'=>'Update','index'=>'update_at', 'width'=>160, 'align'=>'center'))
                 ->addColumn(array('label'=>'UID','index'=>'uid', 'width'=>160, 'align'=>'center'))

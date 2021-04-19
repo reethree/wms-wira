@@ -55,8 +55,8 @@
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td><b>Container 20 ft</b></td>
-                        <td>:&nbsp;&nbsp;&nbsp;&nbsp;{{ $invoice->no_cont_20 }}</td>
+                        <td style="width: 100px;"><b>Container 20 ft</b></td>
+                        <td style="width: 50%;">:&nbsp;&nbsp;&nbsp;&nbsp;{{ $invoice->no_cont_20 }}</td>
                     </tr>
                     <tr>
                         <td><b>Container 40 ft</b></td>
