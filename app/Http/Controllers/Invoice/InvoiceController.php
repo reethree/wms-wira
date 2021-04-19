@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Invoice;
 
+use App\Models\Container;
+use App\Models\Containercy;
 use App\Models\Invoice;
 use App\Models\InvoiceNct;
 use App\Models\InvoiceNctPenumpukan;
@@ -31,6 +33,26 @@ class InvoiceController extends Controller
         $data['consolidators'] = \App\Models\Consolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
         
         return view('invoice.index-invoice')->with($data);
+    }
+
+    public function invoicePaketPlp()
+    {
+        if ( !$this->access->can('show.invoice.plp') ) {
+            return view('errors.no-access');
+        }
+
+        $data['page_title'] = "Invoice Paket PLP";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'Invoice Paket PLP'
+            ]
+        ];
+
+        $data['consolidators'] = \App\Models\Consolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
+
+        return view('invoice.index-invoice-plp')->with($data);
     }
     
     public function releaseIndex()
@@ -86,11 +108,49 @@ class InvoiceController extends Controller
         
         return view('invoice.edit-invoice')->with($data);
     }
+
+    public function invoicePaketPlpEdit($id)
+    {
+
+        if ( !$this->access->can('edit.invoice.plp') ) {
+            return view('errors.no-access');
+        }
+
+        $data['page_title'] = "Edit Invoice Paket PLP";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => route('invoice-plp'),
+                'title' => 'Invoice Paket PLP'
+            ],
+            [
+                'action' => '',
+                'title' => 'Edit'
+            ]
+        ];
+
+        $data['invoice'] = \DB::table('invoice_rekap')->find($id);
+        $data['invoice_items'] = \DB::table('invoice_rekap_item')->where('invoice_rekap_id', $id)->get();
+        $data['consolidator'] = \App\Models\Consolidator::find($data['invoice']->consolidator_id);
+
+        $total = $data['invoice']->total + $data['invoice']->ppn + $data['invoice']->materai;
+        $data['terbilang'] = ucwords($this->terbilang($total))." Rupiah";
+
+        return view('invoice.edit-invoice-plp')->with($data);
+    }
     
     public function invoiceDestroy($id)
     {
         \DB::table('invoice_import')->where('id', $id)->delete();
         return back()->with('success', 'Invoice has been deleted.'); 
+    }
+
+    public function invoicePaketPlpDestroy($id)
+    {
+        \DB::table('invoice_rekap')->where('id', $id)->delete();
+        \DB::table('invoice_rekap_item')->where('invoice_rekap_id', $id)->delete();
+
+        return back()->with('success', 'Invoice Paket PLP has been deleted.');
     }
     
     public function invoicePrint($id)
@@ -117,59 +177,152 @@ class InvoiceController extends Controller
         
         return $pdf->stream($data['invoice']->no_invoice.'-'.date('dmy').'.pdf');
     }
+
+    public function invoicePaketPlpPrint($id)
+    {
+        $data['invoice'] = \DB::table('invoice_rekap')->find($id);
+        $data['invoice_items'] = \DB::table('invoice_rekap_item')->where('invoice_rekap_id', $id)->get();
+        $data['consolidator'] = \App\Models\Consolidator::find($data['invoice']->consolidator_id);
+
+        $total = $data['invoice']->total + $data['invoice']->ppn + $data['invoice']->materai;
+        $data['terbilang'] = ucwords($this->terbilang($total))." Rupiah";
+
+        return view('print.invoice-plp')->with($data);
+    }
     
     public function invoicePrintRekapAkumulasi(Request $request)
     {
         $consolidator_id = $request->consolidator_id;
+        $no_inv = $request->no_invoice;
         $start = $request->start_date;
         $end = $request->end_date;
-        $type = $request->type;
-        
-        $data['consolidator'] = \App\Models\Consolidator::find($consolidator_id);
-        
-        $data['invoices'] = \App\Models\Invoice::select('tmanifest.tglrelease', 
-                \DB::raw('SUM(invoice_import.sub_total) as sub_total'), 
-                \DB::raw('SUM(invoice_import.cbm) as total_cbm'), 
-                \DB::raw('SUM(invoice_import.rdm) as total_rdm'),
-                \DB::raw('COUNT(invoice_import.id) as total_inv'))               
-                ->join('tmanifest','invoice_import.manifest_id','=','tmanifest.TMANIFEST_PK')
-                ->where('tmanifest.TCONSOLIDATOR_FK', $consolidator_id)
-                ->where('tmanifest.tglrelease','>=',$start)
-                ->where('tmanifest.tglrelease','<=',$end)
-                ->where('tmanifest.INVOICE', $type)
-                ->groupBy('tmanifest.tglrelease')
-                ->get();
-        
-//        return $data['invoices'];
-        
-        if(count($data['invoices']) > 0):
-            
-            $sum_total = array();
-            foreach ($data['invoices'] as $invoice):
-                $sum_total[] = $invoice->sub_total;        
-            endforeach;
-            
-            $data['sub_total'] = array_sum($sum_total);
-            if(isset($request->free_ppn)):
-                $data['ppn'] = 0;
-            else:
-                $data['ppn'] = $data['sub_total']*10/100;
-            endif;
-            
-            $data['materai'] = ($data['sub_total'] + $data['ppn'] >= 5000000) ? '10000' : '0';
-            $data['total'] = round($data['sub_total'] + $data['ppn'] + $data['materai']);           
-            $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
-            $data['tgl_cetak'] = $request->tgl_cetak;
-            $data['tgl_release'] = array('start' => $start, 'end' => $end);
-            $data['type'] = $type;
-            
-            return \View('print.invoice-rekap-akumulasi', $data);
-            
-            $pdf = \PDF::loadView('print.invoice-rekap-akumulasi', $data)->setPaper('legal');
+//        $type = $request->type;
+//
+//        $consolidator = \App\Models\Consolidator::find($consolidator_id);
 
-            return $pdf->stream('Rekap Akumulasi Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
-            
-        endif;
+        // Find Data Container
+        $containers20 = Container::where('TCONSOLIDATOR_FK', $consolidator_id)
+            ->where('TGLSTRIPPING','>=',$start)
+            ->where('TGLSTRIPPING','<=',$end)
+            ->where('SIZE', 20)
+            ->get();
+        $containers40 = Container::where('TCONSOLIDATOR_FK', $consolidator_id)
+            ->where('TGLSTRIPPING','>=',$start)
+            ->where('TGLSTRIPPING','<=',$end)
+            ->where('SIZE', 40)
+            ->get();
+
+        if(count($containers20) > 0 || count($containers40) > 0){
+            $tarif = \App\Models\InvoiceTarif::select('plp_20','plp_40','lift_on_20','lift_on_40','lift_off_20','lift_off_40','stripping_20','stripping_40','surveyor_20','surveyor_40')->where('consolidator_id', $consolidator_id)->first();
+            $no_cont_20 = array();
+            $weight_20 = 0;
+            $meas_20 = 0;
+            if(count($containers20) > 0){
+                foreach ($containers20 as $c20):
+                    $no_cont_20[] = $c20->NOCONTAINER;
+                    $weight_20 += $c20->WEIGHT;
+                    $meas_20 += $c20->MEAS;
+                endforeach;
+            }
+            $no_cont_40 = array();
+            $weight_40 = 0;
+            $meas_40 = 0;
+            if(count($containers40) > 0){
+                foreach ($containers40 as $c40):
+                    $no_cont_40[] = $c40->NOCONTAINER;
+                    $weight_40 += $c40->WEIGHT;
+                    $meas_40 += $c40->MEAS;
+                endforeach;
+            }
+
+            // Insert Invoice Rekap
+            $dataRekap['no_inv'] = date('ym').$no_inv;
+            $dataRekap['consolidator_id'] = $consolidator_id;
+            $dataRekap['print_date'] = $request->tgl_cetak;
+            $dataRekap['start_date'] = $start;
+            $dataRekap['end_date'] = $end;
+            $dataRekap['cont_20'] = count($containers20);
+            $dataRekap['cont_40'] = count($containers40);
+            $dataRekap['no_cont_20'] = implode(', ',$no_cont_20);
+            $dataRekap['no_cont_40'] = implode(', ',$no_cont_40);
+            $dataRekap['weight'] = $weight_40+$weight_20;
+            $dataRekap['meas'] = $meas_40+$meas_20;
+            $dataRekap['uid'] = \Auth::getUser()->name;
+
+            $invoice_rekap_id = \DB::table('invoice_rekap')->insertGetId($dataRekap);
+
+            $dataRekapItem = array();
+            $key_item = array('Paket PLP','Paket Stripping','Lift Off Full','Lift On Empty','Surveyor');
+            $grand_total = 0;
+
+            // Insert Invoice Rekap Item
+            foreach ($key_item as $key):
+                $dataRekapItem['invoice_rekap_id'] = $invoice_rekap_id;
+                $dataRekapItem['item_name'] = $key;
+                $dataRekapItem['cont_20'] = count($containers20);
+                $dataRekapItem['cont_40'] = count($containers40);
+                if($key == 'Paket PLP') {
+                    $dataRekapItem['rates_20'] = $tarif->plp_20;
+                    $dataRekapItem['rates_40'] = $tarif->plp_40;
+                }elseif($key == 'Paket Stripping'){
+                    $dataRekapItem['rates_20'] = $tarif->stripping_20;
+                    $dataRekapItem['rates_40'] = $tarif->stripping_40;
+                }elseif($key == 'Lift Off Full'){
+                    $dataRekapItem['rates_20'] = $tarif->lift_off_20;
+                    $dataRekapItem['rates_40'] = $tarif->lift_off_40;
+                }elseif($key == 'Lift On Empty'){
+                    $dataRekapItem['rates_20'] = $tarif->lift_on_20;
+                    $dataRekapItem['rates_40'] = $tarif->lift_on_40;
+                }elseif($key == 'Surveyor'){
+                    $dataRekapItem['rates_20'] = $tarif->surveyor_20;
+                    $dataRekapItem['rates_40'] = $tarif->surveyor_40;
+                }
+                $dataRekapItem['subtotal'] = ($dataRekapItem['cont_20']*$dataRekapItem['rates_20'])+($dataRekapItem['cont_40']*$dataRekapItem['rates_40']);
+
+                \DB::table('invoice_rekap_item')->insert($dataRekapItem);
+
+                $grand_total += $dataRekapItem['subtotal'];
+            endforeach;
+
+            // Update Grand Total
+            $dataRekapUpdate['total'] = $grand_total;
+            $dataRekapUpdate['ppn'] = $dataRekapUpdate['total']*10/100;;
+            $dataRekapUpdate['materai'] = ($dataRekapUpdate['total'] + $dataRekapUpdate['ppn'] >= 5000000) ? '10000' : '0';
+
+            \DB::table('invoice_rekap')->where('id', $invoice_rekap_id)->update($dataRekapUpdate);
+
+            return back()->with('success', 'Invoice Rekap Berhasil dibuat.');
+        }
+
+
+
+//        if(count($data['invoices']) > 0):
+//
+//            $sum_total = array();
+//            foreach ($data['invoices'] as $invoice):
+//                $sum_total[] = $invoice->sub_total;
+//            endforeach;
+//
+//            $data['sub_total'] = array_sum($sum_total);
+//            if(isset($request->free_ppn)):
+//                $data['ppn'] = 0;
+//            else:
+//                $data['ppn'] = $data['sub_total']*10/100;
+//            endif;
+//
+//            $data['materai'] = ($data['sub_total'] + $data['ppn'] >= 5000000) ? '10000' : '0';
+//            $data['total'] = round($data['sub_total'] + $data['ppn'] + $data['materai']);
+//            $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
+//            $data['tgl_cetak'] = $request->tgl_cetak;
+//            $data['tgl_release'] = array('start' => $start, 'end' => $end);
+//
+//            return \View('print.invoice-rekap-akumulasi', $data);
+//
+//            $pdf = \PDF::loadView('print.invoice-rekap-akumulasi', $data)->setPaper('legal');
+//
+//            return $pdf->stream('Rekap Akumulasi Invoice '.date('d-m-Y').'-'.$data['consolidator']->NAMACONSOLIDATOR.'.pdf');
+//
+//        endif;
         
         return back()->with('error', 'Data tidak ditemukan.')->withInput();
     }
@@ -674,6 +827,74 @@ class InvoiceController extends Controller
 
         if($update_nct->save()) {
             return back()->with('success', 'Invoice perpanjangan berhasih dibuat.');
+        }
+    }
+
+    public function InvoicePlatformApprovePayment($invoice_id)
+    {
+        $invoice = InvoiceNct::find($invoice_id);
+        if($invoice){
+            // Update Payment Status
+            $invoice->payment_status = 'Paid';
+            $invoice->payment_date = date('Y-m-d H:i:s');
+
+            if($invoice->save()){
+                // Update VA Status
+
+                // Create & Send Gate Pass
+                $nobl = $invoice->no_bl;
+                $conts = explode(',',$invoice->no_container);
+                $expired = date('Y-m-d', strtotime('+1 day'));
+
+                foreach ($conts as $cont):
+                    $refdata = Containercy::where(array('NOCONTAINER' => $cont, 'NO_BL_AWB' => $nobl))->first();
+                    $ids[] = $refdata->TCONTAINER_PK;
+                    $urls[] = route('barcode-print-pdf', array('fcl', $refdata->TCONTAINER_PK));
+                    $ref_id = $refdata->TCONTAINER_PK;
+                    $ref_number = $refdata->NOCONTAINER;
+                    if($refdata->flag_bc == 'Y' || $refdata->status_bc == 'HOLD'){
+                        $ref_status = 'hold';
+                    }else{
+                        $ref_status = 'active';
+                    }
+
+                    $check = \App\Models\Barcode::where(array('ref_id'=>$ref_id, 'ref_type'=>'FCL', 'ref_action'=>'release'))->first();
+                    if(count($check) > 0){
+//                    continue;
+                        $barcode = \App\Models\Barcode::find($check->id);
+                        $barcode->expired = $expired;
+                        $barcode->status = $ref_status;
+                        $barcode->uid = 'Platform';
+                        $barcode->save();
+                    }else{
+                        $barcode = new \App\Models\Barcode();
+                        $barcode->ref_id = $ref_id;
+                        $barcode->ref_type = 'FCL';
+                        $barcode->ref_action = 'release';
+                        $barcode->ref_number = $ref_number;
+                        $barcode->barcode = str_random(20);
+                        $barcode->expired = $expired;
+                        $barcode->status = $ref_status;
+                        $barcode->uid = 'Platform';
+                        $barcode->save();
+                    }
+                endforeach;
+
+                $data_barcode = \App\Models\Barcode::select('*')
+                    ->join('tcontainercy', 'barcode_autogate.ref_id', '=', 'tcontainercy.TCONTAINER_PK')
+                    ->where(array('ref_type' => 'FCL', 'ref_action'=>'release'))
+                    ->whereIn('tcontainercy.TCONTAINER_PK', $ids)
+                    ->get();
+
+                $data['invoice'] = $invoice;
+                $data['barcode'] = $data_barcode;
+                $data['barcode']['urls'] = $urls;
+
+                // Send Barcode To Platform
+                return json_encode($data);
+                return back()->with('success', 'Invoice has been Paid.');
+
+            }
         }
     }
 

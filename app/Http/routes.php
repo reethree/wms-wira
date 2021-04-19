@@ -20,7 +20,9 @@
     }
 
     Route::group(['middleware' => ['web']], function(){
-        
+        // API Routes
+        require_once 'Routes/RoutesApi.php';
+
         // EasyGo Routes
         require_once 'Routes/RoutesEasyGo.php';
         

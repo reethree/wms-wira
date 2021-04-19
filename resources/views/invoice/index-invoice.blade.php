@@ -54,8 +54,8 @@
         <h3 class="box-title">LCL Invoices Lists</h3>
         <div class="box-tools">
             <!--<button class="btn btn-danger btn-sm" id="update-rdm"><i class="fa fa-refresh"></i> UPDATE RDM</button>&nbsp;&nbsp;&nbsp;|||&nbsp;&nbsp;&nbsp;-->
-            <button class="btn btn-info btn-sm" id="cetak-rekap"><i class="fa fa-print"></i> REKAP HARIAN</button>
-            <button class="btn btn-warning btn-sm" id="cetak-rekap-akumulasi"><i class="fa fa-print"></i> REKAP AKUMULASI</button>
+{{--            <button class="btn btn-info btn-sm" id="cetak-rekap"><i class="fa fa-print"></i> REKAP HARIAN</button>--}}
+{{--            <button class="btn btn-warning btn-sm" id="cetak-rekap-akumulasi"><i class="fa fa-print"></i> CREATE REKAP INVOICE</button>--}}
         </div>
     </div>
     <div class="box-body table-responsive">
@@ -250,13 +250,24 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Invoice</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            {{ date('ym') }}
+                                        </div>
+                                        <input type="number" name="no_invoice" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Tgl. Invoice</label>
                                 <div class="col-sm-4">
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="start_date" class="form-control pull-right datepicker" required>
+                                        <input autocomplete="off" type="text" name="start_date" class="form-control pull-right datepicker" required>
                                     </div>
                                 </div>
                                 <label class="col-sm-1 control-label">s/d</label>
@@ -265,7 +276,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="end_date" class="form-control pull-right datepicker" required>
+                                        <input autocomplete="off" type="text" name="end_date" class="form-control pull-right datepicker" required>
                                     </div>
                                 </div>
                             </div>   
@@ -276,26 +287,26 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="tgl_cetak" class="form-control pull-right datepicker" required>
+                                        <input autocomplete="off" type="text" name="tgl_cetak" class="form-control pull-right datepicker" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Type</label>
-                                <div class="col-sm-8">
-                                    <select class="form-control select2" name="type" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                        <option value="">Choose Type</option>
-                                        <option value="BB">BB</option>
-                                        <option value="DRY">DRY</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Free PPN</label>
-                                <div class="col-sm-5">
-                                    <input type="checkbox" name="free_ppn" value="1" />
-                                </div>
-                            </div>
+{{--                            <div class="form-group">--}}
+{{--                                <label class="col-sm-3 control-label">Type</label>--}}
+{{--                                <div class="col-sm-8">--}}
+{{--                                    <select class="form-control select2" name="type" style="width: 100%;" tabindex="-1" aria-hidden="true" required>--}}
+{{--                                        <option value="">Choose Type</option>--}}
+{{--                                        <option value="BB">BB</option>--}}
+{{--                                        <option value="DRY">DRY</option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="col-sm-3 control-label">Free PPN</label>--}}
+{{--                                <div class="col-sm-5">--}}
+{{--                                    <input type="checkbox" name="free_ppn" value="1" />--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                 </div>

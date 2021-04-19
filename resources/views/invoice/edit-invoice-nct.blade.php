@@ -257,6 +257,7 @@
     <div class="row no-print">
       <div class="col-xs-12">
           <button id="print-invoice-btn" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+          <a href="{{route('invoice-approve-payment', $invoice->id)}}" id="approve-payment-btn" class="btn btn-success"><i class="fa fa-money"></i> Approve Payment</a>
       </div>
     </div>
     

@@ -40,7 +40,15 @@
             del = ''; 
         for(var i=0;i < ids.length;i++){ 
             var cl = ids[i];
-            
+
+            rowdata = $('#fclInvoicesGrid').getRowData(cl);
+            if(rowdata.payment_status == 'Waiting') {
+                $("#" + cl).find("td").css("background-color", "yellow").css("color", "#000");
+            }
+            if(rowdata.payment_status == 'Paid') {
+                $("#" + cl).find("td").css("background-color", "green").css("color", "#FFF");
+            }
+
             edt = '<a href="{{ route("invoice-nct-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
             del = '<a href="{{ route("invoice-nct-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
             jQuery("#fclInvoicesGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del}); 
@@ -148,6 +156,7 @@
             ->addColumn(array('label'=>'PPN 10%','index'=>'ppn','width'=>100,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
             ->addColumn(array('label'=>'Materai','index'=>'materai','width'=>100,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
             ->addColumn(array('label'=>'Total','index'=>'total','width'=>100,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
+            ->addColumn(array('label'=>'Status','index'=>'payment_status', 'width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'Created','index'=>'created_at', 'width'=>160,'align'=>'center'))
             ->addColumn(array('label'=>'Updated','index'=>'updated_at', 'width'=>160,'align'=>'center','hidden'=>true))
             ->addColumn(array('label'=>'UID','index'=>'uid','width'=>'150','align'=>'center')) 

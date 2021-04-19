@@ -9,7 +9,15 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
     Route::post('/grid-data', function()
     {
         GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_import',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
-    });   
+    });
+    Route::get('/paket-plp', [
+        'as' => 'invoice-plp',
+        'uses' => 'InvoiceController@invoicePaketPlp'
+    ]);
+    Route::post('/paket-plp/grid-data', function()
+    {
+        GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_rekap',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
+    });
     Route::get('/edit/{id}', [
         'as' => 'invoice-edit',
         'uses' => 'InvoiceController@invoiceEdit'
@@ -17,6 +25,18 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
     Route::get('/delete/{id}', [
         'as' => 'invoice-delete',
         'uses' => 'InvoiceController@invoiceDestroy'
+    ]);
+    Route::get('/paket-plp/edit/{id}', [
+        'as' => 'invoice-plp-edit',
+        'uses' => 'InvoiceController@invoicePaketPlpEdit'
+    ]);
+    Route::get('/paket-plp/delete/{id}', [
+        'as' => 'invoice-plp-delete',
+        'uses' => 'InvoiceController@invoicePaketPlpDestroy'
+    ]);
+    Route::get('/paket-plp/print/{id}', [
+        'as' => 'invoice-plp-print',
+        'uses' => 'InvoiceController@invoicePaketPlpPrint'
     ]);
     Route::get('/print/{id}', [
         'as' => 'invoice-print',
@@ -117,10 +137,15 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
         ]);
         
         Route::get('/print/{id}', [
-        'as' => 'invoice-nct-print',
-        'uses' => 'InvoiceController@invoiceNctPrint'
-    ]);
-        
+            'as' => 'invoice-nct-print',
+            'uses' => 'InvoiceController@invoiceNctPrint'
+        ]);
+
+        Route::get('/approve-payment/{id}', [
+            'as' => 'invoice-approve-payment',
+            'uses' => 'InvoiceController@InvoicePlatformApprovePayment'
+        ]);
+
         // TARIF
         Route::get('/tarif', [
             'as' => 'invoice-tarif-nct-index',

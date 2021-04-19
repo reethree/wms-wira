@@ -39,7 +39,7 @@
                     <div class="form-group">
                       <label for="werahouse_charge" class="col-sm-3 control-label">Warehouse Charge</label>
                       <div class="col-sm-8">
-                          <input type="number" name="warehouse_charge" class="form-control" id="werahouse_charge" value="{{ $tarif->werahouse_charge }}" required>
+                          <input type="number" name="warehouse_charge" class="form-control" id="werahouse_charge" value="{{ $tarif->warehouse_charge }}" required>
                       </div>
                     </div>
                     <div class="form-group">
@@ -47,6 +47,12 @@
                       <div class="col-sm-8">
                           <input type="number" name="surveyor" class="form-control" id="surveyor" value="{{ $tarif->surveyor }}" required>
                       </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="storage" class="col-sm-3 control-label">Storage</label>
+                        <div class="col-sm-8">
+                            <input type="number" name="storage" class="form-control" id="storage" value="{{ $tarif->storage }}" required>
+                        </div>
                     </div>
                     <div class="form-group">
                       <label for="storage_masa1" class="col-sm-3 control-label">Storage Masa I</label>
@@ -111,6 +117,67 @@
                       </div>
                     </div>
                     
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr />
+                    <h4><b>TARIF PAKET PLP</b></h4>
+                    <hr />
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">PLP 20ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="plp_20" class="form-control" id="plp_20" value="{{ $tarif->plp_20 }}" required>
+                        </div>
+                        <label class="col-sm-2 control-label">40ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="plp_40" class="form-control" id="plp_40" value="{{ $tarif->plp_40 }}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Lift On 20ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="lift_on_20" class="form-control" id="lift_on_20" value="{{ $tarif->lift_on_20 }}" required>
+                        </div>
+                        <label class="col-sm-2 control-label">40ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="lift_on_40" class="form-control" id="lift_on_40" value="{{ $tarif->lift_on_40 }}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Lift Off 20ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="lift_off_20" class="form-control" id="lift_off_20" value="{{ $tarif->lift_off_20 }}" required>
+                        </div>
+                        <label class="col-sm-2 control-label">40ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="lift_off_40" class="form-control" id="lift_off_40" value="{{ $tarif->lift_off_40 }}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Stripping 20ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="stripping_20" class="form-control" id="stripping_20" value="{{ $tarif->stripping_20 }}" required>
+                        </div>
+                        <label class="col-sm-2 control-label">40ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="stripping_40" class="form-control" id="stripping_40" value="{{ $tarif->stripping_40 }}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Surveyor 20ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="surveyor_20" class="form-control" id="surveyor_20" value="{{ $tarif->surveyor_20 }}" required>
+                        </div>
+                        <label class="col-sm-2 control-label">40ft</label>
+                        <div class="col-sm-3">
+                            <input type="number" name="surveyor_40" class="form-control" id="surveyor_40" value="{{ $tarif->surveyor_40 }}" required>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

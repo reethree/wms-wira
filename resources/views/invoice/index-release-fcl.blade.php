@@ -151,6 +151,8 @@
                     ->addColumn(array('index'=>'TCONSIGNEE_FK','hidden'=>true))
                     ->addColumn(array('label'=>'Consignee','index'=>'CONSIGNEE','width'=>300))
                     ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
+                    ->addColumn(array('label'=>'No.B/L','index'=>'NO_BL_AWB','width'=>150,'align'=>'left'))
+                    ->addColumn(array('label'=>'Tgl.B/L','index'=>'TGL_BL_AWB','width'=>80,'align'=>'center'))
                     ->addColumn(array('label'=>'Tgl. Keluar TPK','index'=>'TGLKELUAR_TPK', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'Jam Keluar TPK','index'=>'JAMKELUAR_TPK', 'width'=>150,'align'=>'center'))
                     ->addColumn(array('label'=>'No. SPK','index'=>'NoJob','width'=>160))
