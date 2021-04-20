@@ -124,6 +124,7 @@
             </tr>
             </thead>
             <tbody>
+            @if($invoice->rdm == false)
             @if($invoice->storage > 0)
           <tr>
             <td>&nbsp;</td>
@@ -231,6 +232,17 @@
             <td align="right">Rp.</td>
             <td align="right">{{ number_format($invoice->adm) }}</td>
           </tr>
+            @else
+                <tr>
+                    <td>1</td>
+                    <td>Warehouse Charge</td>
+                    <td>{{ number_format($invoice->cbm, 3, '.', ',') }} Cbm</td>
+                    <td align="right">Rp.</td>
+                    <td align="right">{{ number_format($tarif->warehouse_charge) }}</td>
+                    <td align="right">Rp.</td>
+                    <td align="right">{{ number_format($invoice->warehouse_charge) }}</td>
+                </tr>
+            @endif
             <tr>
                 <td colspan="7" style="border-bottom: 1px solid #000;"></td>
             </tr>

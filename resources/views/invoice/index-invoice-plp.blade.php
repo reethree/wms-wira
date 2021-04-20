@@ -162,17 +162,17 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">No. Invoice</label>
-                                    <div class="col-sm-8">
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                {{ date('ym') }}
-                                            </div>
-                                            <input type="number" name="no_invoice" class="form-control" required>
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="col-sm-3 control-label">No. Invoice</label>--}}
+{{--                                    <div class="col-sm-8">--}}
+{{--                                        <div class="input-group date">--}}
+{{--                                            <div class="input-group-addon">--}}
+{{--                                                {{ date('ym') }}--}}
+{{--                                            </div>--}}
+{{--                                            <input type="number" name="no_invoice" class="form-control" required>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Tgl. Masuk</label>
                                     <div class="col-sm-4">

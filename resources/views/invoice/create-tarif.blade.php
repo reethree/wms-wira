@@ -116,6 +116,12 @@
                           <input type="checkbox" name="pembulatan" id="pembulatan" value="1" />
                       </div>
                     </div>
+                    <div class="form-group">
+                        <label for="rdm_in_cargo" class="col-sm-3 control-label">RDM Cargo</label>
+                        <div class="col-sm-8">
+                            <input type="checkbox" name="rdm_in_cargo" id="rdm_in_cargo" value="1" />
+                        </div>
+                    </div>
                     
                 </div>
             </div>

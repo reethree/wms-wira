@@ -127,113 +127,126 @@
           </tr>
           </thead>
           <tbody>
-          @if($invoice->storage > 0)
-          <tr>
-            <td>&nbsp;</td>
-            <td>Biaya Penumpukan</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
-          <tr>
-            <td>1</td>           
-            <td>Storage</td>
-            <td>{{ number_format($invoice->cbm * 1000, 0, '.', ',') }} Cbm x {{ $invoice->hari }} hari</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($tarif->storage) }}</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($invoice->storage) }}</td>
-          </tr>
+          @if($invoice->rdm == false)
+              @if($invoice->storage > 0)
+                  <tr>
+                      <td>&nbsp;</td>
+                      <td>Biaya Penumpukan</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                      <td>1</td>
+                      <td>Storage</td>
+                      <td>{{ number_format($invoice->cbm * 1000, 0, '.', ',') }} Cbm x {{ $invoice->hari }} hari</td>
+                      <td align="right">Rp.</td>
+                      <td align="right">{{ number_format($tarif->storage) }}</td>
+                      <td align="right">Rp.</td>
+                      <td align="right">{{ number_format($invoice->storage) }}</td>
+                  </tr>
+              @else
+                  <tr>
+                      <td>1</td>
+                      <td>Biaya Storage</td>
+                      <td colspan="5">&nbsp;</td>
+                  </tr>
+                  <tr>
+                      <td>&nbsp;</td>
+                      <td>Masa I (1-3 Hari)</td>
+                      <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm x {{ $invoice->hari_masa1 }} hari</td>
+                      <td align="right">Rp.</td>
+                      <td align="right">{{ number_format($tarif->storage_masa1) }}</td>
+                      <td align="right">Rp.</td>
+                      <td align="right">{{ number_format($invoice->storage_masa1) }}</td>
+                  </tr>
+                  <tr>
+                      <td>&nbsp;</td>
+                      <td>Masa II (4-6 Hari)</td>
+                      <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm x {{ $invoice->hari_masa2 }} hari</td>
+                      <td align="right">Rp.</td>
+                      <td align="right">{{ number_format($tarif->storage_masa2) }}</td>
+                      <td align="right">Rp.</td>
+                      <td align="right">{{ number_format($invoice->storage_masa2) }}</td>
+                  </tr>
+                  <tr>
+                      <td>&nbsp;</td>
+                      <td>Masa III (7 Hari - dst)</td>
+                      <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm x {{ $invoice->hari_masa3 }} hari</td>
+                      <td align="right">Rp.</td>
+                      <td align="right">{{ number_format($tarif->storage_masa3) }}</td>
+                      <td align="right">Rp.</td>
+                      <td align="right">{{ number_format($invoice->storage_masa3) }}</td>
+                  </tr>
+              @endif
+              <tr>
+                  <td>2</td>
+                  <td>Warehouse Charge</td>
+                  <td>{{ number_format($invoice->cbm, 3, '.', ',') }} Cbm</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($tarif->warehouse_charge) }}</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($invoice->warehouse_charge) }}</td>
+              </tr>
+              <tr>
+                  <td>3</td>
+                  <td>Behandle</td>
+                  <td>{{ number_format($invoice->behandle, 3, '.', ',') }} Cbm</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($tarif->behandle) }}</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($invoice->harga_behandle) }}</td>
+              </tr>
+              <tr>
+                  <td>4</td>
+                  <td>Surveyor</td>
+                  <td>{{ number_format($invoice->cbm, 3, '.', ',') }} Cbm</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($tarif->surveyor) }}</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($invoice->surveyor) }}</td>
+              </tr>
+              <tr>
+                  <td>5</td>
+                  <td>DG Cargo Surcharge</td>
+                  <td>{{ number_format($invoice->cbm, 3, '.', ',') }} Cbm</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($tarif->dg_surcharge) }}</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($invoice->dg_surcharge) }}</td>
+              </tr>
+              <tr>
+                  <td>6</td>
+                  <td>OW Cargo Surcharge > 2.5 Ton</td>
+                  <td>-</td>
+                  <td align="right">{{ ($tarif->surcharge_price > 100) ? 'Rp.' : '%' }}</td>
+                  <td align="right">{{ number_format($tarif->surcharge_price) }}</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($invoice->weight_surcharge) }}</td>
+              </tr>
+              <tr>
+                  <td>7</td>
+                  <td>Admin</td>
+                  <td>-</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($tarif->adm) }}</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($invoice->adm) }}</td>
+              </tr>
           @else
-          <tr>
-              <td>1</td>
-              <td>Biaya Storage</td>
-              <td colspan="5">&nbsp;</td>
-          </tr>
-          <tr>
-              <td>&nbsp;</td>
-              <td>Masa I (1-3 Hari)</td>
-              <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm x {{ $invoice->hari_masa1 }} hari</td>
-              <td align="right">Rp.</td>
-              <td align="right">{{ number_format($tarif->storage_masa1) }}</td>
-              <td align="right">Rp.</td>
-              <td align="right">{{ number_format($invoice->storage_masa1) }}</td>
-          </tr>
-          <tr>
-              <td>&nbsp;</td>
-              <td>Masa II (4-6 Hari)</td>
-              <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm x {{ $invoice->hari_masa2 }} hari</td>
-              <td align="right">Rp.</td>
-              <td align="right">{{ number_format($tarif->storage_masa2) }}</td>
-              <td align="right">Rp.</td>
-              <td align="right">{{ number_format($invoice->storage_masa2) }}</td>
-          </tr>
-          <tr>
-              <td>&nbsp;</td>
-              <td>Masa III (7 Hari - dst)</td>
-              <td>{{ number_format($invoice->cbm, 2, '.', ',') }} Cbm x {{ $invoice->hari_masa3 }} hari</td>
-              <td align="right">Rp.</td>
-              <td align="right">{{ number_format($tarif->storage_masa3) }}</td>
-              <td align="right">Rp.</td>
-              <td align="right">{{ number_format($invoice->storage_masa3) }}</td>
-          </tr>
+              <tr>
+                  <td>1</td>
+                  <td>Jasa Penumpukan</td>
+                  <td>{{ number_format($invoice->cbm, 3, '.', ',') }} Cbm</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($tarif->warehouse_charge) }}</td>
+                  <td align="right">Rp.</td>
+                  <td align="right">{{ number_format($invoice->warehouse_charge) }}</td>
+              </tr>
           @endif
-          <tr>
-            <td>2</td>
-            <td>Warehouse Charge</td>
-            <td>{{ number_format($invoice->cbm, 3, '.', ',') }} Cbm</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($tarif->warehouse_charge) }}</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($invoice->warehouse_charge) }}</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Behandle</td>
-            <td>{{ number_format($invoice->behandle, 3, '.', ',') }} Cbm</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($tarif->behandle) }}</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($invoice->harga_behandle) }}</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Surveyor</td>
-            <td>{{ number_format($invoice->cbm, 3, '.', ',') }} Cbm</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($tarif->surveyor) }}</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($invoice->surveyor) }}</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>DG Cargo Surcharge</td>
-            <td>{{ number_format($invoice->cbm, 3, '.', ',') }} Cbm</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($tarif->dg_surcharge) }}</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($invoice->dg_surcharge) }}</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>OW Cargo Surcharge > 2.5 Ton</td>
-            <td>-</td>
-            <td align="right">{{ ($tarif->surcharge_price > 100) ? 'Rp.' : '%' }}</td>
-            <td align="right">{{ number_format($tarif->surcharge_price) }}</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($invoice->weight_surcharge) }}</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>Admin</td>
-            <td>-</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($tarif->adm) }}</td>
-            <td align="right">Rp.</td>
-            <td align="right">{{ number_format($invoice->adm) }}</td>
-          </tr>
+
           </tbody>
         </table>
       </div>

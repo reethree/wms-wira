@@ -35,7 +35,7 @@
             <td>{{ $consolidator->NAMACONSOLIDATOR }}</td>
         </tr>
         <tr>
-            <td>{{ $consolidator->ALAMAT }}</td>
+            <td>{{ $consolidator->ALAMAT }}<br />{{ $consolidator->NPWP }}</td>
         </tr>
     </table>
     
@@ -48,10 +48,10 @@
             <td style="text-align: center;">REKAPITULASI PENGIRIMAN NOTA TAGIHAN</td>
         </tr>
         <tr>
-            <td style="text-align: center;">Biaya Penumpukan Barang LCL ({{ $invoices['0']->INVOICE }}) Gudang Wira</td>
+            <td style="text-align: center;">Biaya Penumpukan Barang LCL ({{ $invoices['0']->INVOICE }}) Gudang PT WIRA MITRA PRIMA</td>
         </tr>
         <tr>
-            <td style="text-align: center;">Tanggal : {{ date('d F Y', strtotime($invoices['0']->tglrelease)) }}</td>
+            <td style="text-align: center;">Tanggal : {{ date('d F Y', strtotime($start_date)).' - '.date('d F Y', strtotime($end_date)) }}</td>
         </tr>
     </table>
     
@@ -60,6 +60,7 @@
         <tr>
             <th style="text-align: center;width: 20px;border: 1px solid;">NO</th>
             <th style="text-align: center;border: 1px solid;">CONSIGNEE</th>
+            <th style="text-align: center;width: 80px;border: 1px solid;">TGL<br />RELEASE</th>
             <th style="text-align: center;width: 80px;border: 1px solid;">NO<br />INVOICE</th>
             <th style="text-align: center;border: 1px solid;" colspan="2">JUMLAH</th>
         </tr>
@@ -69,6 +70,7 @@
             <tr>
                 <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">{{ $i }}</td>
                 <td style="border-right: 1px solid;">{{ $invoice->CONSIGNEE }}</td>
+                <td style="text-align: center;border-right: 1px solid;">{{ date('d M Y', strtotime($invoice->tgl_keluar)) }}</td>
                 <td style="text-align: center;border-right: 1px solid;">{{ $invoice->no_invoice }}</td>
                 <td style="width: 30px;">Rp.</td>
                 <td style="text-align: right;width: 150px;">{{ number_format($invoice->sub_total) }}</td>
@@ -77,27 +79,27 @@
         @endforeach
         
         <tr>
-            <td colspan="2" style="border-top:1px solid;"></td>
+            <td colspan="3" style="border-top:1px solid;"></td>
             <td style="text-align: center;border-top:1px solid;border-right: 1px solid;border-left: 1px solid;">Sub Total</td>
             <td style="border-top:1px solid;">Rp.</td>
             <td style="text-align: right;border-top:1px solid;">{{ number_format($sub_total) }}</td>
         </tr>
         @if($ppn > 0)
         <tr>
-            <td colspan="2"></td>
+            <td colspan="3"></td>
             <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">PPn 10%</td>
             <td>Rp.</td>
             <td style="text-align: right;border-right: 1px solid;">{{ number_format($ppn) }}</td>
         </tr>
         @endif
         <tr>
-            <td colspan="2"></td>
+            <td colspan="3"></td>
             <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">Materai</td>
             <td>Rp.</td>
             <td style="text-align: right;">{{ number_format($materai) }}</td>
         </tr>
         <tr>
-            <td colspan="2"></td>
+            <td colspan="3"></td>
             <td style="text-align: center;border: 1px solid;"><b>TOTAL</b></td>
             <td style="border-bottom: 1px solid;border-top: 1px solid;"><b>Rp.</b></td>
             <td style="text-align: right;border-bottom: 1px solid;border-top: 1px solid;"><b>{{ number_format($total) }}</b></td>
@@ -113,21 +115,9 @@
         </tr>
         <tr>
             <td width='60%'>
-                @if(in_array($consolidator->TCONSOLIDATOR_PK,array(10,12)))
-                <p>
-                    Pembayaran dapat dilakukan melalui :<br />
-                    Rekening : ..........<br />
-                    Bank BRI Syariah Cabang Enggano<br />
-                    a/c no : ...........
-                </p>
-                @else
-                <p>
-                    Pembayaran dapat dilakukan melalui :<br />
-                    Rekening : PT. WIRA MITRA PRIMA<br />
-                    Bank Mandiri Cabang Enggano<br />
-                    a/c no : ...............
-                </p>
-                @endif
+                <span><b>Pembayaran Melalui Rekening Bank an. PT. WIRA MITRA PRIMA</b></span><br />
+                <span><b>BCA Cabang Enggano Tj. Priok : 007.303.7601</b></span><br />
+                <span><b>Bank Cab. Kelapa Gading Boulevard : 125 000 486 1415</b></span>
             </td>
             <td class="text-center">&nbsp;</td>
         </tr>
@@ -139,7 +129,7 @@
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td class="text-center">Haruchi Tyas Intani<br />FINANCE MANAGER</td>
+            <td class="text-center">Yeni Maria<br /></td>
         </tr>
     </table>
     

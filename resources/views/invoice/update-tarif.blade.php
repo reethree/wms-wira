@@ -116,6 +116,12 @@
                           <input type="checkbox" name="pembulatan" id="pembulatan" value="1" @if($tarif->pembulatan) {{ 'checked' }} @endif />
                       </div>
                     </div>
+                    <div class="form-group">
+                        <label for="rdm_in_cargo" class="col-sm-3 control-label">RDM Cargo</label>
+                        <div class="col-sm-8">
+                            <input type="checkbox" name="rdm_in_cargo" id="rdm_in_cargo" value="1" @if($tarif->rdm_in_cargo) {{ 'checked' }} @endif />
+                        </div>
+                    </div>
                     
                 </div>
             </div>
@@ -181,11 +187,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Empty 20ft</label>
                         <div class="col-sm-3">
-                            <input type="number" name="empty_20" class="form-control" id="empty_20" required>
+                            <input type="number" name="empty_20" class="form-control" id="empty_20" value="{{ $tarif->empty_20 }}" required>
                         </div>
                         <label class="col-sm-2 control-label">40ft</label>
                         <div class="col-sm-3">
-                            <input type="number" name="empty_40" class="form-control" id="empty_40" required>
+                            <input type="number" name="empty_40" class="form-control" id="empty_40" value="{{ $tarif->empty_40 }}" required>
                         </div>
                     </div>
                 </div>

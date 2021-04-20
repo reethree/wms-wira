@@ -1687,20 +1687,7 @@ class LclController extends Controller
         $manifest = DBManifest::where('TMANIFEST_PK', $manifest_id)->first();        
 
         $tarif = \App\Models\InvoiceTarif::where(array('consolidator_id' => $manifest->TCONSOLIDATOR_FK, 'type' => $manifest->INVOICE))->first();
-        
-//        $invoice = new \App\Models\Invoice;
-//        $invoice->manifest_id = $manifest_id;
-//        $invoice->no_reg = date('Ymd').'.'.str_pad(intval($manifest->TMANIFEST_PK), 4, '0', STR_PAD_LEFT);
-//        $invoice->no_invoice = 'I-'.str_pad(intval(rand()), 7, '0', STR_PAD_LEFT).'/LCL/'.date('Y');
-//        $invoice->tgl_cetak = '';
-//        $invoice->sub_total = '';
-//        $invoice->add_cost = '';
-//        $invoice->materai = '';
-//        $invoice->grand_total = '';
-//        $invoice->uid = \Auth::getUser()->name;
-//        
-//        if($invoice->save()){
-//        
+
             $tglrelease = $request->tgl_keluar;
             
             // Perhitungan Hari
@@ -1763,7 +1750,6 @@ class LclController extends Controller
             $invoice_import = new \App\Models\Invoice;
             $invoice_import->manifest_id = $manifest_id;
             $invoice_import->cbm = $maxcbm;
-            $invoice_import->warehouse_charge = $tarif->warehouse_charge * $maxcbm;
             $invoice_import->surveyor = $tarif->surveyor * $maxcbm;
             $invoice_import->storage = (isset($tot_masa)) ? $tot_masa : 0 ;
             $invoice_import->storage_masa1 = (isset($tot_masa1)) ? $tot_masa1 : 0 ;
@@ -1773,7 +1759,13 @@ class LclController extends Controller
             $invoice_import->hari_masa1 = (isset($hari_masa1)) ? $hari_masa1 : 0 ;
             $invoice_import->hari_masa2 = (isset($hari_masa2)) ? $hari_masa2 : 0 ;
             $invoice_import->hari_masa3 = (isset($hari_masa3)) ? $hari_masa3 : 0 ;
-            
+
+            if($tarif->rdm_in_cargo){
+                $invoice_import->warehouse_charge = $tarif->warehouse_charge * $maxcbm;
+            }else{
+                $invoice_import->warehouse_charge = 0;
+            }
+
             if(isset($request->dg_surcharge)){
 //                $invoice_import->dg_surcharge = ($tarif->type == 'BB') ? $tarif->dg_surcharge * $maxcbm : 0 ;
                 $invoice_import->dg_surcharge = $tarif->dg_surcharge * $maxcbm;
@@ -1800,7 +1792,7 @@ class LclController extends Controller
             $invoice_import->adm = $tarif->adm;
 
             $array_total = array(
-                $invoice_import->rdm,
+//                $invoice_import->rdm,
                 $invoice_import->storage,
                 $invoice_import->storage_masa1,
                 $invoice_import->storage_masa2,
@@ -1845,31 +1837,40 @@ class LclController extends Controller
             $invoice_import->uid = \Auth::getUser()->name;
             $invoice_import->tgl_cetak = $request->tgl_cetak;
             $invoice_import->tgl_keluar = $tglrelease;
-            
-//            if($sub_total >= 250000 && $sub_total < 1000000){
-//                $materai = 3000;
-//            }else
             if($sub_total >= 5000000){
                 $materai = 10000;
             }else{
                 $materai = 0;
             }
             $invoice_import->materai = $materai;
-            
-            $num = 0;
-            $lastno = \App\Models\Invoice::select('no_invoice')->whereYear('tgl_keluar','=',date('Y'))->orderBy('no_invoice', 'DESC')->first();
-            
-            if($lastno){
-                $tally = explode('/', $lastno->no_invoice);
-                $num = intval($tally[0]);    
-            }
-            $no_invoice = str_pad(intval(($num > 0 ? $num : 0)+1), 4, '0', STR_PAD_LEFT);
-            
-            $invoice_import->no_invoice = $no_invoice.'/LCL/'.date('Y');
-//            return $invoice_import;
+            $invoice_import->no_invoice = $this->getInvoiceNumber('hbl');
             
             if($invoice_import->save()){
-                
+
+                // Create New Invoice RDM
+                if($tarif->rdm_in_cargo == false){
+                    $invoice_import_rdm = new \App\Models\Invoice;
+                    $invoice_import_rdm->manifest_id = $manifest_id;
+                    $invoice_import_rdm->rdm = true;
+                    $invoice_import_rdm->cbm = $maxcbm;
+                    $invoice_import_rdm->hari = $hari;
+                    $invoice_import_rdm->warehouse_charge = $tarif->warehouse_charge * $maxcbm;
+                    $invoice_import_rdm->sub_total = $invoice_import_rdm->warehouse_charge;
+                    $invoice_import_rdm->ppn = ceil((10 * $invoice_import_rdm->sub_total) / 100);
+                    $invoice_import_rdm->uid = \Auth::getUser()->name;
+                    $invoice_import_rdm->tgl_cetak = $request->tgl_cetak;
+                    $invoice_import_rdm->tgl_keluar = $tglrelease;
+                    if($invoice_import_rdm->sub_total >= 5000000){
+                        $materai = 10000;
+                    }else{
+                        $materai = 0;
+                    }
+                    $invoice_import_rdm->materai = $materai;
+                    $invoice_import_rdm->no_invoice = $this->getInvoiceNumber('rdm');
+
+                    $invoice_import_rdm->save();
+                }
+
                 // Update Invoice Number
 //                $array_bulan = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
 //                $bulan = $array_bulan[date('n')];

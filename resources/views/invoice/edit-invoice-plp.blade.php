@@ -90,6 +90,7 @@
                         <th>40 ft</th>
                     </tr>
                     </thead>
+
                     <tbody>
                     @foreach($invoice_items as $item)
                         <tr>

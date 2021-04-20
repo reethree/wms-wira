@@ -195,11 +195,10 @@ class InvoiceController extends Controller
     public function invoiceCreatePaketPlp(Request $request)
     {
         $consolidator_id = $request->consolidator_id;
-        $no_inv = $request->no_invoice;
+        $no_inv = $this->getInvoiceNumber('plp');
         $start = $request->start_date;
         $end = $request->end_date;
 //        $type = $request->type;
-//
 //        $consolidator = \App\Models\Consolidator::find($consolidator_id);
 
         // Find Data Container
@@ -214,8 +213,9 @@ class InvoiceController extends Controller
             ->where('SIZE', 40)
             ->get();
 
+        $tarif = \App\Models\InvoiceTarif::where('consolidator_id', $consolidator_id)->first();
+
         if(count($containers20) > 0 || count($containers40) > 0){
-            $tarif = \App\Models\InvoiceTarif::select('plp_20','plp_40','lift_on_20','lift_on_40','lift_off_20','lift_off_40','stripping_20','stripping_40','surveyor_20','surveyor_40','empty_20','empty_40')->where('consolidator_id', $consolidator_id)->first();
             $no_cont_20 = array();
             $weight_20 = 0;
             $meas_20 = 0;
@@ -238,7 +238,7 @@ class InvoiceController extends Controller
             }
 
             // Insert Invoice Rekap
-            $dataRekap['no_inv'] = date('ym').$no_inv;
+            $dataRekap['no_inv'] = $no_inv;
             $dataRekap['consolidator_id'] = $consolidator_id;
             $dataRekap['print_date'] = $request->tgl_cetak;
             $dataRekap['start_date'] = $start;
@@ -361,19 +361,27 @@ class InvoiceController extends Controller
     public function invoicePrintRekap(Request $request)
     {
         $consolidator_id = $request->consolidator_id;
-        $start = $request->tanggal.' 00:00:00';
-        $end = date('Y-m-d', strtotime('+1 Day', strtotime($request->tanggal))).' 00:00:00';
+        $start = $request->start_date;
+        $end = $request->end_date;
         $type = $request->type;
         
         $data['consolidator'] = \App\Models\Consolidator::find($consolidator_id);
-        $data['invoices'] = \App\Models\Invoice::select('*')
+        $query = \App\Models\Invoice::select('*')
                 ->join('tmanifest','invoice_import.manifest_id','=','tmanifest.TMANIFEST_PK')
                 ->where('tmanifest.TCONSOLIDATOR_FK', $consolidator_id)
-                ->where('tmanifest.tglrelease',$request->tanggal)
+//                ->where('tmanifest.tglrelease',$request->tanggal)
+                ->where('tmanifest.tglrelease','>=',$start)
+                ->where('tmanifest.tglrelease','<=',$end)
 //                ->where('invoice_import.created_at','>=',$start)
 //                ->where('invoice_import.created_at','<',$end)
-                ->where('tmanifest.INVOICE', $type)
-                ->get();
+                ->where('tmanifest.INVOICE', $type);
+        if(isset($request->rdm_only)):
+            $query->where('invoice_import.rdm', 1);
+        else:
+            $query->where('invoice_import.rdm', 0);
+        endif;
+
+        $data['invoices'] = $query->get();
         
         if(count($data['invoices']) > 0):
             $sum_total = array();
@@ -390,6 +398,8 @@ class InvoiceController extends Controller
             $data['materai'] = ($data['sub_total'] + $data['ppn'] >= 5000000) ? '10000' : '0';
             $data['total'] = round($data['sub_total'] + $data['ppn'] + $data['materai']);           
             $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
+            $data['start_date'] = $start;
+            $data['end_date'] = $end;
             $data['tgl_cetak'] = $request->tgl_cetak;
 
             return \View('print.invoice-rekap', $data);
@@ -539,6 +549,7 @@ class InvoiceController extends Controller
         if(!isset($data['surcharge'])) { $data['surcharge'] = 0; }
         if(!isset($data['cbm'])) { $data['cbm'] = 0; }
         if(!isset($data['pembulatan'])) { $data['pembulatan'] = 0; }
+        if(!isset($data['rdm_in_cargo'])) { $data['rdm_in_cargo'] = 0; }
 
         $update = \App\Models\InvoiceTarif::where('id', $id)->update($data);
         
