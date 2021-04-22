@@ -437,8 +437,10 @@ class TablesRepository extends EloquentRepositoryAbstract {
                     $Model = \DB::table('tmanifest')
     //                        ->leftjoin('billing_invoice', 'billing_invoice.manifest_id','=','tmanifest.TMANIFEST_PK')
                             ->select(\DB::raw('*, timestampdiff(DAY, now(), tglmasuk) as timeSinceUpdate'))
+                            ->where('VALIDASI', 'Y')
                             ->whereNotNull('tglmasuk')
-                            ->whereNotNull('tglstripping');   
+                            ->whereNotNull('tglstripping')
+                            ->whereNull('tglrelease');
                 }
             }else{
                 
