@@ -1593,15 +1593,17 @@ class FclController extends Controller
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
-                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+//                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? $hari - 2 : 0;
+                            $invoice_penumpukan->hari_masa4 = 0;
 
 //                            if($t20->lokasi_sandar == 'KOJA'){
 //                                $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
 //                            }else{
-                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+//                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
 //                            }
                             
-                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa2 * $t20->masa1) * count($container20);
+                            $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t20->masa1) * count($container20);
                             $invoice_penumpukan->masa2 = ($invoice_penumpukan->hari_masa2 * $t20->masa2 * 3) * count($container20);
                             $invoice_penumpukan->masa3 = ($invoice_penumpukan->hari_masa3 * $t20->masa3 * 6) * count($container20);
                             $invoice_penumpukan->masa4 = ($invoice_penumpukan->hari_masa4 * $t20->masa4 * 9) * count($container20);
@@ -1717,11 +1719,13 @@ class FclController extends Controller
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
-                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+//                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? $hari - 2 : 0;
+                            $invoice_penumpukan->hari_masa4 = 0;
 //                            if($t40->lokasi_sandar == 'KOJA'){
 //                                $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
 //                            }else{
-                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+//                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
 //                            }
                             
                             $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t40->masa1) * count($container40);
@@ -1838,11 +1842,13 @@ class FclController extends Controller
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
-                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+//                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? 1 : 0;
+                            $invoice_penumpukan->hari_masa3 = ($hari > 2) ? $hari - 2 : 0;
+                            $invoice_penumpukan->hari_masa4 = 0;
 //                            if($t45->lokasi_sandar == 'KOJA'){
 //                                $invoice_penumpukan->hari_masa4 = ($hari > 2) ? $hari - 2 : 0;
 //                            }else{
-                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
+//                                $invoice_penumpukan->hari_masa4 = ($hari > 3) ? $hari - 3 : 0;
 //                            }
                             
                             $invoice_penumpukan->masa1 = ($invoice_penumpukan->hari_masa1 * $t45->masa1) * count($container45);
