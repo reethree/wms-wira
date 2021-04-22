@@ -135,18 +135,18 @@
                         <td style="text-align: center;">
                             @if($p->size == 20)
                                 @if($invoice->type == 'BB')
-                                    {{ number_format(54400) }}
+                                    {{ number_format(85000) }}
                                 @else
-                                    {{ number_format(27200) }}
+                                    {{ number_format(42500) }}
                                 @endif
                             @elseif($p->size == 40)
                                 @if($invoice->type == 'BB')
-                                    {{ number_format(108800) }}
+                                    {{ number_format(170000) }}
                                 @else
-                                    {{ number_format(54400) }}
+                                    {{ number_format(85000) }}
                                 @endif
                             @else
-                                {{ number_format(68000) }}
+                                {{ number_format(106250) }}
                             @endif
                         </td>
                         <td>{{ number_format($p->masa1) }}</td>
