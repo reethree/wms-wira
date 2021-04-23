@@ -388,7 +388,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
 //                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
                             ->whereNotNull('tglmasuk')
                             ->whereNotNull('tglstripping')
-                            ->whereNull('tglrelease')
+//                            ->whereNull('tglrelease')
 //                            ->orWhere('tglrelease','0000-00-00')
                             ->where($request['by'], '>=',$start_date)
                             ->where($request['by'], '<=',$end_date);
@@ -398,7 +398,9 @@ class TablesRepository extends EloquentRepositoryAbstract {
     //                            ->whereRaw('tmanifest.tglmasuk < DATE_SUB(now(), INTERVAL 1 MONTH)')
                                 ->whereNotNull('tglmasuk')
                                 ->whereNotNull('tglstripping')
-                                ->whereNull('tglrelease');
+                                ->where('VALIDASI', 'Y')
+//                                ->whereNull('tglrelease')
+                            ;
     //                            ->orWhere('tglrelease','0000-00-00')
                         }
                     break;
@@ -409,6 +411,7 @@ class TablesRepository extends EloquentRepositoryAbstract {
 //                        $Model = \DB::table('tmanifest')
                             ->whereNotNull('tglmasuk')
                             ->whereNotNull('tglstripping')
+                            ->where('VALIDASI', 'Y')
 //                            ->whereNotNull('tglrelease')
 //                            ->whereNotNull('jamrelease')
                             ;
