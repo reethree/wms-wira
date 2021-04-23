@@ -196,6 +196,7 @@ class Controller extends BaseController
         $meas_count = \App\Models\Manifest::whereNotNull('tglmasuk')
                                 ->whereNotNull('tglstripping')
                                 ->whereNull('tglrelease')
+                                ->where('VALIDASI', 'Y')
                                 ->sum('MEAS');
         
         $sor = \App\Models\SorYor::where('type', 'sor')->first();
