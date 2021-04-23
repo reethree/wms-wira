@@ -87,7 +87,7 @@ class DashboardController extends Controller
         $bcalllcl= DBManifest::whereNotIn('KD_DOK_INOUT', array(1,2))->whereRaw('MONTH(tglrelease) = '.$month)->whereRaw('YEAR(tglrelease) = '.$year)->count();
         $data['countbydoclcl'] = array('BC 2.0' => $bc20lcl, 'BC 2.3' => $bc23lcl, 'Lain-lain' => $bcalllcl);
         
-        $data['countlclmanifest'] = \App\Models\Manifest::whereNotNull('tglmasuk')->whereNotNull('tglstripping')->whereNull('tglrelease')->count();
+        $data['countlclmanifest'] = \App\Models\Manifest::whereNotNull('tglmasuk')->whereNotNull('tglstripping')->whereNull('tglrelease')->where('VALIDASI', 'Y')->count();
         
         $data['sor'] = \App\Models\SorYor::where('type', 'sor')->first();
         $data['yor'] = \App\Models\SorYor::where('type', 'yor')->first();
