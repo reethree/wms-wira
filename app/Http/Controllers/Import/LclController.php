@@ -1205,7 +1205,8 @@ class LclController extends Controller
         
         $meas_count = DBManifest::whereNotNull('tglmasuk')
                                 ->whereNotNull('tglstripping')
-                                ->whereNull('tglrelease')                                
+                                ->whereNull('tglrelease')
+                                ->where('VALIDASI', 'Y')
                                 ->sum('MEAS');
         $data['meas'] = $meas_count;
         $this->updateSorByMeas();
@@ -1343,8 +1344,9 @@ class LclController extends Controller
         }
         
         // Masuk
-        $julmah_bl_masuk = DBManifest::where('tglstripping', $request->date)->count();
+        $julmah_bl_masuk = DBManifest::where('tglstripping', $request->date)->where('VALIDASI', 'Y')->count();
         $bl_ins = DBManifest::select(\DB::raw('SUM(QUANTITY) as qty'),\DB::raw('SUM(WEIGHT) as kgs'),\DB::raw('SUM(MEAS) as m3'))
+                ->where('VALIDASI', 'Y')
                 ->where('tglstripping', $request->date)
                 ->get();
         $data_bl_in = array();
@@ -1386,9 +1388,10 @@ class LclController extends Controller
     {
         // Data Pemasukan
         $data['in'] = DBManifest::where('tglstripping', $date)->get();
-        $julmah_bl_masuk = DBManifest::where('tglstripping', $date)->count();
+        $julmah_bl_masuk = DBManifest::where('tglstripping', $date)->where('VALIDASI', 'Y')->count();
         $bl_ins = DBManifest::select(\DB::raw('SUM(QUANTITY) as qty'),\DB::raw('SUM(WEIGHT) as kgs'),\DB::raw('SUM(MEAS) as m3'))
                 ->where('tglstripping', $date)
+                ->where('VALIDASI', 'Y')
                 ->get();
         $data_bl_in = array();
         $data_bl_in['Jumlah B/L'] = $julmah_bl_masuk;

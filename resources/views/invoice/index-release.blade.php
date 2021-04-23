@@ -14,7 +14,6 @@
         
         rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
         rowdata = $('#lclReleaseGrid').getRowData(rowid);
-
         $("#manifest_id").val(rowdata.TMANIFEST_PK);
     }
     
@@ -27,14 +26,16 @@
         $('#btn-invoice').on("click", function(){
             rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
             if(rowid){
-            $('#create-invoice-modal').modal('show');
+                rowdata = $('#lclReleaseGrid').getRowData(rowid);
+                $('#tgl_keluar').val(rowdata.tglrelease);
+                $('#create-invoice-modal').modal('show');
             }else{
                 alert('Please select data first.');
             }
         });
         
         $('#create-invoice-form').on("submit", function(){
-            if(!confirm('Apakah anda yakin?')){return false;}
+            if(!confirm('Apakah anda yakin akan membuat invoice?')){return false;}
             
             //Gets the selected row id.
             rowid = $('#lclReleaseGrid').jqGrid('getGridParam', 'selrow');
@@ -212,7 +213,7 @@
         <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Please Insert Invoice Number</h4>
+              <h4 class="modal-title">Please Insert Invoice Detail</h4>
             </div>
             <form id="create-invoice-form" class="form-horizontal" action="{{ route("lcl-delivery-release-invoice") }}" method="POST" enctype="multipart/form-data">
                 <div class="modal-body"> 
@@ -233,7 +234,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="tgl_keluar" class="form-control pull-right datepicker" required value="{{date('Y-m-d')}}">
+                                        <input type="text" id="tgl_keluar" name="tgl_keluar" class="form-control pull-right datepicker" required>
                                     </div>
                                 </div>
                             </div>
@@ -296,7 +297,7 @@
 <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
 <script src="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.js") }}"></script>
 <script type="text/javascript">
-    
+
     $('.datepicker').datepicker({
         autoclose: true,
         todayHighlight: true,
