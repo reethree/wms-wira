@@ -120,7 +120,7 @@
                         <th>MASA I</th>
                         <th>MASA II</th>
                         <th>MASA III</th>
-                        <th>MASA IV</th>
+{{--                        <th>MASA IV</th>--}}
                         <th>TOTAL SEWA</th>
                     </tr>
                 </thead>
@@ -133,32 +133,37 @@
                         <td>({{ date("d/m/Y", strtotime($p->startdate)).' - '.date("d/m/Y", strtotime($p->enddate)) }}) {{ $p->lama_timbun }} hari</td>
                         <td>{{ $p->qty }}</td>
                         <td style="text-align: center;">
-                            @if($p->size == 20)
-                                @if($invoice->type == 'BB')
-                                    {{ number_format(85000) }}
-                                @else
-                                    {{ number_format(42500) }}
+                            @foreach($tarif as $t)
+                                @if($t->lokasi_sandar == $p->lokasi_sandar && $t->size == $p->size && $t->type == $invoice->type)
+                                    {{ $t->masa2 }}
                                 @endif
-                            @elseif($p->size == 40)
-                                @if($invoice->type == 'BB')
-                                    {{ number_format(170000) }}
-                                @else
-                                    {{ number_format(85000) }}
-                                @endif
-                            @else
-                                {{ number_format(106250) }}
-                            @endif
+                            @endforeach
+{{--                            @if($p->size == 20)--}}
+{{--                                @if($invoice->type == 'BB')--}}
+{{--                                    {{ number_format(85000) }}--}}
+{{--                                @else--}}
+{{--                                    {{ number_format(42500) }}--}}
+{{--                                @endif--}}
+{{--                            @elseif($p->size == 40)--}}
+{{--                                @if($invoice->type == 'BB')--}}
+{{--                                    {{ number_format(170000) }}--}}
+{{--                                @else--}}
+{{--                                    {{ number_format(85000) }}--}}
+{{--                                @endif--}}
+{{--                            @else--}}
+{{--                                {{ number_format(106250) }}--}}
+{{--                            @endif--}}
                         </td>
                         <td>{{ number_format($p->masa1) }}</td>
                         <td>{{ number_format($p->masa2) }}</td>
                         <td>{{ number_format($p->masa3) }}</td>
-                        <td>{{ number_format($p->masa4) }}</td>
+{{--                        <td>{{ number_format($p->masa4) }}</td>--}}
                         <td align="right">{{ number_format($p->total) }}</td>
                         <?php $grand_total_p += $p->total;?>
                     </tr>
                     @endforeach
                     <tr>
-                        <th colspan="8">PENUMPUKAN</th>
+                        <th colspan="7">PENUMPUKAN</th>
                         <td align="right"><b>Rp.</b></td>
                         <td align="right"><b>{{ number_format($grand_total_p) }}</b></td>
                     </tr>
