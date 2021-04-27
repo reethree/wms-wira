@@ -320,6 +320,7 @@
         $("#packing_tally").val(rowdata.packing_tally);
         $("#tglstripping").val(rowdata.tglstripping);
         $("#jamstripping").val(rowdata.jamstripping);
+        $("#INVOICE").val(rowdata.INVOICE).trigger("change");
         
 //        console.log(rowdata);
         $('#btn-toolbar').disabledButtonGroup();
@@ -336,6 +337,7 @@
             $('#packing_tally').removeAttr('disabled');
             $('#tglstripping').removeAttr('disabled');
             $('#jamstripping').removeAttr('disabled');
+            $('#INVOICE').removeAttr('disabled');
         @endrole
         
         $('#upload-title').html('Upload Photo for '+rowdata.NOHBL);
@@ -586,6 +588,7 @@
                         ->setGridEvent('gridComplete', 'gridCompleteEvent')
                         ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                         ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
+                        ->addColumn(array('label'=>'Type','index'=>'INVOICE','width'=>60, 'align'=>'center','hidden'=>true))
                         ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
                         ->addColumn(array('label'=>'No.HBL','index'=>'NOHBL', 'width'=>160, 'align'=>'center'))
                         ->addColumn(array('label'=>'Tgl.HBL','index'=>'TGL_HBL', 'width'=>160, 'align'=>'center'))
@@ -652,6 +655,7 @@
                         ->setGridEvent('onSelectRow', 'onSelectRowEvent')
                         ->addColumn(array('key'=>true,'index'=>'TMANIFEST_PK','hidden'=>true))
                         ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>120, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
+                        ->addColumn(array('label'=>'Type','index'=>'INVOICE','width'=>60, 'align'=>'center','hidden'=>true))
                         ->addColumn(array('label'=>'Validasi','index'=>'VALIDASI','width'=>80, 'align'=>'center'))
                         ->addColumn(array('label'=>'No.HBL','index'=>'NOHBL', 'width'=>160, 'align'=>'center'))
                         ->addColumn(array('label'=>'Tgl.HBL','index'=>'TGL_HBL', 'width'=>160, 'align'=>'center'))
@@ -924,7 +928,17 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>          
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Type</label>
+                            <div class="col-sm-4">
+                                <select class="form-control select2" id="INVOICE" name="INVOICE" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                    <option value="">Choose HBL Type</option>
+                                    <option value="DRY">DRY</option>
+                                    <option value="BB">BB</option>
+                                </select>
+                            </div>
+                        </div>
 <!--                        <div class="form-group">
                             <label class="col-sm-3 control-label">Surcharge(DG)</label>
                             <div class="col-sm-2">
