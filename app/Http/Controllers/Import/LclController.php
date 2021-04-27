@@ -1769,16 +1769,18 @@ class LclController extends Controller
                 $invoice_import->warehouse_charge = 0;
             }
 
-            if(isset($request->dg_surcharge)){
-//                $invoice_import->dg_surcharge = ($tarif->type == 'BB') ? $tarif->dg_surcharge * $maxcbm : 0 ;
-                $invoice_import->dg_surcharge = $tarif->dg_surcharge * $maxcbm;
-            }
+//            if(isset($request->dg_surcharge)){
+                $invoice_import->dg_surcharge = ($tarif->type == 'BB') ? $tarif->dg_surcharge * $maxcbm : 0 ;
+//                $invoice_import->dg_surcharge = $tarif->dg_surcharge * $maxcbm;
+//            }
             
-            if(isset($request->ow_surcharge)){
+//            if(isset($request->ow_surcharge)){
+            if($maxcbm*1000 >= 2500){
                 $invoice_import->weight_surcharge = $tarif->surcharge_price;
             }
             
-            if(isset($request->behandle)){
+//            if(isset($request->behandle)){
+            if($manifest->BEHANDLE == 'Y'){
                 if($tarif->cbm){
                     $harga_behandle = $tarif->behandle * $maxcbm;
                     $invoice_import->behandle = $maxcbm;

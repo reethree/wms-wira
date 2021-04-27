@@ -1590,6 +1590,7 @@ class FclController extends Controller
                             $invoice_penumpukan->startdate = $data['ETA'];
                             $invoice_penumpukan->enddate = $data['TGLMASUK'];
                             $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = $t20->masa2;
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
@@ -1649,6 +1650,7 @@ class FclController extends Controller
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
                             $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = $t20->masa2;
 
                             if($data['KD_TPS_ASAL'] == 'KOJA'){
                                 if($hari_terminal >= 10){
@@ -1716,6 +1718,7 @@ class FclController extends Controller
                             $invoice_penumpukan->startdate = $data['ETA'];
                             $invoice_penumpukan->enddate = $data['TGLMASUK'];
                             $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = $t40->masa2;
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
@@ -1772,6 +1775,7 @@ class FclController extends Controller
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
                             $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = $t40->masa2;
 
                             if($data['KD_TPS_ASAL']  == 'KOJA'){
                                 if($hari_terminal >= 10){
@@ -1839,6 +1843,7 @@ class FclController extends Controller
                             $invoice_penumpukan->startdate = $data['ETA'];
                             $invoice_penumpukan->enddate = $data['TGLMASUK'];
                             $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = $t45->masa2;
                             
                             $invoice_penumpukan->hari_masa1 = ($hari > 0) ? 1 : 0;
                             $invoice_penumpukan->hari_masa2 = ($hari > 1) ? 1 : 0;
@@ -1899,6 +1904,7 @@ class FclController extends Controller
                             $invoice_penumpukan->startdate = $data['TGLMASUK'];
                             $invoice_penumpukan->enddate = $tgl_release;
                             $invoice_penumpukan->lama_timbun = $hari;
+                            $invoice_penumpukan->tarif_dasar = $t45->masa2;
 
                             if($data['KD_TPS_ASAL'] == 'KOJA'){
                                 if($hari_terminal >= 10){
