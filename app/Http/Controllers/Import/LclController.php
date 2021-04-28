@@ -1779,8 +1779,8 @@ class LclController extends Controller
                 $invoice_import->weight_surcharge = $tarif->surcharge_price;
             }
             
-//            if(isset($request->behandle)){
-            if($manifest->BEHANDLE == 'Y'){
+            if(isset($request->behandle)){
+//            if($manifest->BEHANDLE == 'Y'){
                 if($tarif->cbm){
                     $harga_behandle = $tarif->behandle * $maxcbm;
                     $invoice_import->behandle = $maxcbm;
