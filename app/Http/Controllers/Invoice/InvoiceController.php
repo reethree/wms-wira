@@ -400,6 +400,7 @@ class InvoiceController extends Controller
             $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
             $data['start_date'] = $start;
             $data['end_date'] = $end;
+            $data['no_kwitansi'] = $request->no_kwitansi;
             $data['tgl_cetak'] = $request->tgl_cetak;
 
             return \View('print.invoice-rekap', $data);

@@ -42,13 +42,16 @@
     @if(count($invoices) > 0)
     <table border="0" cellspacing="0" cellpadding="0">
         <tr>
-            <td style="text-align: center;">INVOICE</td>
+            <td style="text-align: center;">KWITANSI</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">NO. {{$no_kwitansi}}</td>
         </tr>
         <tr>
             <td style="text-align: center;">REKAPITULASI PENGIRIMAN NOTA TAGIHAN</td>
         </tr>
         <tr>
-            <td style="text-align: center;">Biaya Penumpukan Barang LCL ({{ $invoices['0']->INVOICE }}) Gudang PT WIRA MITRA PRIMA</td>
+            <td style="text-align: center;">Biaya Penumpukan Barang LCL Gudang PT WIRA MITRA PRIMA</td>
         </tr>
         <tr>
             <td style="text-align: center;">Tanggal : {{ date('d F Y', strtotime($start_date)).' - '.date('d F Y', strtotime($end_date)) }}</td>
