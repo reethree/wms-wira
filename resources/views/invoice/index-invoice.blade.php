@@ -167,6 +167,12 @@
                         <div class="col-md-12">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Kwitansi</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" name="no_kwitansi" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">Consolidator</label>
                                 <div class="col-sm-8">
                                     <select class="form-control select2" name="consolidator_id" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
