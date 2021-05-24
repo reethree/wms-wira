@@ -1975,13 +1975,15 @@ class FclController extends Controller
             $total_gerakan = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
 
             if($data['KD_TPS_ASAL'] == 'KOJA'):
-                $update_nct->perawatan_it = (count($container20)+count($container40)+count($container45)) * 90000;
                 if($data->jenis_container == 'BB'){
                     $total_penumpukan_tps = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->where('lokasi_sandar','TPS')->sum('total');
                     $total_gerakan_tps = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->where('lokasi_sandar','TPS')->sum('total');
                     $update_nct->surcharge = ($total_penumpukan_tps+$total_gerakan_tps)*(25/100);
                 }
-                $update_nct->administrasi = 20000;
+//                $update_nct->perawatan_it = (count($container20)+count($container40)+count($container45)) * 90000;
+//                $update_nct->administrasi = 20000;
+
+                $update_nct->administrasi = (count($container20)+count($container40)+count($container45)) * 100000;
             else:
                 $update_nct->administrasi = (count($container20)+count($container40)+count($container45)) * 100000;
             endif;
