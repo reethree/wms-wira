@@ -196,7 +196,7 @@
                 </tr>
                 @if($invoice->surcharge)
                     <tr>
-                        <td style="text-align: right;">Surcharge Depo</td>
+                        <td style="text-align: right;">Surcharge DG</td>
                         <td style="text-align: right;">= Rp.</td>
                         <td style="text-align: right;">{{ number_format($invoice->surcharge) }}</td>
                     </tr>
