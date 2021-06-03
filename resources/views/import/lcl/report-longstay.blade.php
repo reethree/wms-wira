@@ -218,7 +218,7 @@
                         <option value="ETA">ETA</option>
                         <option value="TGL_BC11">Tgl. BC11</option>
                         <option value="tglmasuk">Tgl. GateIn</option>
-                        
+                        <option value="tglrelease">Tgl. Release</option>
                     </select>
                 </div>
                 <div class="col-xs-3">
@@ -300,8 +300,10 @@
             ->addColumn(array('label'=>'Jam. Gate In','index'=>'jammasuk', 'width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'Tgl. Stripping','index'=>'tglstripping', 'width'=>120,'align'=>'center','hidden'=>true))
             ->addColumn(array('label'=>'Jam. Stripping','index'=>'jamstripping', 'width'=>100,'align'=>'center','hidden'=>true))
-            ->addColumn(array('label'=>'No. Segel','index'=>'no_flag_bc','width'=>100,'align'=>'center'))
-            ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'Tgl. Release','index'=>'tglstripping', 'width'=>120,'align'=>'center','hidden'=>false))
+            ->addColumn(array('label'=>'Jam. Release','index'=>'jamstripping', 'width'=>100,'align'=>'center','hidden'=>false))
+            ->addColumn(array('label'=>'No. Segel','index'=>'no_flag_bc','width'=>100,'align'=>'center', 'hidden' => true))
+            ->addColumn(array('label'=>'Alasan Segel','index'=>'alasan_segel','width'=>150,'align'=>'center', 'hidden' => true))
             ->addColumn(array('label'=>'Perubahan HBL','index'=>'perubahan_hbl','width'=>100, 'align'=>'center'))
             ->addColumn(array('label'=>'Alasan Perubahan','index'=>'alasan_perubahan','width'=>150,'align'=>'center'))
             ->addColumn(array('index'=>'location_id', 'width'=>100,'hidden'=>true))
