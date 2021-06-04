@@ -1970,15 +1970,23 @@ class FclController extends Controller
 //            }
 //            
             $update_nct = \App\Models\InvoiceNct::find($invoice_nct->id);
-            
-            $total_penumpukan = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
-            $total_gerakan = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
 
             if($data['KD_TPS_ASAL'] == 'KOJA'):
                 if($data->jenis_container == 'BB'){
                     $total_penumpukan_tps = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->where('lokasi_sandar','TPS')->sum('total');
                     $total_gerakan_tps = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->where('lokasi_sandar','TPS')->sum('total');
-                    $update_nct->surcharge = ($total_penumpukan_tps+$total_gerakan_tps)*(25/100);
+                    $total_surcharge = ($total_penumpukan_tps+$total_gerakan_tps)*(25/100);
+                    $update_nct->surcharge = $total_surcharge;
+
+//                    $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+//                    $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+//                    $invoice_gerakan->lokasi_sandar = 'KOJA';
+//                    $invoice_gerakan->size = 0;
+//                    $invoice_gerakan->qty = count($container20)+count($container40)+count($container45);
+//                    $invoice_gerakan->jenis_gerakan = 'Surcharge DG';
+//                    $invoice_gerakan->tarif_dasar = $total_surcharge;
+//                    $invoice_gerakan->total = $invoice_gerakan->qty * $total_surcharge;
+//                    $invoice_gerakan->save();
                 }
 //                $update_nct->perawatan_it = (count($container20)+count($container40)+count($container45)) * 90000;
 //                $update_nct->administrasi = 20000;
@@ -1987,6 +1995,9 @@ class FclController extends Controller
             else:
                 $update_nct->administrasi = (count($container20)+count($container40)+count($container45)) * 100000;
             endif;
+
+            $total_penumpukan = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
+            $total_gerakan = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->sum('total');
 
             $update_nct->total_non_ppn = $total_penumpukan + $total_gerakan + $update_nct->administrasi + $update_nct->perawatan_it + $update_nct->surcharge;
             $update_nct->ppn = $update_nct->total_non_ppn * 10/100;	

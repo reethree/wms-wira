@@ -221,12 +221,12 @@
                         <div class="col-md-12">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}" />
                             <input name="id" type="hidden" id="manifest_id" />
-<!--                            <div class="form-group">
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">No. Invoice</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" name="no_invoice" required />
                                 </div>
-                            </div>-->
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Tgl. Keluar</label>
                                 <div class="col-sm-5">
@@ -255,12 +255,12 @@
 {{--                                    <input type="checkbox" name="dg_surcharge" value="1" />--}}
 {{--                                </div>--}}
 {{--                            </div>--}}
-{{--                            <div class="form-group">--}}
-{{--                                <label class="col-sm-3 control-label">OW Surcharge</label>--}}
-{{--                                <div class="col-sm-5">--}}
-{{--                                    <input type="checkbox" name="ow_surcharge" value="1" />--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">OW Surcharge</label>
+                                <div class="col-sm-5">
+                                    <input type="checkbox" name="ow_surcharge" value="1" />
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Behandle</label>
                                 <div class="col-sm-5">

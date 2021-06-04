@@ -1692,6 +1692,7 @@ class LclController extends Controller
         $tarif = \App\Models\InvoiceTarif::where(array('consolidator_id' => $manifest->TCONSOLIDATOR_FK, 'type' => $manifest->INVOICE))->first();
 
             $tglrelease = $request->tgl_keluar;
+            $no_invoice = $request->no_invoice;
             
             // Perhitungan Hari
             // Tgl masuk container
@@ -1774,8 +1775,8 @@ class LclController extends Controller
 //                $invoice_import->dg_surcharge = $tarif->dg_surcharge * $maxcbm;
 //            }
             
-//            if(isset($request->ow_surcharge)){
-            if($maxcbm*1000 >= 2500){
+            if(isset($request->ow_surcharge)){
+//            if($maxcbm*1000 >= 2500){
                 $invoice_import->weight_surcharge = $tarif->surcharge_price;
             }
             
@@ -1848,7 +1849,8 @@ class LclController extends Controller
                 $materai = 0;
             }
             $invoice_import->materai = $materai;
-            $invoice_import->no_invoice = $this->getInvoiceNumber('hbl');
+//            $invoice_import->no_invoice = $this->getInvoiceNumber('hbl');
+            $invoice_import->no_invoice = $no_invoice;
             
             if($invoice_import->save()){
 
@@ -1871,7 +1873,8 @@ class LclController extends Controller
                         $materai = 0;
                     }
                     $invoice_import_rdm->materai = $materai;
-                    $invoice_import_rdm->no_invoice = $this->getInvoiceNumber('rdm');
+//                    $invoice_import_rdm->no_invoice = $this->getInvoiceNumber('rdm');
+                    $invoice_import->no_invoice = $no_invoice.'A';
 
                     $invoice_import_rdm->save();
                 }
