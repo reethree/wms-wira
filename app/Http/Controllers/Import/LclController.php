@@ -1874,7 +1874,7 @@ class LclController extends Controller
                     }
                     $invoice_import_rdm->materai = $materai;
 //                    $invoice_import_rdm->no_invoice = $this->getInvoiceNumber('rdm');
-                    $invoice_import->no_invoice = $no_invoice.'A';
+                    $invoice_import_rdm->no_invoice = $no_invoice.'A';
 
                     $invoice_import_rdm->save();
                 }
