@@ -1468,12 +1468,31 @@ class FclController extends Controller
     
     public function releaseCreateInvoice(Request $request)
     {
-        $ids = explode(',', $request->id);        
+        $ids = explode(',', $request->id);
         
         $container20 = DBContainer::where('size', 20)->whereIn('TCONTAINER_PK', $ids)->get();
         $container40 = DBContainer::where('size', 40)->whereIn('TCONTAINER_PK', $ids)->get();
         $container45 = DBContainer::where('size', 45)->whereIn('TCONTAINER_PK', $ids)->get();
-        
+
+        $std = array(
+            'DRY'
+        );
+        $low = array(
+            'BB',
+            'Class BB Standar 3',
+            'Class BB Standar 8',
+            'Class BB Standar 9',
+            'Class BB Standar 4,1',
+            'Class BB Standar 6',
+            'Class BB Standar 2,2'
+        );
+        $high = array(
+            "Class BB High Class 2,1",
+            "Class BB High Class 5,1",
+            "Class BB High Class 6,1",
+            "Class BB High Class 5,2"
+        );
+
         if($container20 || $container40 || $container45) {
 
             if(count($container20) > 0){
@@ -1489,6 +1508,18 @@ class FclController extends Controller
         
 //            $data = (count($container20) > 0 ? $container20['0'] : $container40['0']);
 //            $consignee = DBPerusahaan::where('TPERUSAHAAN_PK', $data['TCONSIGNEE_FK'])->first();
+
+            $jenis_cont = $data['jenis_container'];
+
+            if(in_array($jenis_cont, $std)){
+                $type_cont = 'Standar';
+            }else if(in_array($jenis_cont, $low)){
+                $type_cont = 'Low';
+            }else if(in_array($jenis_cont, $high)){
+                $type_cont = 'High';
+            }
+
+            $jenis_cont_std = ($jenis_cont == 'DRY') ? $jenis_cont : 'BB';
             
             // Create Invoice Header
             $invoice_nct = new \App\Models\InvoiceNct;
@@ -1507,7 +1538,7 @@ class FclController extends Controller
             $invoice_nct->eta = $data['ETA'];	
             $invoice_nct->gateout_terminal = $data['TGLMASUK'];	
             $invoice_nct->gateout_tps = $tgl_release;
-            $invoice_nct->type = $data['jenis_container'];
+            $invoice_nct->type = $jenis_cont;
             $invoice_nct->tps_asal = $data['KD_TPS_ASAL'];
             $invoice_nct->uid = \Auth::getUser()->name;	
             
@@ -1556,7 +1587,7 @@ class FclController extends Controller
                 // Insert Invoice Detail
                 if(count($container20) > 0) {
 
-                    $tarif20 = \App\Models\InvoiceTarifNct::where(array('size' => 20, 'type' => $data->jenis_container))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
+                    $tarif20 = \App\Models\InvoiceTarifNct::where(array('size' => 20, 'type' => $jenis_cont_std))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
                     
                     foreach ($tarif20 as $t20) :
                         
@@ -1615,7 +1646,7 @@ class FclController extends Controller
 //                            if($data['BEHANDLE'] == 'Y') {
 //                                $jenis = array('Lift On/Off' => $t20->lift_off,'Paket PLP' => $t20->paket_plp,'Behandle' => $t20->behandle);
 //                            }else{
-                            if($data->jenis_container == 'BB') {
+                            if($jenis_cont_std == 'BB') {
                                 $jenis = array('Lift On/Off' => $t20->lift_off*2, 'Paket PLP' => $t20->paket_plp);
                             }else{
                                 $jenis = array('Lift On/Off' => $t20->lift_off, 'Paket PLP' => $t20->paket_plp);
@@ -1685,7 +1716,7 @@ class FclController extends Controller
                 
                 if(count($container40) > 0) {
 
-                    $tarif40 = \App\Models\InvoiceTarifNct::where(array('size' => 40, 'type' => $data->jenis_container))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
+                    $tarif40 = \App\Models\InvoiceTarifNct::where(array('size' => 40, 'type' => $jenis_cont_std))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
 //                    return $tarif40;
                     foreach ($tarif40 as $t40) :
                         
@@ -1741,7 +1772,7 @@ class FclController extends Controller
 //                            if($data['BEHANDLE'] == 'Y') {
 //                                $jenis = array('Lift On/Off' => $t40->lift_off,'Paket PLP' => $t40->paket_plp,'Behandle' => $t40->behandle);
 //                            }else{
-                            if($data->jenis_container == 'BB') {
+                            if($jenis_cont_std == 'BB') {
                                 $jenis = array('Lift On/Off' => $t40->lift_off*2, 'Paket PLP' => $t40->paket_plp);
                             }else{
                                 $jenis = array('Lift On/Off' => $t40->lift_off, 'Paket PLP' => $t40->paket_plp);
@@ -1810,7 +1841,7 @@ class FclController extends Controller
                 
                 if(count($container45) > 0) {
 
-                    $tarif45 = \App\Models\InvoiceTarifNct::where(array('size' => 45, 'type' => $data->jenis_container))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
+                    $tarif45 = \App\Models\InvoiceTarifNct::where(array('size' => 45, 'type' => $jenis_cont_std))->whereIn('lokasi_sandar', array($data['KD_TPS_ASAL'],'TPS'))->get();
 //                    return $tarif40;
                     foreach ($tarif45 as $t45) :
                         
@@ -1866,7 +1897,7 @@ class FclController extends Controller
 //                            if($data['BEHANDLE'] == 'Y') {
 //                                $jenis = array('Lift On/Off' => $t45->lift_off,'Paket PLP' => $t45->paket_plp,'Behandle' => $t45->behandle);
 //                            }else{
-                            if($data->jenis_container == 'BB') {
+                            if($jenis_cont_std == 'BB') {
                                 $jenis = array('Lift On/Off' => $t45->lift_off*2, 'Paket PLP' => $t45->paket_plp);
                             }else{
                                 $jenis = array('Lift On/Off' => $t45->lift_off, 'Paket PLP' => $t45->paket_plp);
@@ -1972,21 +2003,25 @@ class FclController extends Controller
             $update_nct = \App\Models\InvoiceNct::find($invoice_nct->id);
 
             if($data['KD_TPS_ASAL'] == 'KOJA'):
-                if($data->jenis_container == 'BB'){
+                if($jenis_cont_std == 'BB'){
                     $total_penumpukan_tps = \App\Models\InvoiceNctPenumpukan::where('invoice_nct_id', $invoice_nct->id)->where('lokasi_sandar','TPS')->sum('total');
                     $total_gerakan_tps = \App\Models\InvoiceNctGerakan::where('invoice_nct_id', $invoice_nct->id)->where('lokasi_sandar','TPS')->sum('total');
-                    $total_surcharge = ($total_penumpukan_tps+$total_gerakan_tps)*(25/100);
-                    $update_nct->surcharge = $total_surcharge;
+                    if($type_cont == 'High'){
+                        $total_surcharge = ($total_penumpukan_tps+$total_gerakan_tps)*(30/100);
+                    }else{
+                        $total_surcharge = ($total_penumpukan_tps+$total_gerakan_tps)*(25/100);
+                    }
+//                    $update_nct->surcharge = $total_surcharge;
 
-//                    $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
-//                    $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
-//                    $invoice_gerakan->lokasi_sandar = 'KOJA';
-//                    $invoice_gerakan->size = 0;
-//                    $invoice_gerakan->qty = count($container20)+count($container40)+count($container45);
-//                    $invoice_gerakan->jenis_gerakan = 'Surcharge DG';
-//                    $invoice_gerakan->tarif_dasar = $total_surcharge;
-//                    $invoice_gerakan->total = $invoice_gerakan->qty * $total_surcharge;
-//                    $invoice_gerakan->save();
+                    $invoice_gerakan = new \App\Models\InvoiceNctGerakan;
+                    $invoice_gerakan->invoice_nct_id = $invoice_nct->id;
+                    $invoice_gerakan->lokasi_sandar = 'TPS';
+                    $invoice_gerakan->size = 0;
+                    $invoice_gerakan->qty = 1;
+                    $invoice_gerakan->jenis_gerakan = 'Surcharge DG';
+                    $invoice_gerakan->tarif_dasar = $total_surcharge;
+                    $invoice_gerakan->total = $total_surcharge;
+                    $invoice_gerakan->save();
                 }
 //                $update_nct->perawatan_it = (count($container20)+count($container40)+count($container45)) * 90000;
 //                $update_nct->administrasi = 20000;

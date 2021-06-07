@@ -554,8 +554,20 @@
                         <label class="col-sm-3 control-label">Jenis Container</label>
                         <div class="col-sm-8">
                             <select class="form-control select2" id="jenis_container" name="jenis_container" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
-                                <option value="DRY" selected>DRY</option>
+                                <option value="DRY">DRY</option>
                                 <option value="BB">BB</option>
+                                <option value="Class BB Standar 3">Class BB Standar 3</option>
+                                <option value="Class BB Standar 8">Class BB Standar 8</option>
+                                <option value="Class BB Standar 9">Class BB Standar 9</option>
+                                <option value="Class BB Standar 4,1">Class BB Standar 4,1</option>
+                                <option value="Class BB Standar 4,2">Class BB Standar 4,2</option>
+                                <option value="Class BB Standar 6">Class BB Standar 6</option>
+                                <option value="Class BB Standar 2,2">Class BB Standar 2,2</option>
+                                <option value="Class BB Standar 2,3">Class BB Standar 2,3</option>
+                                <option value="Class BB High Class 2,1">Class BB High Class 2,1</option>
+                                <option value="Class BB High Class 5,1">Class BB High Class 5,1</option>
+                                <option value="Class BB High Class 6,1">Class BB High Class 6,1</option>
+                                <option value="Class BB High Class 5,2">Class BB High Class 5,2</option>
                             </select>
                         </div>
                     </div>
