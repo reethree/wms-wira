@@ -1771,7 +1771,7 @@ class LclController extends Controller
             }
 
 //            if(isset($request->dg_surcharge)){
-                $invoice_import->dg_surcharge = ($tarif->type == 'BB') ? $tarif->dg_surcharge * $maxcbm : 0 ;
+                $invoice_import->dg_surcharge = ($tarif->type == 'BB') ? $tarif->dg_surcharge : 0 ;
 //                $invoice_import->dg_surcharge = $tarif->dg_surcharge * $maxcbm;
 //            }
             
