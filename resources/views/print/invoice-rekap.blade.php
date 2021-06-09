@@ -64,7 +64,7 @@
             <th style="text-align: center;width: 20px;border: 1px solid;">NO</th>
             <th style="text-align: center;border: 1px solid;">CONSIGNEE</th>
             <th style="text-align: center;width: 80px;border: 1px solid;">TGL<br />RELEASE</th>
-            <th style="text-align: center;width: 80px;border: 1px solid;">NO<br />INVOICE</th>
+            <th style="text-align: center;width: 80px;border: 1px solid;">NO<br />NOTA</th>
             <th style="text-align: center;border: 1px solid;" colspan="2">JUMLAH</th>
         </tr>
         
