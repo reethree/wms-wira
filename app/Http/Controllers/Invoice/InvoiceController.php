@@ -967,9 +967,9 @@ class InvoiceController extends Controller
                     ->whereIn('tcontainercy.TCONTAINER_PK', $ids)
                     ->get();
 
-                $data['invoice'] = $invoice;
+//                $data['invoice'] = $invoice;
                 $data['barcode'] = $data_barcode;
-                $data['barcode']['urls'] = $urls;
+//                $data['barcode']['urls'] = $urls;
 
                 // Send Barcode To Platform
                 return json_encode($data);

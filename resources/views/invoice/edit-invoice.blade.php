@@ -15,7 +15,7 @@
     <!-- info row -->
     <div class="row invoice-info">
         <div class="col-xs-12 text-center margin-bottom">
-            <h2><b>INVOICE</b></h2>
+            <h2><b>NOTA TAGIHAN</b></h2>
         </div>
         <div class="col-sm-12 invoice-col" style="margin-bottom: 20px;padding: 0">
             <div class="col-sm-5">
@@ -31,7 +31,7 @@
                 </p>
             </div>
             <div class="col-sm-7">
-                <p style="text-align: center;">No. Invoice : {{ $invoice->no_invoice }}</p>
+                <p style="text-align: center;">No. Nota : {{ $invoice->no_invoice }}</p>
             </div>
         </div>
       <div class="col-sm-4 invoice-col">
@@ -238,7 +238,7 @@
           @else
               <tr>
                   <td>1</td>
-                  <td>Jasa Penumpukan</td>
+                  <td>Warehouse Charge</td>
                   <td>{{ number_format($invoice->cbm, 3, '.', ',') }} Cbm</td>
                   <td align="right">Rp.</td>
                   <td align="right">{{ number_format($tarif->warehouse_charge) }}</td>

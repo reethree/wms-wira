@@ -51,7 +51,7 @@
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>
                   <td align="right">
-                      No. Invoice : {{ $invoice->no_invoice }}<br />
+                      No. Nota : {{ $invoice->no_invoice }}<br />
                       Date {{ ($invoice->tgl_cetak != "") ? date("d F Y", strtotime($invoice->tgl_cetak)) : date("d F Y") }}
                   </td>
               </tr>

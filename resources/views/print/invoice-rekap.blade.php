@@ -42,7 +42,7 @@
     @if(count($invoices) > 0)
     <table border="0" cellspacing="0" cellpadding="0">
         <tr>
-            <td style="text-align: center;">KWITANSI</td>
+            <td style="text-align: center;">INVOICE</td>
         </tr>
         <tr>
             <td style="text-align: center;">NO. {{$no_kwitansi}}</td>

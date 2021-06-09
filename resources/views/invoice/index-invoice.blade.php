@@ -54,7 +54,7 @@
         <h3 class="box-title">LCL Invoices Lists</h3>
         <div class="box-tools">
             <!--<button class="btn btn-danger btn-sm" id="update-rdm"><i class="fa fa-refresh"></i> UPDATE RDM</button>&nbsp;&nbsp;&nbsp;|||&nbsp;&nbsp;&nbsp;-->
-            <button class="btn btn-info btn-sm" id="cetak-rekap"><i class="fa fa-print"></i> REKAP KWITANSI</button>
+            <button class="btn btn-info btn-sm" id="cetak-rekap"><i class="fa fa-print"></i> REKAP INVOICE</button>
 {{--            <button class="btn btn-warning btn-sm" id="cetak-rekap-akumulasi"><i class="fa fa-print"></i> REKAP AKUMULASI</button>--}}
         </div>
     </div>
@@ -120,7 +120,7 @@
 //            ->addColumn(array('label'=>'Tgl. PLP','index'=>'TTGL_PLP','width'=>150,'align'=>'center'))
 //            ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
 //            ->addColumn(array('label'=>'ETD','index'=>'ETD', 'width'=>150,'align'=>'center'))
-            ->addColumn(array('label'=>'No. Invoice','index'=>'no_invoice','width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'No. Nota','index'=>'no_invoice','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Type','index'=>'INVOICE','width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'RDM','index'=>'rdm','width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'Consolidator','index'=>'NAMACONSOLIDATOR','width'=>250))
@@ -167,7 +167,7 @@
                         <div class="col-md-12">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">No. Kwitansi</label>
+                                <label class="col-sm-3 control-label">No. Invoice</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" name="no_kwitansi" required />
                                 </div>
@@ -261,7 +261,7 @@
                         <div class="col-md-12">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">No. Kwitansi</label>
+                                <label class="col-sm-3 control-label">No. Invoice</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" name="no_kwitansi" required />
                                 </div>

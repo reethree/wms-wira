@@ -1690,7 +1690,7 @@ class LclController extends Controller
         $manifest = DBManifest::where('TMANIFEST_PK', $manifest_id)->first();        
 
         $tarif = \App\Models\InvoiceTarif::where(array('consolidator_id' => $manifest->TCONSOLIDATOR_FK, 'type' => $manifest->INVOICE))->first();
-
+        if($tarif){
             $tglrelease = $request->tgl_keluar;
             $no_invoice = $request->no_invoice;
             
@@ -1895,9 +1895,9 @@ class LclController extends Controller
             }
 //            return json_encode(array('hari' => $hari, 'weight' => $weight, 'meas' => $meas, 'cbm' => $maxcbm));
 //            return json_encode(array('success' => true, 'message' => 'No. Tally '.$manifest->NOTALLY.', invoice berhasih dibuat.'));
-//        }
-        
-//        return json_encode(array('success' => false, 'message' => 'Something went wrong, please try again later.'));
+        }
+
+        return back()->with('error', 'Tarif tidak ditemukan.');
         
     }
     
