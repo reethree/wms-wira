@@ -48,7 +48,7 @@
             <td style="text-align: center;">NO. {{$no_kwitansi}}</td>
         </tr>
         <tr>
-            <td style="text-align: center;">REKAPITULASI PENGIRIMAN NOTA TAGIHAN</td>
+            <td style="text-align: center;">REKAPITULASI NOTA TAGIHAN</td>
         </tr>
         <tr>
             <td style="text-align: center;">Biaya Penumpukan Barang LCL Gudang PT WIRA MITRA PRIMA</td>
