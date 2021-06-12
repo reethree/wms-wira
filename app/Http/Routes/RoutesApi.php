@@ -7,7 +7,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
     ]);
     Route::get('/requestInvoice', [
         'as' => 'nle-request-invoice',
-        'uses' => 'NleController@requestInvoice'
+        'uses' => 'NleController@requestInvoicePlatform'
     ]);
 
 });

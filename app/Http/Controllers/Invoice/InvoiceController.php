@@ -961,19 +961,44 @@ class InvoiceController extends Controller
                     }
                 endforeach;
 
-                $data_barcode = \App\Models\Barcode::select('*')
+                $data_barcode = \App\Models\Barcode::select('barcode_autogate.*','tcontainercy.VOY','tcontainercy.VESSEL','tcontainercy.NO_PLP','tcontainercy.TGL_PLP','tcontainercy.NO_BC11','tcontainercy.TGL_BC11')
                     ->join('tcontainercy', 'barcode_autogate.ref_id', '=', 'tcontainercy.TCONTAINER_PK')
                     ->where(array('ref_type' => 'FCL', 'ref_action'=>'release'))
                     ->whereIn('tcontainercy.TCONTAINER_PK', $ids)
                     ->get();
 
 //                $data['invoice'] = $invoice;
+                $data['no_invoice'] = $invoice->no_invoice;
+                $data['npwp'] = $invoice->npwp;
+                $data['no_bl'] = $invoice->no_bl;
+                $data['platform'] = 'TO013';
+                $data['paid_date'] = date('Y-m-d');
                 $data['barcode'] = $data_barcode;
 //                $data['barcode']['urls'] = $urls;
 
                 // Send Barcode To Platform
-                return json_encode($data);
-                return back()->with('success', 'Invoice has been Paid.');
+                $elogis_url_dev = 'http://localhost/ppjk-online/public/api/v1/generate-barcode';
+                $elogis_url_prod = 'https://elogis.id/api/v1/generate-barcode';
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $elogis_url_prod);
+                curl_setopt($ch, CURLOPT_HEADER, 0);            // No header in the result
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return, do not echo result
+                curl_setopt($ch, CURLOPT_POST, 1);              // This is a POST request
+                // Data to POST
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+                $dataResults = curl_exec($ch);
+                curl_close($ch);
+
+                $results = json_decode($dataResults);
+
+                if($results->success){
+                    // Update Invoice To Paid
+                    return back()->with('success', $results->message);
+                }
+
+                return back()->with('error', $results->message);
 
             }
         }
