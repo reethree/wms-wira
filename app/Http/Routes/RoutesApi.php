@@ -5,7 +5,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
         'as' => 'nle-get-sppb',
         'uses' => 'NleController@getSppbOnline'
     ]);
-    Route::get('/requestInvoice', [
+    Route::post('/requestInvoice', [
         'as' => 'nle-request-invoice',
         'uses' => 'NleController@requestInvoicePlatform'
     ]);
