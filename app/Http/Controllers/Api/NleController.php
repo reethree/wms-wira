@@ -24,6 +24,7 @@ class NleController extends ApiBaseController
 
     public function requestInvoicePlatform(Request $request)
     {
+
         $npwp = $request->npwp;
         $no_do = '';
         $no_bl = $request->no_bl;
@@ -71,7 +72,8 @@ class NleController extends ApiBaseController
             }else{
                 $data = $container45['0'];
             }
-            $getNoInv = $this->getInvoiceNumber('fcl','Platform');
+//            $getNoInv = $this->getInvoiceNumber('fcl','Platform');
+            $getNoInv = 'TP0001';
             $no_inv = $getNoInv.'/LAP/WMP/'.date('Y').'/'.$data['KD_TPS_ASAL'];
             $tgl_release = $paid_thrud_date;
             $consignee = DBPerusahaan::where('TPERUSAHAAN_PK', $data['TCONSIGNEE_FK'])->first();
@@ -558,10 +560,9 @@ class NleController extends ApiBaseController
                     ]
                 );
             }
-
-            return json_encode(['status'=>'500', 'success' => false,'msg' => 'Data tidak ditemukan.']);
-
         }
+
+        return json_encode(['status'=>'500', 'success' => false,'msg' => 'Data tidak ditemukan.']);
     }
 
 }
