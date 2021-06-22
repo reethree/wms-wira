@@ -85,6 +85,9 @@
         
         // NLE Routes
         require_once 'Routes/RoutesNle.php';
+
+        // Accurate Routes
+        require_once 'Routes/RoutesAccurate.php';
         
         // GLOBAL Routes
         Route::get('/getDataPelabuhan', [

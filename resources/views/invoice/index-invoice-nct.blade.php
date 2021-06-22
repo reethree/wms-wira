@@ -73,6 +73,53 @@
                 alert('Please select the invoice that will be extended.');
             }
         });
+        $('#accurate-btn').on("click", function(){
+            rowid = $('#fclInvoicesGrid').jqGrid('getGridParam', 'selrow');
+            if(rowid){
+                $.ajax({
+                    url:"{{ route('accurate-oauth') }}",
+                    method:'GET',
+                    success:function(res) {
+                        var win = window.open(
+                            res.url,
+                            "Accurate Oauth Authorization",
+                            "width=500,height=400"
+                        );
+                        win.onbeforeunload = function() {
+                            //saveInvoice(rowid);
+                            alert('success');
+                        };
+                    }
+                });
+            }else{
+                alert('Please select the invoice that will be upload to accurate.');
+            }
+        });
+
+        function saveInvoice(invoice_id) {
+            $.ajax({
+                url:"{{ route('accurate-upload') }}",
+                method:'POST',
+                data:{
+                    id: invoice_id
+                },
+                beforeSend:function(){
+                    swal({
+                        title: "Mohon tunggu.",
+                        text: "Proses sedang berlangsung...",
+                        showConfirmButton: false
+                    });
+                },
+                success:function(res) {
+                    if(res.success) {
+                        swal("Berhasil",res.message);
+                    } else {
+                        swal("Oops!",res.message);
+                    }
+                    $("#gridInvoice").jqGrid().trigger('reloadGrid');
+                }
+            });
+        }
     });
     
 </script>
@@ -81,7 +128,8 @@
     <div class="box-header with-border">
         <h3 class="box-title">FCL Invoices Lists</h3>
         <div class="box-tools">
-            <button class="btn btn-block btn-warning btn-sm" id="extend-btn"><i class="fa fa-forward"></i> Extend</button>
+            <button class="btn btn-danger btn-sm" id="accurate-btn"><i class="fa fa-upload"></i> Upload to Accurate</button>
+            <button class="btn btn-warning btn-sm" id="extend-btn"><i class="fa fa-forward"></i> Extend</button>
         </div>
     </div>
     <div class="box-body table-responsive">
