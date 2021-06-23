@@ -25,10 +25,7 @@ class AccurateController extends Controller
 
     public function getSession(Request $request) {
         $response = $this->accurate->getToken($request->code);
-        return response()->json([
-            'request'=>$request->all(),
-            'response'=>$response
-        ]);
+
         if($response['is_error']) {
             return back()->with('error', $response['message']);
         }
@@ -54,7 +51,10 @@ class AccurateController extends Controller
             $access_token = $token->access_token;
             $sign = $this->accurate->__getSign(array('id' => 315240));
 
-            $response = $this->accurate->getSession($sign, $access_token);
+            $response = $this->accurate->getSession('', $access_token);
+            return response()->json([
+                'response'=>$response
+            ]);
             if($response['is_error']) {
                 return back()->with('error', $response['message']);
             }
