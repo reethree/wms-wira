@@ -52,11 +52,11 @@ class AccurateController extends Controller
             $sign = $this->accurate->__getSign(array('id' => 315240));
 
             $response = $this->accurate->getSession('', $access_token);
-            return response()->json([
-                'response'=>$response
-            ]);
+
             if($response['is_error']) {
-                return back()->with('error', $response['message']);
+//                return back()->with('error', $response['message']['d']);
+                echo "<div style='padding:20px;'><h1>".$response['message']['d']."</h1></div>";
+                return;
             }
 
             $data = [
