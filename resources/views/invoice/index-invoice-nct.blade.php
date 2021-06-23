@@ -73,57 +73,67 @@
                 alert('Please select the invoice that will be extended.');
             }
         });
+
         $('#accurate-btn').on("click", function(){
             rowid = $('#fclInvoicesGrid').jqGrid('getGridParam', 'selrow');
             rowdata = $('#fclInvoicesGrid').getRowData(rowid);
             if(rowid){
-                $.ajax({
-                    url:"{{ route('accurate-oauth') }}",
-                    method:'GET',
-                    success:function(res) {
-                        var win = window.open(
-                            res.url,
-                            "Accurate Oauth Authorization",
-                            "width=500,height=400"
-                        );
-                        win.onbeforeunload = function() {
-                            saveInvoice(rowid,rowdata.consignee);
-                        };
-                    }
-                });
+                $("#accurate-invoice-id").val(invoice_id);
+                $("#accurate-consignee").html(consignee);
+                $('#upload-accurate-modal').modal('show');
             }else{
                 alert('Please select the invoice that will be upload to accurate.');
             }
         });
 
-        function saveInvoice(invoice_id,consignee) {
+        $('#upload-accurate-btn').on('click', function(){
+            var invID = $("#accurate-invoice-id").val();
+            var code = $("#kode_perusahaan").val();
+            $.ajax({
+                url:"{{ route('accurate-oauth') }}",
+                method:'GET',
+                success:function(res) {
+                    var win = window.open(
+                        res.url,
+                        "Accurate Oauth Authorization",
+                        "width=500,height=400"
+                    );
+                    win.onbeforeunload = function() {
+                        $("#kode_perusahaan").val('');
+                        $('#upload-accurate-modal').modal('hide');
+                        saveInvoice(invID,code);
+                    };
+                }
+            });
+        });
 
-            $("#accurate-invoice-id").val(invoice_id);
-            $("#accurate-consignee").html(consignee);
-            $('#upload-accurate-modal').modal('show');
+        function saveInvoice(invoice_id,code) {
 
-            {{--$.ajax({--}}
-            {{--    url:"{{ route('accurate-upload') }}",--}}
-            {{--    method:'POST',--}}
-            {{--    data:{--}}
-            {{--        id: invoice_id--}}
-            {{--    },--}}
-            {{--    beforeSend:function(){--}}
-            {{--        swal({--}}
-            {{--            title: "Mohon tunggu.",--}}
-            {{--            text: "Proses sedang berlangsung...",--}}
-            {{--            showConfirmButton: false--}}
-            {{--        });--}}
-            {{--    },--}}
-            {{--    success:function(res) {--}}
-            {{--        if(res.success) {--}}
-            {{--            swal("Berhasil",res.message);--}}
-            {{--        } else {--}}
-            {{--            swal("Oops!",res.message);--}}
-            {{--        }--}}
-            {{--        $("#gridInvoice").jqGrid().trigger('reloadGrid');--}}
-            {{--    }--}}
-            {{--});--}}
+            $.ajax({
+                url:"{{ route('accurate-upload') }}",
+                method:'POST',
+                data:{
+                    id: invoice_id,
+                    code: code,
+                    type: 'fcl',
+                    _token: '{{ csrf_token() }}'
+                },
+                beforeSend:function(){
+                    swal({
+                        title: "Mohon tunggu.",
+                        text: "Proses sedang berlangsung...",
+                        showConfirmButton: false
+                    });
+                },
+                success:function(res) {
+                    if(res.success) {
+                        swal("Berhasil",res.message);
+                    } else {
+                        swal("Oops!",res.message);
+                    }
+                    $("#gridInvoice").jqGrid().trigger('reloadGrid');
+                }
+            });
         }
     });
     
@@ -225,13 +235,12 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Input Kode Perusahaan</h4>
             </div>
-            <form id="create-invoice-form" class="form-horizontal" action="{{route('accurate-upload')}}" method="POST" enctype="multipart/form-data">
+            <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}" />
                             <input name="invoice_id" type="hidden" id="accurate-invoice-id" />
-                            <input name="type" type="hidden" value="fcl" />
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Nama Perusahaan</label>
                                 <div class="col-sm-6">
@@ -241,7 +250,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Kode Perusahaan</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="kode_perusahaan" required placeholder="Kode yang terdaftar di Accurate" />
+                                    <input type="text" class="form-control" id="kode_perusahaan" name="kode_perusahaan" required placeholder="Kode yang terdaftar di Accurate" />
                                 </div>
                             </div>
                         </div>
@@ -249,7 +258,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" id="upload-accurate-btn" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
@@ -316,6 +325,7 @@
 
 <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
 <script src="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.js") }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     $('.datepicker').datepicker({
         autoclose: true,

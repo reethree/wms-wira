@@ -72,8 +72,8 @@ class AccurateController extends Controller
 
     public function saveInvoice(Request $request) {
 
-        $id = $request->invoice_id;
-        $kode = $request->kode_perusahaan;
+        $id = $request->id;
+        $kode = $request->code;
         $type = $request->type;
         if($type=='fcl'){
             $item_code = 100033;
@@ -83,8 +83,10 @@ class AccurateController extends Controller
             // Materai
 //            $item_code = 100034;
         }
-
-        return $request->all();
+        return response()->json([
+            'success'=>true,
+            'message'=>$request->all()
+        ]);
 
         $invoice = InvoiceNct::find($id);
 
