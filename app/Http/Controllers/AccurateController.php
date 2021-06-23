@@ -25,7 +25,10 @@ class AccurateController extends Controller
 
     public function getSession(Request $request) {
         $response = $this->accurate->getToken($request->code);
-
+        return response()->json([
+            'request'=>$request->all(),
+            'response'=>$response
+        ]);
         if($response['is_error']) {
             return back()->with('error', $response['message']);
         }
