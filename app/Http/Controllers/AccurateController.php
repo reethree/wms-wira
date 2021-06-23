@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InvoiceNct;
 use Illuminate\Http\Request;
 use App\Library\Accurate;
 use DB;
@@ -24,7 +25,7 @@ class AccurateController extends Controller
 
     public function getSession(Request $request) {
         $response = $this->accurate->getToken($request->code);
-        dd($response);
+
         if($response['is_error']) {
             return back()->withDanger($response['message']);
         }
@@ -48,7 +49,7 @@ class AccurateController extends Controller
                 return;
             }
             $access_token = $token->access_token;
-            $sign = $this->accurate->__getSign(array('id' => 110053));
+            $sign = $this->accurate->__getSign(array('id' => 315240));
 
             $response = $this->accurate->getSession($sign, $access_token);
             if($response['is_error']) {
@@ -70,16 +71,23 @@ class AccurateController extends Controller
     }
 
     public function saveInvoice(Request $request) {
-        $id = base64_decode($request->id);
-        $invoice = Invoice::with([
-            'register'=>function($query){
-                $query->with([
-                    'dokumen'=>function($query){
-                        $query->whereIn('kode_jenis_dokumen', [DOK_BL, DOK_AWB]);
-                    }
-                ]);
-            }
-        ])->find($id);
+
+        $id = $request->invoice_id;
+        $kode = $request->kode_perusahaan;
+        $type = $request->type;
+        if($type=='fcl'){
+            $item_code = 100033;
+        }elseif($type=='lcl'){
+            $item_code = 100027;
+        }else{
+            // Materai
+//            $item_code = 100034;
+        }
+
+        return $request->all();
+
+        $invoice = InvoiceNct::find($id);
+
         if (!$invoice) {
             return response()->json([
                 'success'=>false,
@@ -87,29 +95,29 @@ class AccurateController extends Controller
             ]);
         }
 
-        $perusahaan = Perusahaan::select('kode')->where('name', $invoice->register->nama_pemilik)->first();
-        if (!$perusahaan) {
-            return response()->json([
-                'success'=>false,
-                'message'=>'Nama Perusahaan tidak ditemukan pada data master.'
-            ]);
-        }
-        if (empty($perusahaan->kode) || $perusahaan->kode  == "") {
-            return response()->json([
-                'success'=>false,
-                'message'=>'Nama Perusahaan '.$invoice->register->nama_pemilik.' belum memiliki kode.'
-            ]);
-        }
+//        $perusahaan = Perusahaan::select('kode')->where('name', $invoice->register->nama_pemilik)->first();
+//        if (!$perusahaan) {
+//            return response()->json([
+//                'success'=>false,
+//                'message'=>'Nama Perusahaan tidak ditemukan pada data master.'
+//            ]);
+//        }
+//        if (empty($perusahaan->kode) || $perusahaan->kode  == "") {
+//            return response()->json([
+//                'success'=>false,
+//                'message'=>'Nama Perusahaan '.$invoice->register->nama_pemilik.' belum memiliki kode.'
+//            ]);
+//        }
 
         $session = DB::table('accurate_session')->orderBy('created_at','desc')->first();
         $token = DB::table('accurate_token')->orderBy('id','desc')->first();
         $access_token = $token->access_token;
 
         $body = [
-            'branchName'=> 'HEAD OFFICE',
-            'customerNo' => $perusahaan->kode,
+            'branchName'=> 'Kantor Pusat',
+            'customerNo' => $kode,
             'description' => (count($invoice->register->dokumen) > 0) ? $invoice->register->dokumen[0]['nomor_dokumen'] : '',
-            'detailItem[0].itemNo' => 100001,
+            'detailItem[0].itemNo' => $item_code,
             'detailItem[0].unitPrice' => $invoice->subtotal,
             // 'id' => '106',
             'reverseInvoice' => 0,

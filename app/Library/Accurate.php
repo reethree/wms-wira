@@ -28,27 +28,6 @@ class Accurate {
     public function getToken($code) {
         $url = config('accurate.host').'/oauth/token';
 
-//        $ch = curl_init();
-//
-//        curl_setopt($ch, CURLOPT_URL, $url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 0 );
-//        curl_setopt($ch, CURLOPT_POST, 1 );
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, [
-//            'code' => $code,
-//            'grant_type' => 'authorization_code',
-//            'redirect_uri' => route('accurate-get-session')
-//        ]);
-//        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-//            'Authorization'=> $this->token,
-//            'Content-Type'=> 'application/x-www-form-urlencoded'
-//        ]);
-//
-//        $result = curl_exec ($ch);
-//
-//        curl_close($ch);
-//
-//        dd($result);
         try {
             $client = new Client();
             $result = $client->request('POST', $url, [
@@ -81,7 +60,7 @@ class Accurate {
             $client = new Client();
             $result = $client->request('POST', $url, [
                 'body'=>http_build_query([
-                    'id' => 110053,
+                    'id' => 315240,
                     '_ts' => gmdate('Y-m-d\TH:i:s\Z'),
                     'sign' => $sign
                 ]),

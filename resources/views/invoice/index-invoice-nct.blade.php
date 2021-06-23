@@ -75,6 +75,7 @@
         });
         $('#accurate-btn').on("click", function(){
             rowid = $('#fclInvoicesGrid').jqGrid('getGridParam', 'selrow');
+            rowdata = $('#fclInvoicesGrid').getRowData(rowid);
             if(rowid){
                 $.ajax({
                     url:"{{ route('accurate-oauth') }}",
@@ -87,7 +88,9 @@
                         );
                         win.onbeforeunload = function() {
                             //saveInvoice(rowid);
-                            alert('success');
+                            $("#accurate-invoice-id").val(rowid);
+                            $("#accurate-consignee").html(rowdata.consignee);
+                            $('#upload-accurate-modal').modal('show');
                         };
                     }
                 });
@@ -212,6 +215,44 @@
         }}
     </div>
 </div>
+
+<div id="upload-accurate-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Input Kode Perusahaan</h4>
+            </div>
+            <form id="create-invoice-form" class="form-horizontal" action="{{route('accurate-upload')}}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}" />
+                            <input name="invoice_id" type="hidden" id="accurate-invoice-id" />
+                            <input name="type" type="hidden" value="fcl" />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Nama Perusahaan</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="accurate-consignee" name="nama_perusahaan" required readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Kode Perusahaan</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="kode_perusahaan" required placeholder="Kode yang terdaftar di Accurate" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <div id="extend-invoice-modal" class="modal fade" role="dialog">
     <div class="modal-dialog" role="document">
