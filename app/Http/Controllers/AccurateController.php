@@ -27,7 +27,7 @@ class AccurateController extends Controller
         $response = $this->accurate->getToken($request->code);
 
         if($response['is_error']) {
-            return back()->withDanger($response['message']);
+            return back()->with('error', $response['message']);
         }
         $data = [
             'token_type' => $response['result']['token_type'],
@@ -53,7 +53,7 @@ class AccurateController extends Controller
 
             $response = $this->accurate->getSession($sign, $access_token);
             if($response['is_error']) {
-                return back()->withDanger($response['message']);
+                return back()->with('error', $response['message']);
             }
 
             $data = [

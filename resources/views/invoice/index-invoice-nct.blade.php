@@ -80,6 +80,7 @@
             if(rowid){
                 $("#accurate-invoice-id").val(rowid);
                 $("#accurate-consignee").val(rowdata.consignee);
+                $("#accurate-no-invoice").val(rowdata.no_invoice);
                 $('#upload-accurate-modal').modal('show');
             }else{
                 alert('Please select the invoice that will be upload to accurate.');
@@ -115,7 +116,7 @@
         });
 
         function saveInvoice(invoice_id,code) {
-
+            alert(invoice_id+' & '.code);
             $.ajax({
                 url:"{{ route('accurate-upload') }}",
                 method:'POST',
@@ -248,6 +249,12 @@
                         <div class="col-md-12">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}" />
                             <input name="invoice_id" type="hidden" id="accurate-invoice-id" />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Invoice</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="accurate-no-invoice" name="no_invoice" required readonly />
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Nama Perusahaan</label>
                                 <div class="col-sm-8">
