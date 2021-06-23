@@ -61,8 +61,8 @@ class Accurate {
             $result = $client->request('POST', $url, [
                 'body'=>http_build_query([
                     'id' => 315240,
-                    '_ts' => gmdate('Y-m-d\TH:i:s\Z'),
-                    'sign' => $sign
+//                    '_ts' => gmdate('Y-m-d\TH:i:s\Z'),
+//                    'sign' => $sign
                 ]),
                 'headers'=>[
                     'Authorization'=> 'Bearer '.$access_token,

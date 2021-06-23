@@ -104,6 +104,7 @@
                             "width=500,height=400"
                         );
                         win.onbeforeunload = function () {
+                            alert(invoice_id+' & '.code);
                             saveInvoice(invID, code);
                         };
                     }
@@ -114,36 +115,36 @@
                 return false;
             }
         });
-
-        function saveInvoice(invoice_id,code) {
-            alert(invoice_id+' & '.code);
-            $.ajax({
-                url:"{{ route('accurate-upload') }}",
-                method:'POST',
-                data:{
-                    id: invoice_id,
-                    code: code,
-                    type: 'fcl',
-                    _token: '{{ csrf_token() }}'
-                },
-                beforeSend:function(){
-                    swal.fire({
-                        title: "Mohon tunggu.",
-                        text: "Proses sedang berlangsung...",
-                        showConfirmButton: false
-                    });
-                },
-                success:function(res) {
-                    if(res.success) {
-                        swal.fire("Berhasil",res.message);
-                    } else {
-                        swal.fire("Oops!",res.message);
-                    }
-                    $("#gridInvoice").jqGrid().trigger('reloadGrid');
-                }
-            });
-        }
     });
+
+    function saveInvoice(invoice_id,code) {
+        alert(invoice_id+' & '.code);
+        $.ajax({
+            url:"{{ route('accurate-upload') }}",
+            method:'POST',
+            data:{
+                id: invoice_id,
+                code: code,
+                type: 'fcl',
+                _token: '{{ csrf_token() }}'
+            },
+            beforeSend:function(){
+                swal.fire({
+                    title: "Mohon tunggu.",
+                    text: "Proses sedang berlangsung...",
+                    showConfirmButton: false
+                });
+            },
+            success:function(res) {
+                if(res.success) {
+                    swal.fire("Berhasil",res.message);
+                } else {
+                    swal.fire("Oops!",res.message);
+                }
+                $("#gridInvoice").jqGrid().trigger('reloadGrid');
+            }
+        });
+    }
     
 </script>
 
