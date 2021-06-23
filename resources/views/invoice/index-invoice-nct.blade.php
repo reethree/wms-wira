@@ -78,8 +78,8 @@
             rowid = $('#fclInvoicesGrid').jqGrid('getGridParam', 'selrow');
             rowdata = $('#fclInvoicesGrid').getRowData(rowid);
             if(rowid){
-                $("#accurate-invoice-id").val(invoice_id);
-                $("#accurate-consignee").html(consignee);
+                $("#accurate-invoice-id").val(rowid);
+                $("#accurate-consignee").val(rowdata.consignee);
                 $('#upload-accurate-modal').modal('show');
             }else{
                 alert('Please select the invoice that will be upload to accurate.');
@@ -89,22 +89,29 @@
         $('#upload-accurate-btn').on('click', function(){
             var invID = $("#accurate-invoice-id").val();
             var code = $("#kode_perusahaan").val();
-            $.ajax({
-                url:"{{ route('accurate-oauth') }}",
-                method:'GET',
-                success:function(res) {
-                    var win = window.open(
-                        res.url,
-                        "Accurate Oauth Authorization",
-                        "width=500,height=400"
-                    );
-                    win.onbeforeunload = function() {
-                        $("#kode_perusahaan").val('');
-                        $('#upload-accurate-modal').modal('hide');
-                        saveInvoice(invID,code);
-                    };
-                }
-            });
+            if(code) {
+                $("#kode_perusahaan").val('');
+                $('#upload-accurate-modal').modal('hide');
+
+                $.ajax({
+                    url: "{{ route('accurate-oauth') }}",
+                    method: 'GET',
+                    success: function (res) {
+                        var win = window.open(
+                            res.url,
+                            "Accurate Oauth Authorization",
+                            "width=500,height=400"
+                        );
+                        win.onbeforeunload = function () {
+                            saveInvoice(invID, code);
+                        };
+                    }
+                });
+            }else{
+                // alert('Kode Perusahaan belum di isi.');
+                swal.fire("Oops!",'Kode Perusahaan belum di isi');
+                return false;
+            }
         });
 
         function saveInvoice(invoice_id,code) {
@@ -119,7 +126,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 beforeSend:function(){
-                    swal({
+                    swal.fire({
                         title: "Mohon tunggu.",
                         text: "Proses sedang berlangsung...",
                         showConfirmButton: false
@@ -127,9 +134,9 @@
                 },
                 success:function(res) {
                     if(res.success) {
-                        swal("Berhasil",res.message);
+                        swal.fire("Berhasil",res.message);
                     } else {
-                        swal("Oops!",res.message);
+                        swal.fire("Oops!",res.message);
                     }
                     $("#gridInvoice").jqGrid().trigger('reloadGrid');
                 }
@@ -243,13 +250,13 @@
                             <input name="invoice_id" type="hidden" id="accurate-invoice-id" />
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Nama Perusahaan</label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-8">
                                     <input type="text" class="form-control" id="accurate-consignee" name="nama_perusahaan" required readonly />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Kode Perusahaan</label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <input type="text" class="form-control" id="kode_perusahaan" name="kode_perusahaan" required placeholder="Kode yang terdaftar di Accurate" />
                                 </div>
                             </div>
