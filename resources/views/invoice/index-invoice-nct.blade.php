@@ -87,10 +87,7 @@
                             "width=500,height=400"
                         );
                         win.onbeforeunload = function() {
-                            //saveInvoice(rowid);
-                            $("#accurate-invoice-id").val(rowid);
-                            $("#accurate-consignee").html(rowdata.consignee);
-                            $('#upload-accurate-modal').modal('show');
+                            saveInvoice(rowid,rowdata.consignee);
                         };
                     }
                 });
@@ -99,29 +96,34 @@
             }
         });
 
-        function saveInvoice(invoice_id) {
-            $.ajax({
-                url:"{{ route('accurate-upload') }}",
-                method:'POST',
-                data:{
-                    id: invoice_id
-                },
-                beforeSend:function(){
-                    swal({
-                        title: "Mohon tunggu.",
-                        text: "Proses sedang berlangsung...",
-                        showConfirmButton: false
-                    });
-                },
-                success:function(res) {
-                    if(res.success) {
-                        swal("Berhasil",res.message);
-                    } else {
-                        swal("Oops!",res.message);
-                    }
-                    $("#gridInvoice").jqGrid().trigger('reloadGrid');
-                }
-            });
+        function saveInvoice(invoice_id,consignee) {
+
+            $("#accurate-invoice-id").val(invoice_id);
+            $("#accurate-consignee").html(consignee);
+            $('#upload-accurate-modal').modal('show');
+
+            {{--$.ajax({--}}
+            {{--    url:"{{ route('accurate-upload') }}",--}}
+            {{--    method:'POST',--}}
+            {{--    data:{--}}
+            {{--        id: invoice_id--}}
+            {{--    },--}}
+            {{--    beforeSend:function(){--}}
+            {{--        swal({--}}
+            {{--            title: "Mohon tunggu.",--}}
+            {{--            text: "Proses sedang berlangsung...",--}}
+            {{--            showConfirmButton: false--}}
+            {{--        });--}}
+            {{--    },--}}
+            {{--    success:function(res) {--}}
+            {{--        if(res.success) {--}}
+            {{--            swal("Berhasil",res.message);--}}
+            {{--        } else {--}}
+            {{--            swal("Oops!",res.message);--}}
+            {{--        }--}}
+            {{--        $("#gridInvoice").jqGrid().trigger('reloadGrid');--}}
+            {{--    }--}}
+            {{--});--}}
         }
     });
     
