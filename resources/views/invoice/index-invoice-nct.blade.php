@@ -104,27 +104,24 @@
                             "width=500,height=400"
                         );
                         win.onbeforeunload = function () {
-                            alert(invoice_id+' & '.code);
                             saveInvoice(invID, code);
                         };
                     }
                 });
             }else{
-                // alert('Kode Perusahaan belum di isi.');
                 swal.fire("Oops!",'Kode Perusahaan belum di isi');
                 return false;
             }
         });
     });
 
-    function saveInvoice(invoice_id,code) {
-        alert(invoice_id+' & '.code);
+    function saveInvoice(invoice_id,kode) {
         $.ajax({
             url:"{{ route('accurate-upload') }}",
             method:'POST',
             data:{
                 id: invoice_id,
-                code: code,
+                code: kode,
                 type: 'fcl',
                 _token: '{{ csrf_token() }}'
             },
@@ -137,11 +134,11 @@
             },
             success:function(res) {
                 if(res.success) {
-                    swal.fire("Berhasil",res.message);
+                    swal.fire("Success",res.message);
                 } else {
                     swal.fire("Oops!",res.message);
                 }
-                $("#gridInvoice").jqGrid().trigger('reloadGrid');
+                $("#fclInvoicesGrid").jqGrid().trigger('reloadGrid');
             }
         });
     }

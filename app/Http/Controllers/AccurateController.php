@@ -86,10 +86,6 @@ class AccurateController extends Controller
             // Materai
 //            $item_code = 100034;
         }
-        return response()->json([
-            'success'=>true,
-            'message'=>$request->all()
-        ]);
 
         $invoice = InvoiceNct::find($id);
 
@@ -100,55 +96,60 @@ class AccurateController extends Controller
             ]);
         }
 
-//        $perusahaan = Perusahaan::select('kode')->where('name', $invoice->register->nama_pemilik)->first();
-//        if (!$perusahaan) {
-//            return response()->json([
-//                'success'=>false,
-//                'message'=>'Nama Perusahaan tidak ditemukan pada data master.'
-//            ]);
-//        }
-//        if (empty($perusahaan->kode) || $perusahaan->kode  == "") {
-//            return response()->json([
-//                'success'=>false,
-//                'message'=>'Nama Perusahaan '.$invoice->register->nama_pemilik.' belum memiliki kode.'
-//            ]);
-//        }
-
         $session = DB::table('accurate_session')->orderBy('created_at','desc')->first();
         $token = DB::table('accurate_token')->orderBy('id','desc')->first();
         $access_token = $token->access_token;
+        $session_id = $session->session;
+
+//        data[n].customerNo
+//        data[n].detailItem[n].itemNo
+//        data[n].detailItem[n].unitPrice
+//        data[n].orderDownPaymentNumber
+//        data[n].reverseInvoice
+//        data[n].taxDate
+//        data[n].taxNumber
+//        data[n].transDate
 
         $body = [
             'branchName'=> 'Kantor Pusat',
             'customerNo' => $kode,
-            'description' => (count($invoice->register->dokumen) > 0) ? $invoice->register->dokumen[0]['nomor_dokumen'] : '',
+            'description' => '',
             'detailItem[0].itemNo' => $item_code,
-            'detailItem[0].unitPrice' => $invoice->subtotal,
-            // 'id' => '106',
+            'detailItem[0].unitPrice' => $invoice->total_non_ppn,
             'reverseInvoice' => 0,
             'session' => $session->session,
-            'taxDate' => date('d/m/Y', strtotime($invoice->tanggal_invoice)),
-            'taxNumber' => $invoice->nomor_invoice,
-            'transDate' =>  date('d/m/Y', strtotime($invoice->tanggal_invoice)),
+            'taxDate' => date('d/m/Y', strtotime($invoice->gateout_tps)),
+            'taxNumber' => $invoice->no_invoice,
+            'transDate' =>  date('d/m/Y', strtotime($invoice->gateout_tps)),
         ];
-        $sign = $this->accurate->__getSign($body);
-
-        $body['_ts'] = gmdate('Y-m-d\TH:i:s\Z');
-        $body['sign'] = $sign;
-        $response = $this->accurate->saveInvoice($session->host, $body, $access_token);
+//        $sign = $this->accurate->__getSign($body);
+//        $body['_ts'] = gmdate('Y-m-d\TH:i:s\Z');
+//        $body['sign'] = $sign;
+        $response = $this->accurate->saveInvoice($session->host, $body, $access_token, $session_id);
 
         if (!$response['is_error']) {
-            $invoice->update([
-                'uploaded_accurate'=>true
-            ]);
-            return response()->json([
-                'success'=>true,
-                'message'=>$response['result']['d'][0]
-            ]);
+            if ($response['result']['s']){
+                $invoice->uploaded_accurate = 1;
+                if($invoice->save()){
+                    return response()->json([
+                        'success'=>true,
+                        'response'=>$response,
+                        'message'=>$response['result']['d']
+                    ]);
+                }
+            }else{
+                return response()->json([
+                    'success'=>false,
+                    'response'=>$response,
+                    'message'=>$response['result']['d']
+                ]);
+            }
         }
+
         return response()->json([
             'success'=>false,
-            'message'=>$response['result']['d'][0]
+            'response'=>$response,
+            'message'=>$response['result']['d']
         ]);
     }
 }

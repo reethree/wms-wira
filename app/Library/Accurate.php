@@ -81,13 +81,14 @@ class Accurate {
         }
     }
 
-    public function saveInvoice($host, $body, $access_token) {
+    public function saveInvoice($host, $body, $access_token, $session) {
         $url = $host.'/accurate/api/sales-invoice/save.do';
         try {
             $client = new Client();
             $result = $client->request('POST', $url, [
                 'body'=>http_build_query($body),
                 'headers'=>[
+                    'X-Session-ID' => $session,
                     'Authorization'=> 'Bearer '.$access_token,
                     'Content-Type'=> 'application/x-www-form-urlencoded'
                 ],

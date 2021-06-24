@@ -72,9 +72,9 @@ class NleController extends ApiBaseController
             }else{
                 $data = $container45['0'];
             }
-//            $getNoInv = $this->getInvoiceNumber('fcl','Platform');
-            $getNoInv = 'TP0001';
-            $no_inv = $getNoInv.'/LAP/WMP/'.date('Y').'/'.$data['KD_TPS_ASAL'];
+            $getNoInv = $this->getInvoiceNumber('fcl','Platform');
+//            $getNoInv = 'TP0001';
+            $no_inv = $getNoInv.'/LAP/WMP/'.date('Y').'/'.$data['KD_TPS_ASAL'].'/ELOGIS';
             $tgl_release = $paid_thrud_date;
             $consignee = DBPerusahaan::where('TPERUSAHAAN_PK', $data['TCONSIGNEE_FK'])->first();
 
