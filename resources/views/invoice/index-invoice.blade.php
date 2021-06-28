@@ -32,7 +32,79 @@
         var ts = $(this);
         ts.css('top', (rowHight - ts.outerHeight()) / 2 + 'px');
     });
-    
+
+    $(document).ready(function() {
+        $('#accurate-btn').on("click", function(){
+            rowid = $('#lclInvoicesGrid').jqGrid('getGridParam', 'selrow');
+            rowdata = $('#lclInvoicesGrid').getRowData(rowid);
+            if(rowid){
+                $("#accurate-invoice-id").val(rowid);
+                $("#accurate-consignee").val(rowdata.NAMACONSOLIDATOR);
+                $("#accurate-no-invoice").val(rowdata.no_invoice);
+                $('#upload-accurate-modal').modal('show');
+            }else{
+                alert('Please select the invoice that will be upload to accurate.');
+            }
+        });
+
+        $('#upload-accurate-btn').on('click', function(){
+            var invID = $("#accurate-invoice-id").val();
+            var code = $("#kode_perusahaan").val();
+            var ket = $("#keterangan").val();
+            if(code) {
+                $("#kode_perusahaan").val('');
+                $('#upload-accurate-modal').modal('hide');
+
+                $.ajax({
+                    url: "{{ route('accurate-oauth') }}",
+                    method: 'GET',
+                    success: function (res) {
+                        var win = window.open(
+                            res.url,
+                            "Accurate Oauth Authorization",
+                            "width=500,height=400"
+                        );
+                        win.onbeforeunload = function () {
+                            saveInvoice(invID, code, ket);
+                        };
+                    }
+                });
+            }else{
+                swal.fire("Oops!",'Kode Perusahaan belum di isi');
+                return false;
+            }
+        });
+    });
+
+    function saveInvoice(invoice_id,kode,ket) {
+        $.ajax({
+            url:"{{ route('accurate-upload') }}",
+            method:'POST',
+            data:{
+                id: invoice_id,
+                code: kode,
+                type: 'lcl',
+                keterangan: ket,
+                _token: '{{ csrf_token() }}'
+            },
+            beforeSend:function(){
+                swal.fire({
+                    title: "Mohon tunggu.",
+                    text: "Proses sedang berlangsung...",
+                    showConfirmButton: false
+                });
+            },
+            success:function(res) {
+                if(res.success) {
+                    swal.fire("Success",res.message);
+                } else {
+                    swal.fire("Oops!",res.message);
+                }
+                $("#lclInvoicesGrid").jqGrid().trigger('reloadGrid');
+            }
+        });
+    }
+
     function gridCompleteEvent()
     {
         var ids = jQuery("#lclInvoicesGrid").jqGrid('getDataIDs'),
@@ -53,6 +125,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">LCL Invoices Lists</h3>
         <div class="box-tools">
+            <button class="btn btn-danger btn-sm" id="accurate-btn"><i class="fa fa-upload"></i> Upload to Accurate</button>
             <!--<button class="btn btn-danger btn-sm" id="update-rdm"><i class="fa fa-refresh"></i> UPDATE RDM</button>&nbsp;&nbsp;&nbsp;|||&nbsp;&nbsp;&nbsp;-->
             <button class="btn btn-info btn-sm" id="cetak-rekap"><i class="fa fa-print"></i> REKAP INVOICE</button>
 {{--            <button class="btn btn-warning btn-sm" id="cetak-rekap-akumulasi"><i class="fa fa-print"></i> REKAP AKUMULASI</button>--}}
@@ -153,6 +226,55 @@
         }}
     </div>
 </div>
+
+<div id="upload-accurate-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Input Kode Perusahaan</h4>
+            </div>
+            <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input name="_token" type="hidden" value="{{ csrf_token() }}" />
+                            <input name="invoice_id" type="hidden" id="accurate-invoice-id" />
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">No. Nota</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="accurate-no-invoice" name="no_invoice" required readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Nama Perusahaan</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="accurate-consignee" name="nama_perusahaan" required readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Kode Perusahaan</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" id="kode_perusahaan" name="kode_perusahaan" required placeholder="Kode yang terdaftar di Accurate" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Keterangan</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" id="keterangan" name="keterangan"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                    <button type="button" id="upload-accurate-btn" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <div id="cetak-rekap-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">

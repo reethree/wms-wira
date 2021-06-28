@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use App\Models\InvoiceNct;
 use Illuminate\Http\Request;
 use App\Library\Accurate;
@@ -80,8 +81,14 @@ class AccurateController extends Controller
         $type = $request->type;
         if($type=='fcl'){
             $item_code = 100033;
+            $invoice = InvoiceNct::find($id);
+            $total_price = $invoice->total_non_ppn;
+            $date = $invoice->gateout_tps;
         }elseif($type=='lcl'){
             $item_code = 100027;
+            $invoice = Invoice::find($id);
+            $total_price = $invoice->sub_total;
+            $date = $invoice->tgl_cetak;
         }else{
             // Materai
 //            $item_code = 100034;
@@ -90,8 +97,6 @@ class AccurateController extends Controller
                 'message'=>'Type Invoice salah.'
             ]);
         }
-
-        $invoice = InvoiceNct::find($id);
 
         if (!$invoice) {
             return response()->json([
@@ -119,12 +124,12 @@ class AccurateController extends Controller
             'customerNo' => $kode,
             'description' => $request->keterangan,
             'detailItem[0].itemNo' => $item_code,
-            'detailItem[0].unitPrice' => $invoice->total_non_ppn,
+            'detailItem[0].unitPrice' => $total_price,
             'reverseInvoice' => 0,
             'session' => $session->session,
-            'taxDate' => date('d/m/Y', strtotime($invoice->gateout_tps)),
+            'taxDate' => date('d/m/Y', strtotime($date)),
             'taxNumber' => $invoice->no_invoice,
-            'transDate' =>  date('d/m/Y', strtotime($invoice->gateout_tps)),
+            'transDate' =>  date('d/m/Y', strtotime($date)),
         ];
 
         if($invoice->materai > 0){

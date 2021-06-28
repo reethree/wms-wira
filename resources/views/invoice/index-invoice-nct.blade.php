@@ -93,6 +93,7 @@
         $('#upload-accurate-btn').on('click', function(){
             var invID = $("#accurate-invoice-id").val();
             var code = $("#kode_perusahaan").val();
+            var ket = $("#keterangan").val();
             if(code) {
                 $("#kode_perusahaan").val('');
                 $('#upload-accurate-modal').modal('hide');
@@ -107,7 +108,7 @@
                             "width=500,height=400"
                         );
                         win.onbeforeunload = function () {
-                            saveInvoice(invID, code);
+                            saveInvoice(invID, code, ket);
                         };
                     }
                 });
@@ -118,13 +119,14 @@
         });
     });
 
-    function saveInvoice(invoice_id,kode) {
+    function saveInvoice(invoice_id,kode,ket) {
         $.ajax({
             url:"{{ route('accurate-upload') }}",
             method:'POST',
             data:{
                 id: invoice_id,
                 code: kode,
+                keterangan: ket,
                 type: 'fcl',
                 _token: '{{ csrf_token() }}'
             },
@@ -272,7 +274,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Keterangan</label>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" name="keterangan"></textarea>
+                                    <textarea class="form-control" id="keterangan" name="keterangan"></textarea>
                                 </div>
                             </div>
                         </div>
