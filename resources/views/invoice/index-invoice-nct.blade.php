@@ -48,6 +48,9 @@
             if(rowdata.payment_status == 'Paid') {
                 $("#" + cl).find("td").css("background-color", "green").css("color", "#FFF");
             }
+            if(rowdata.uploaded_accurate == 1) {
+                $("#" + cl).find("td").css("color", "blue");
+            }
 
             edt = '<a href="{{ route("invoice-nct-edit",'') }}/'+cl+'"><i class="fa fa-pencil"></i></a> ';
             del = '<a href="{{ route("invoice-nct-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
@@ -205,6 +208,7 @@
             ->setGridEvent('onSelectRow', 'onSelectRowEvent')
             ->addColumn(array('label'=>'Action','index'=>'action', 'width'=>80, 'search'=>false, 'sortable'=>false, 'align'=>'center'))
             ->addColumn(array('key'=>true,'index'=>'id','hidden'=>true))
+            ->addColumn(array('label'=>'Accurate','index'=>'uploaded_accurate','width'=>60,'align'=>'center'))
             ->addColumn(array('label'=>'Extend','index'=>'extend','width'=>60,'align'=>'center'))
             ->addColumn(array('label'=>'Jenis','index'=>'type','width'=>100,'align'=>'center'))
             ->addColumn(array('label'=>'No. Invoice','index'=>'no_invoice','width'=>160,'align'=>'center'))
@@ -263,6 +267,12 @@
                                 <label class="col-sm-3 control-label">Kode Perusahaan</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" id="kode_perusahaan" name="kode_perusahaan" required placeholder="Kode yang terdaftar di Accurate" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Keterangan</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" name="keterangan"></textarea>
                                 </div>
                             </div>
                         </div>

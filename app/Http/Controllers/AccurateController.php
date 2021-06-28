@@ -85,6 +85,10 @@ class AccurateController extends Controller
         }else{
             // Materai
 //            $item_code = 100034;
+            return response()->json([
+                'success'=>false,
+                'message'=>'Type Invoice salah.'
+            ]);
         }
 
         $invoice = InvoiceNct::find($id);
@@ -113,7 +117,7 @@ class AccurateController extends Controller
         $body = [
             'branchName'=> 'Kantor Pusat',
             'customerNo' => $kode,
-            'description' => 'TEST FCL From WMS',
+            'description' => $request->keterangan,
             'detailItem[0].itemNo' => $item_code,
             'detailItem[0].unitPrice' => $invoice->total_non_ppn,
             'reverseInvoice' => 0,
@@ -122,6 +126,12 @@ class AccurateController extends Controller
             'taxNumber' => $invoice->no_invoice,
             'transDate' =>  date('d/m/Y', strtotime($invoice->gateout_tps)),
         ];
+
+        if($invoice->materai > 0){
+            array_add($body,'detailItem[1].itemNo','100034');
+            array_add($body,'detailItem[1].unitPrice',$invoice->materai);
+        }
+
 //        $sign = $this->accurate->__getSign($body);
 //        $body['_ts'] = gmdate('Y-m-d\TH:i:s\Z');
 //        $body['sign'] = $sign;
@@ -134,14 +144,14 @@ class AccurateController extends Controller
                     return response()->json([
                         'success'=>true,
                         'response'=>$response,
-                        'message'=>$response['result']['d']
+                        'message'=>$response['result']['d'][0]
                     ]);
                 }
             }else{
                 return response()->json([
                     'success'=>false,
                     'response'=>$response,
-                    'message'=>$response['result']['d']
+                    'message'=>$response['result']['d'][0]
                 ]);
             }
         }
@@ -149,7 +159,7 @@ class AccurateController extends Controller
         return response()->json([
             'success'=>false,
             'response'=>$response,
-            'message'=>$response['result']['d']
+            'message'=>$response['result']['d'][0]
         ]);
     }
 }
