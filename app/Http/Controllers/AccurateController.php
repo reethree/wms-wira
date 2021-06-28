@@ -113,7 +113,7 @@ class AccurateController extends Controller
         $body = [
             'branchName'=> 'Kantor Pusat',
             'customerNo' => $kode,
-            'description' => '',
+            'description' => 'TEST FCL From WMS',
             'detailItem[0].itemNo' => $item_code,
             'detailItem[0].unitPrice' => $invoice->total_non_ppn,
             'reverseInvoice' => 0,
