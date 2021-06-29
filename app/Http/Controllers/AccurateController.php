@@ -53,7 +53,7 @@ class AccurateController extends Controller
             $sign = $this->accurate->__getSign(array('id' => 315240));
 
             $response = $this->accurate->getSession('', $access_token);
-            dd($response);
+
             if($response['is_error']) {
 //                return back()->with('error', $response['message']['d']);
                 echo "<div style='padding:20px;'><h1>".$response['message']['d']."</h1></div>";
@@ -68,6 +68,7 @@ class AccurateController extends Controller
                 ['session' => $response['result']['session']],
                 $data
             )) {
+                echo "<div style='padding:20px;'><h1>".$response['result']['d'][0]."</h1></div>";
                 echo "<script>setTimeout(function(){window.close();}, 1000);</script>";
                 return;
             }
