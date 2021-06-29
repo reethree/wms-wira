@@ -67,12 +67,12 @@ class AccurateController extends Controller
                 ['session' => $response['result']['session']],
                 $data
             )) {
-                echo "<div style='padding:20px;'><p>".$response['result']['d'][0]."....</p></div>";
-                echo "<script>setTimeout(function(){window.close();}, 3000);</script>";
+                echo "<div style='padding:20px;'><p>".$response['result']['d'][0]."...</p></div>";
+                echo "<script>setTimeout(function(){window.close();}, 2000);</script>";
                 return;
             }else{
-                echo "<div style='padding:20px;'><p>Session tidak tersimpan...</p></div>";
-                echo "<script>setTimeout(function(){window.close();}, 3000);</script>";
+                echo "<div style='padding:20px;'><p>Session masih berlaku...</p></div>";
+                echo "<script>setTimeout(function(){window.close();}, 2000);</script>";
                 return;
             }
         }

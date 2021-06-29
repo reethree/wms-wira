@@ -65,7 +65,6 @@
                             "width=500,height=400"
                         );
                         win.onbeforeunload = function () {
-                            alert(invID);
                             saveInvoice(invID, code, ket);
                         };
                     }
@@ -550,6 +549,7 @@
 
 <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
 <script src="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.js") }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     $('.datepicker').datepicker({
         autoclose: true,
