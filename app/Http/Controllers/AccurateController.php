@@ -55,7 +55,6 @@ class AccurateController extends Controller
             $response = $this->accurate->getSession('', $access_token);
 
             if($response['is_error']) {
-//                return back()->with('error', $response['message']['d']);
                 echo "<div style='padding:20px;'><h1>".$response['message']['d']."</h1></div>";
                 return;
             }
@@ -68,8 +67,12 @@ class AccurateController extends Controller
                 ['session' => $response['result']['session']],
                 $data
             )) {
-                echo "<div style='padding:20px;'><h1>".$response['result']['d'][0]."</h1></div>";
-                echo "<script>setTimeout(function(){window.close();}, 1000);</script>";
+                echo "<div style='padding:20px;'><p>".$response['result']['d'][0]."....</p></div>";
+                echo "<script>setTimeout(function(){window.close();}, 3000);</script>";
+                return;
+            }else{
+                echo "<div style='padding:20px;'><p>Session tidak tersimpan...</p></div>";
+                echo "<script>setTimeout(function(){window.close();}, 3000);</script>";
                 return;
             }
         }
