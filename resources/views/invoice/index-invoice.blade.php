@@ -65,6 +65,7 @@
                             "width=500,height=400"
                         );
                         win.onbeforeunload = function () {
+                            alert(invID);
                             saveInvoice(invID, code, ket);
                         };
                     }
