@@ -961,7 +961,7 @@ class InvoiceController extends Controller
                     }
                 endforeach;
 
-                $data_barcode = \App\Models\Barcode::select('barcode_autogate.*','tcontainercy.location_name','tcontainercy.NO_SEAL','tcontainercy.NOCONTAINER','tcontainercy.SIZE','tcontainercy.KD_TPS_ASAL','tcontainercy.VOY','tcontainercy.VESSEL','tcontainercy.NO_PLP','tcontainercy.TGL_PLP','tcontainercy.NO_BC11','tcontainercy.TGL_BC11')
+                $data_barcode = \App\Models\Barcode::select('barcode_autogate.*','tcontainercy.location_name','tcontainercy.NOCONTAINER','tcontainercy.SIZE','tcontainercy.KD_TPS_ASAL','tcontainercy.VOY','tcontainercy.VESSEL','tcontainercy.NO_PLP','tcontainercy.TGL_PLP','tcontainercy.NO_BC11','tcontainercy.TGL_BC11')
                     ->join('tcontainercy', 'barcode_autogate.ref_id', '=', 'tcontainercy.TCONTAINER_PK')
                     ->where(array('ref_type' => 'FCL', 'ref_action'=>'release'))
                     ->whereIn('tcontainercy.TCONTAINER_PK', $ids)
