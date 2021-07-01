@@ -193,6 +193,7 @@
 //            ->addColumn(array('label'=>'Tgl. PLP','index'=>'TTGL_PLP','width'=>150,'align'=>'center'))
 //            ->addColumn(array('label'=>'ETA','index'=>'ETA', 'width'=>150,'align'=>'center'))
 //            ->addColumn(array('label'=>'ETD','index'=>'ETD', 'width'=>150,'align'=>'center'))
+            ->addColumn(array('label'=>'Accurate','index'=>'uploaded_accurate','width'=>60,'align'=>'center'))
             ->addColumn(array('label'=>'No. Nota','index'=>'no_invoice','width'=>150,'align'=>'center'))
             ->addColumn(array('label'=>'Type','index'=>'INVOICE','width'=>80,'align'=>'center'))
             ->addColumn(array('label'=>'RDM','index'=>'rdm','width'=>80,'align'=>'center'))
