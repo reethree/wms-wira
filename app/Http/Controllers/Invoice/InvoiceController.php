@@ -357,7 +357,116 @@ class InvoiceController extends Controller
 
         return back()->with('error', 'Data tidak ditemukan.')->withInput();
     }
-    
+
+    public function invoiceRekap()
+    {
+        if ( !$this->access->can('show.invoice.rekap') ) {
+            return view('errors.no-access');
+        }
+
+        $data['page_title'] = "Invoice Rekap";
+        $data['page_description'] = "";
+        $data['breadcrumbs'] = [
+            [
+                'action' => '',
+                'title' => 'Invoice Rekap'
+            ]
+        ];
+
+        $data['consolidators'] = \App\Models\Consolidator::select('TCONSOLIDATOR_PK as id','NAMACONSOLIDATOR as name')->get();
+
+        return view('invoice.index-invoice-rekap')->with($data);
+    }
+
+    public function invoiceBlRekapCreate(Request $request)
+    {
+        $consolidator_id = $request->consolidator_id;
+        $start = $request->start_date;
+        $end = $request->end_date;
+        $type = $request->type;
+
+        $data = [];
+
+        $consolidator = \App\Models\Consolidator::find($consolidator_id);
+        $data['consolidator'] = $consolidator->NAMACONSOLIDATOR;
+        $data['consolidator_address'] = $consolidator->ALAMAT;
+        $data['consolidator_npwp'] = $consolidator->NPWP;
+        $data['consolidator_id'] = $consolidator_id;
+        $data['rdm_only'] = (isset($request->rdm_only) ? 1 : 0);
+        $data['type'] = $type;
+
+        $query = \App\Models\Invoice::select('*')
+            ->join('tmanifest','invoice_import.manifest_id','=','tmanifest.TMANIFEST_PK')
+            ->where('tmanifest.TCONSOLIDATOR_FK', $consolidator_id)
+            ->where('tmanifest.tglrelease','>=',$start)
+            ->where('tmanifest.tglrelease','<=',$end)
+            ->where('tmanifest.INVOICE', $type);
+        if(isset($request->rdm_only)):
+            $query->where('invoice_import.rdm', 1);
+        else:
+            $query->where('invoice_import.rdm', 0);
+        endif;
+
+        $invoices = $query->get();
+
+        if(count($invoices) > 0):
+            $sum_total = array();
+            foreach ($invoices as $invoice):
+                $inv_ids[] = $invoice->id;
+                $inv_numbs[] = $invoice->no_invoice;
+                $sum_total[] = $invoice->sub_total;
+            endforeach;
+
+            $data['sub_total'] = array_sum($sum_total);
+            if(isset($request->free_ppn)):
+                $data['ppn'] = 0;
+            else:
+                $data['ppn'] = $data['sub_total']*10/100;
+            endif;
+            $data['materai'] = ($data['sub_total'] + $data['ppn'] >= 5000000) ? '10000' : '0';
+            $data['total'] = round($data['sub_total'] + $data['ppn'] + $data['materai']);
+            $data['terbilang'] = ucwords($this->terbilang($data['total']))." Rupiah";
+            $data['start_date'] = $start;
+            $data['end_date'] = $end;
+            $data['no_kwitansi'] = $request->no_kwitansi;
+            $data['print_date'] = $request->tgl_cetak;
+            $data['invoice_id'] = implode(',',$inv_ids);
+            $data['invoice_no'] = implode(',',$inv_numbs);
+            $data['uid'] = \Auth::getUser()->name;
+
+            $insert = \DB::table('invoice_import_rekap')->insert($data);
+            if($insert){
+                return back()->with('success', 'Invoice Rekap berhasil dibuat.')->withInput();
+            }
+
+            return back()->with('error', 'Gagal menyimpan Invoice Rekap.')->withInput();
+
+        endif;
+
+        return back()->with('error', 'Data Nota tidak ditemukan.')->withInput();
+    }
+
+    public function invoiceRekapEdit($id)
+    {
+        $rekap = \DB::table('invoice_import_rekap')->first();
+        if($rekap) {
+            $inv_ids = explode(',', $rekap->invoice_id);
+            $data['invoices'] = \App\Models\Invoice::select('*')
+                ->join('tmanifest', 'invoice_import.manifest_id', '=', 'tmanifest.TMANIFEST_PK')
+                ->whereIn('invoice_import.id', $inv_ids)
+                ->get();
+            $data['rekap'] = $rekap;
+            return \View('print.invoice-rekap', $data);
+        }
+        return back()->with('error', 'Data tidak ditemukan.');
+    }
+
+    public function invoiceRekapDestroy($id)
+    {
+        \DB::table('invoice_import_rekap')->where('id', $id)->delete();
+        return back()->with('success', 'Invoice Rekap has been deleted.');
+    }
+
     public function invoicePrintRekap(Request $request)
     {
         $consolidator_id = $request->consolidator_id;
@@ -369,11 +478,8 @@ class InvoiceController extends Controller
         $query = \App\Models\Invoice::select('*')
                 ->join('tmanifest','invoice_import.manifest_id','=','tmanifest.TMANIFEST_PK')
                 ->where('tmanifest.TCONSOLIDATOR_FK', $consolidator_id)
-//                ->where('tmanifest.tglrelease',$request->tanggal)
                 ->where('tmanifest.tglrelease','>=',$start)
                 ->where('tmanifest.tglrelease','<=',$end)
-//                ->where('invoice_import.created_at','>=',$start)
-//                ->where('invoice_import.created_at','<',$end)
                 ->where('tmanifest.INVOICE', $type);
         if(isset($request->rdm_only)):
             $query->where('invoice_import.rdm', 1);
@@ -402,6 +508,8 @@ class InvoiceController extends Controller
             $data['end_date'] = $end;
             $data['no_kwitansi'] = $request->no_kwitansi;
             $data['tgl_cetak'] = $request->tgl_cetak;
+
+            return $data;
 
             return \View('print.invoice-rekap', $data);
             

@@ -467,6 +467,7 @@
                                           <li><a href="{{route('invoice-tarif-index')}}">Data Tarif</a></li>
                                           <li><a href="{{route('invoice-release-index')}}">Data Release/Gate Out</a></li>
                                           <li><a href="{{route('invoice-index')}}">Data Invoice</a></li>
+                                          <li><a href="{{route('invoice-rekap')}}">Invoice Rekap</a></li>
                                           <li><a href="{{route('invoice-plp')}}">Invoice Paket PLP</a></li>
                                     </ul>
                               </li>

@@ -32,10 +32,10 @@
             <td>Kapada Yth.</td>
         </tr>
         <tr>
-            <td>{{ $consolidator->NAMACONSOLIDATOR }}</td>
+            <td>{{ $rekap->consolidator }}</td>
         </tr>
         <tr>
-            <td>{{ $consolidator->ALAMAT }}<br />{{ $consolidator->NPWP }}</td>
+            <td>{{ $rekap->consolidator_address }}<br />{{ $rekap->consolidator_npwp }}</td>
         </tr>
     </table>
     
@@ -45,7 +45,7 @@
             <td style="text-align: center;">INVOICE</td>
         </tr>
         <tr>
-            <td style="text-align: center;">NO. {{$no_kwitansi}}</td>
+            <td style="text-align: center;">NO. {{$rekap->no_kwitansi}}</td>
         </tr>
         <tr>
             <td style="text-align: center;">REKAPITULASI NOTA TAGIHAN</td>
@@ -54,7 +54,7 @@
             <td style="text-align: center;">Biaya Penumpukan Barang LCL Gudang PT WIRA MITRA PRIMA</td>
         </tr>
         <tr>
-            <td style="text-align: center;">Tanggal : {{ date('d F Y', strtotime($start_date)).' - '.date('d F Y', strtotime($end_date)) }}</td>
+            <td style="text-align: center;">Tanggal : {{ date('d F Y', strtotime($rekap->start_date)).' - '.date('d F Y', strtotime($rekap->end_date)) }}</td>
         </tr>
     </table>
     
@@ -85,36 +85,36 @@
             <td colspan="3" style="border-top:1px solid;"></td>
             <td style="text-align: center;border-top:1px solid;border-right: 1px solid;border-left: 1px solid;">Sub Total</td>
             <td style="border-top:1px solid;">Rp.</td>
-            <td style="text-align: right;border-top:1px solid;">{{ number_format($sub_total) }}</td>
+            <td style="text-align: right;border-top:1px solid;">{{ number_format($rekap->sub_total) }}</td>
         </tr>
         @if($ppn > 0)
         <tr>
             <td colspan="3"></td>
             <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">PPn 10%</td>
             <td>Rp.</td>
-            <td style="text-align: right;border-right: 1px solid;">{{ number_format($ppn) }}</td>
+            <td style="text-align: right;border-right: 1px solid;">{{ number_format($rekap->ppn) }}</td>
         </tr>
         @endif
         <tr>
             <td colspan="3"></td>
             <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">Materai</td>
             <td>Rp.</td>
-            <td style="text-align: right;">{{ number_format($materai) }}</td>
+            <td style="text-align: right;">{{ number_format($rekap->materai) }}</td>
         </tr>
         <tr>
             <td colspan="3"></td>
             <td style="text-align: center;border: 1px solid;"><b>TOTAL</b></td>
             <td style="border-bottom: 1px solid;border-top: 1px solid;"><b>Rp.</b></td>
-            <td style="text-align: right;border-bottom: 1px solid;border-top: 1px solid;"><b>{{ number_format($total) }}</b></td>
+            <td style="text-align: right;border-bottom: 1px solid;border-top: 1px solid;"><b>{{ number_format($rekap->total) }}</b></td>
         </tr>
         
     </table>
-    <p><b><i># {{ $terbilang }} #</i></b></p>
+    <p><b><i># {{ $rekap->terbilang }} #</i></b></p>
     <table border="0" cellspacing="0" cellpadding="0">
         <tr><td height="50" style="font-size: 50px;line-height: 0;">&nbsp;</td></tr>
         <tr>
             <td>&nbsp;</td>
-            <td class="text-center">Jakarta, {{ date('d F Y', strtotime($tgl_cetak)) }}</td>
+            <td class="text-center">Jakarta, {{ date('d F Y', strtotime($rekap->print_date)) }}</td>
         </tr>
         <tr>
             <td width='60%'>

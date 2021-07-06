@@ -18,6 +18,26 @@ Route::group(['prefix' => 'invoice', 'namespace' => 'Invoice'], function(){
     {
         GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_rekap',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
     });
+    Route::get('/rekap', [
+        'as' => 'invoice-rekap',
+        'uses' => 'InvoiceController@invoiceRekap'
+    ]);
+    Route::post('/rekap/grid-data', function()
+    {
+        GridEncoder::encodeRequestedData(new \App\Models\InvoiceTablesRepository('invoice_import_rekap',Illuminate\Support\Facades\Request::all()) ,Illuminate\Support\Facades\Request::all());
+    });
+    Route::post('/rekap/create', [
+        'as' => 'invoice-rekap-create',
+        'uses' => 'InvoiceController@invoiceBlRekapCreate'
+    ]);
+    Route::get('/rekap/edit/{id}', [
+        'as' => 'invoice-rekap-edit',
+        'uses' => 'InvoiceController@invoiceRekapEdit'
+    ]);
+    Route::get('/rekap/delete/{id}', [
+        'as' => 'invoice-rekap-delete',
+        'uses' => 'InvoiceController@invoiceRekapDestroy'
+    ]);
     Route::get('/edit/{id}', [
         'as' => 'invoice-edit',
         'uses' => 'InvoiceController@invoiceEdit'

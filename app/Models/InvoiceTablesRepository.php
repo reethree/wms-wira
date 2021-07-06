@@ -30,6 +30,8 @@ class InvoiceTablesRepository extends EloquentRepositoryAbstract {
         }elseif($ModelRef == 'invoice_rekap'){
             $Model = \DB::table($ModelRef)
                 ->join('tconsolidator', 'invoice_rekap.consolidator_id', '=', 'tconsolidator.TCONSOLIDATOR_PK');
+        }else{
+            $Model = \DB::table($ModelRef)->select('*');
         }
         
         $this->Database = $Model;        
