@@ -86,13 +86,21 @@ class AccurateController extends Controller
         if($type=='fcl'){
             $item_code = 100033;
             $invoice = InvoiceNct::find($id);
+            $inv_no = $invoice->no_invoice;
             $total_price = $invoice->total_non_ppn;
             $date = $invoice->gateout_tps;
         }elseif($type=='lcl'){
             $item_code = 100027;
             $invoice = Invoice::find($id);
+            $inv_no = $invoice->no_invoice;
             $total_price = $invoice->sub_total;
             $date = $invoice->tgl_cetak;
+        }elseif($type=='rekap'){
+            $item_code = 100027;
+            $invoice = \DB::table('invoice_import_rekap')->find($id);
+            $inv_no = $invoice->no_kwitansi;
+            $total_price = $invoice->sub_total;
+            $date = $invoice->print_date;
         }else{
             // Materai
 //            $item_code = 100034;
@@ -132,7 +140,7 @@ class AccurateController extends Controller
             'reverseInvoice' => 0,
             'session' => $session->session,
             'taxDate' => date('d/m/Y', strtotime($date)),
-            'taxNumber' => $invoice->no_invoice,
+            'taxNumber' => $inv_no,
             'transDate' =>  date('d/m/Y', strtotime($date)),
         ];
 
