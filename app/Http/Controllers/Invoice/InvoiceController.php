@@ -195,7 +195,8 @@ class InvoiceController extends Controller
     public function invoiceCreatePaketPlp(Request $request)
     {
         $consolidator_id = $request->consolidator_id;
-        $no_inv = $this->getInvoiceNumber('plp');
+//        $no_inv = $this->getInvoiceNumber('plp');
+        $no_inv = $request->no_invoice;
         $start = $request->start_date;
         $end = $request->end_date;
 //        $type = $request->type;
