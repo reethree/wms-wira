@@ -83,6 +83,7 @@
         });
 
         function saveInvoice(invoice_id,kode,ket) {
+            alert('Please Wait...');
             $.ajax({
                 url:"{{ route('accurate-upload') }}",
                 method:'POST',
