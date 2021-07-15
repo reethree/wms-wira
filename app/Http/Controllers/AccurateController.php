@@ -181,8 +181,13 @@ class AccurateController extends Controller
 
         if (!$response['is_error']) {
             if ($response['result']['s']){
-                $invoice->uploaded_accurate = 1;
-                $invoice->save();
+                if($type=='fcl'){
+                    InvoiceNct::where('id', $id)->update(['uploaded_accurate' => 1]);
+                }elseif($type=='lcl'){
+                    Invoice::where('id', $id)->update(['uploaded_accurate' => 1]);
+                }elseif($type=='rekap'){
+                    DB::table('invoice_import_rekap')->where('id', $id)->update(['uploaded_accurate' => 1]);
+                }
 
                 return response()->json([
                     'success'=>true,
