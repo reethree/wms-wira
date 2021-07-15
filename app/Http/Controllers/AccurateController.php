@@ -97,7 +97,7 @@ class AccurateController extends Controller
             $date = $invoice->tgl_cetak;
         }elseif($type=='rekap'){
             $item_code = 100027;
-            $invoice = \DB::table('invoice_import_rekap')->find($id);
+            $invoice = DB::table('invoice_import_rekap')->find($id);
             $inv_no = $invoice->no_kwitansi;
             $total_price = $invoice->sub_total;
             $date = $invoice->print_date;
@@ -145,8 +145,33 @@ class AccurateController extends Controller
         ];
 
         if($invoice->materai > 0){
-            array_add($body,'detailItem[1].itemNo','100034');
-            array_add($body,'detailItem[1].unitPrice',$invoice->materai);
+            $body = [
+                'branchName'=> 'Kantor Pusat',
+                'customerNo' => $kode,
+                'description' => $request->keterangan,
+                'detailItem[0].itemNo' => $item_code,
+                'detailItem[0].unitPrice' => $total_price,
+                'detailItem[1].itemNo' => 100034,
+                'detailItem[1].unitPrice' => $invoice->materai,
+                'reverseInvoice' => 0,
+                'session' => $session->session,
+                'taxDate' => date('d/m/Y', strtotime($date)),
+                'taxNumber' => $inv_no,
+                'transDate' =>  date('d/m/Y', strtotime($date)),
+            ];
+        }else{
+            $body = [
+                'branchName'=> 'Kantor Pusat',
+                'customerNo' => $kode,
+                'description' => $request->keterangan,
+                'detailItem[0].itemNo' => $item_code,
+                'detailItem[0].unitPrice' => $total_price,
+                'reverseInvoice' => 0,
+                'session' => $session->session,
+                'taxDate' => date('d/m/Y', strtotime($date)),
+                'taxNumber' => $inv_no,
+                'transDate' =>  date('d/m/Y', strtotime($date)),
+            ];
         }
 
 //        $sign = $this->accurate->__getSign($body);
@@ -157,13 +182,13 @@ class AccurateController extends Controller
         if (!$response['is_error']) {
             if ($response['result']['s']){
                 $invoice->uploaded_accurate = 1;
-                if($invoice->save()){
-                    return response()->json([
-                        'success'=>true,
-                        'response'=>$response,
-                        'message'=>$response['result']['d'][0]
-                    ]);
-                }
+                $invoice->save();
+
+                return response()->json([
+                    'success'=>true,
+                    'response'=>$response,
+                    'message'=>$response['result']['d'][0]
+                ]);
             }else{
                 return response()->json([
                     'success'=>false,
