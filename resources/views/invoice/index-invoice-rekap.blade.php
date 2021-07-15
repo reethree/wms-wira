@@ -83,7 +83,7 @@
         });
 
         function saveInvoice(invoice_id,kode,ket) {
-            alert('Please Wait...');
+            // alert('Please Wait...');
             $.ajax({
                 url:"{{ route('accurate-upload') }}",
                 method:'POST',
@@ -370,6 +370,7 @@
 
     <script src="{{ asset("/bower_components/AdminLTE/plugins/datepicker/bootstrap-datepicker.js") }}"></script>
     <script src="{{ asset("/bower_components/AdminLTE/plugins/bootstrap-switch/bootstrap-switch.min.js") }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
         $('.datepicker').datepicker({
             autoclose: true,
