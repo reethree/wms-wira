@@ -432,6 +432,7 @@ class InvoiceController extends Controller
             $data['no_kwitansi'] = $request->no_kwitansi;
             $data['print_date'] = $request->tgl_cetak;
             $data['invoice_id'] = implode(',',$inv_ids);
+            $data['jumlah_invoice'] = count($inv_ids);
             $data['invoice_no'] = implode(',',$inv_numbs);
             $data['uid'] = \Auth::getUser()->name;
 
@@ -449,7 +450,7 @@ class InvoiceController extends Controller
 
     public function invoiceRekapEdit($id)
     {
-        $rekap = \DB::table('invoice_import_rekap')->first();
+        $rekap = \DB::table('invoice_import_rekap')->find($id);
         if($rekap) {
             $inv_ids = explode(',', $rekap->invoice_id);
             $data['invoices'] = \App\Models\Invoice::select('*')
@@ -459,6 +460,7 @@ class InvoiceController extends Controller
             $data['rekap'] = $rekap;
             return \View('print.invoice-rekap', $data);
         }
+
         return back()->with('error', 'Data tidak ditemukan.');
     }
 

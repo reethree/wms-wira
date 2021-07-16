@@ -123,7 +123,7 @@
 
                 edt = '<a href="#" onclick="window.open(\'{{ route("invoice-rekap-edit","") }}/'+cl+'\', \n' +
                     '                         \'newwindow\', \n' +
-                    '                         \'width=900,height=600\'); \n' +
+                    '                         \'width=1000,height=600\'); \n' +
                     '              return false;"><i class="fa fa-print"></i></a> ';
                 del = '<a href="{{ route("invoice-rekap-delete",'') }}/'+cl+'" onclick="if (confirm(\'Are You Sure ?\')){return true; }else{return false; };"><i class="fa fa-close"></i></a>';
                 jQuery("#lclInvoicesRekapGrid").jqGrid('setRowData',ids[i],{action:edt+' '+del});
@@ -201,7 +201,8 @@
                 ->addColumn(array('label'=>'Consolidator','index'=>'consolidator','width'=>250))
                 ->addColumn(array('label'=>'Tanggal<br />Mulai','index'=>'start_date', 'width'=>120, 'align'=>'center'))
                 ->addColumn(array('label'=>'Tanggal<br />Akhir','index'=>'end_date', 'width'=>120, 'align'=>'center'))
-                ->addColumn(array('label'=>'No. Nota','index'=>'invoice_no','width'=>300))
+                ->addColumn(array('label'=>'Jumlah<br />Nota','index'=>'jumlah_invoice','width'=>80,'align'=>'center','hidden'=>false))
+                ->addColumn(array('label'=>'No. Nota','index'=>'invoice_no','width'=>300,'hidden'=>true))
                 ->addColumn(array('label'=>'Subtotal','index'=>'sub_total', 'width'=>100,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
                 ->addColumn(array('label'=>'PPN','index'=>'ppn', 'width'=>100,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))
                 ->addColumn(array('label'=>'Materai','index'=>'materai','width'=>100,'align'=>'right', 'formatter'=>'currency', 'formatoptions'=>array('decimalSeparator'=>',', 'thousandsSeparator'=> '.', 'decimalPlaces'=> '2')))

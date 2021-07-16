@@ -6,6 +6,9 @@
 
 @section('content')
 <style>
+    table.tblinv {
+        font-size: 10px;
+    }
     @media print {
         body {
             color: #000;
@@ -48,7 +51,8 @@
             <td style="text-align: center;">NO. {{$rekap->no_kwitansi}}</td>
         </tr>
         <tr>
-            <td style="text-align: center;">REKAPITULASI NOTA TAGIHAN</td>
+{{--            <td style="text-align: center;">REKAPITULASI NOTA TAGIHAN</td>--}}
+            <td style="text-align: center;">REKAPITULASI NILAI TAGIHAN PERGERAKAN CARGO KELUAR</td>
         </tr>
         <tr>
             <td style="text-align: center;">Biaya Penumpukan Barang LCL Gudang PT WIRA MITRA PRIMA</td>
@@ -58,13 +62,26 @@
         </tr>
     </table>
     
-    <table border="0" cellspacing="0" cellpadding="0" style="border-top: 1px solid;border-right: 1px solid">
+    <table border="0" cellspacing="0" cellpadding="0" style="border-top: 1px solid;border-right: 1px solid" class="tblinv">
         
         <tr>
             <th style="text-align: center;width: 20px;border: 1px solid;">NO</th>
+            <th style="text-align: center;border: 1px solid;">CONTAINER</th>
+            <th style="text-align: center;border: 1px solid;">NO BL</th>
             <th style="text-align: center;border: 1px solid;">CONSIGNEE</th>
-            <th style="text-align: center;width: 80px;border: 1px solid;">TGL<br />RELEASE</th>
-            <th style="text-align: center;width: 80px;border: 1px solid;">NO<br />NOTA</th>
+            <th style="text-align: center;border: 1px solid;">ETA</th>
+            <th style="text-align: center;border: 1px solid;">OB</th>
+            <th style="text-align: center;border: 1px solid;">STRIPPING</th>
+            <th style="text-align: center;border: 1px solid;">KELUAR</th>
+            <th style="text-align: center;border: 1px solid;">TON</th>
+            <th style="text-align: center;border: 1px solid;">M3</th>
+            <th style="text-align: center;border: 1px solid;">LAMA<br />HARI</th>
+            <th style="text-align: center;border: 1px solid;">STORAGE</th>
+            <th style="text-align: center;border: 1px solid;">RDM</th>
+            <th style="text-align: center;border: 1px solid;">BEHANDLE</th>
+            <th style="text-align: center;border: 1px solid;">DG CARGO</th>
+            <th style="text-align: center;border: 1px solid;">WEIGHT<br />SURCHARGE</th>
+            <th style="text-align: center;border: 1px solid;">ADM</th>
             <th style="text-align: center;border: 1px solid;" colspan="2">JUMLAH</th>
         </tr>
         
@@ -72,39 +89,51 @@
         @foreach($invoices as $invoice)
             <tr>
                 <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">{{ $i }}</td>
+                <td style="text-align: center;border-right: 1px solid;">{{ $invoice->NOCONTAINER }}</td>
+                <td style="text-align: center;border-right: 1px solid;">{{ $invoice->NOHBL }}</td>
                 <td style="border-right: 1px solid;">{{ $invoice->CONSIGNEE }}</td>
+                <td style="text-align: center;border-right: 1px solid;">{{ date('d M Y', strtotime($invoice->ETA)) }}</td>
+                <td style="text-align: center;border-right: 1px solid;">{{ date('d M Y', strtotime($invoice->tglmasuk)) }}</td>
+                <td style="text-align: center;border-right: 1px solid;">{{ date('d M Y', strtotime($invoice->tglstripping)) }}</td>
                 <td style="text-align: center;border-right: 1px solid;">{{ date('d M Y', strtotime($invoice->tgl_keluar)) }}</td>
-                <td style="text-align: center;border-right: 1px solid;">{{ $invoice->no_invoice }}</td>
-                <td style="width: 30px;">Rp.</td>
-                <td style="text-align: right;width: 150px;">{{ number_format($invoice->sub_total) }}</td>
+                <td style="text-align: center;border-right: 1px solid;">{{ $invoice->WEIGHT/1000 }}</td>
+                <td style="text-align: center;border-right: 1px solid;">{{ $invoice->MEAS }}</td>
+                <td style="text-align: center;border-right: 1px solid;">{{ $invoice->hari }}</td>
+                <td style="text-align: right;border-right: 1px solid;">{{ number_format($invoice->storage_masa1+$invoice->storage_masa2+$invoice->storage_masa3) }}</td>
+                <td style="text-align: right;border-right: 1px solid;">{{ number_format($invoice->warehouse_charge) }}</td>
+                <td style="text-align: right;border-right: 1px solid;">{{ number_format($invoice->harga_behandle) }}</td>
+                <td style="text-align: right;border-right: 1px solid;">{{ number_format($invoice->dg_surcharge) }}</td>
+                <td style="text-align: right;border-right: 1px solid;">{{ number_format($invoice->weight_surcharge) }}</td>
+                <td style="text-align: right;border-right: 1px solid;">{{ number_format($invoice->adm) }}</td>
+                <td style="text-align: right;border-right: 1px solid;">{{ number_format($invoice->sub_total) }}</td>
             </tr>
         <?php $i++;?>
         @endforeach
         
         <tr>
-            <td colspan="3" style="border-top:1px solid;"></td>
+            <td colspan="15" style="border-top:1px solid;"></td>
             <td style="text-align: center;border-top:1px solid;border-right: 1px solid;border-left: 1px solid;">Sub Total</td>
-            <td style="border-top:1px solid;">Rp.</td>
+            <td style="border-top:1px solid;text-align: right;">Rp.</td>
             <td style="text-align: right;border-top:1px solid;">{{ number_format($rekap->sub_total) }}</td>
         </tr>
-        @if($ppn > 0)
+        @if($rekap->ppn > 0)
         <tr>
-            <td colspan="3"></td>
+            <td colspan="15"></td>
             <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">PPn 10%</td>
-            <td>Rp.</td>
+            <td style="text-align: right;">Rp.</td>
             <td style="text-align: right;border-right: 1px solid;">{{ number_format($rekap->ppn) }}</td>
         </tr>
         @endif
         <tr>
-            <td colspan="3"></td>
+            <td colspan="15"></td>
             <td style="text-align: center;border-right: 1px solid;border-left: 1px solid;">Materai</td>
-            <td>Rp.</td>
+            <td style="text-align: right;">Rp.</td>
             <td style="text-align: right;">{{ number_format($rekap->materai) }}</td>
         </tr>
         <tr>
-            <td colspan="3"></td>
+            <td colspan="15"></td>
             <td style="text-align: center;border: 1px solid;"><b>TOTAL</b></td>
-            <td style="border-bottom: 1px solid;border-top: 1px solid;"><b>Rp.</b></td>
+            <td style="text-align: right;border-bottom: 1px solid;border-top: 1px solid;"><b>Rp.</b></td>
             <td style="text-align: right;border-bottom: 1px solid;border-top: 1px solid;"><b>{{ number_format($rekap->total) }}</b></td>
         </tr>
         
